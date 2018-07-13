@@ -2,4 +2,7 @@
     <string name="app_name">F3FStatApp</string>
     <string name="start_event_button_text">Rozpocznij zawody</string>
     <string name="settings_button_text">Ustawienia</string>
+    <string name="enter_event_id_text">Wpisz identyfikator wydarzenia:</string>
+    <string name="confirm_button">Zatwierdź</string>
+    <string name="cancel_button">Anuluj</string>
 </resources>
