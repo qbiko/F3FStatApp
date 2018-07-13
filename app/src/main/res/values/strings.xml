@@ -5,4 +5,8 @@
     <string name="enter_event_id_text">Wpisz identyfikator wydarzenia:</string>
     <string name="confirm_button">Zatwierdź</string>
     <string name="cancel_button">Anuluj</string>
+    <string name="email_text">E-mail:</string>
+    <string name="password_text">Hasło:</string>
+    <string name="settings_information_text">Podaj swoje dane, do konta z portalu
+        http://www.f3xvault.com, by administrować rozgrywką.</string>
 </resources>
