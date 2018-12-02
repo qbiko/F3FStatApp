@@ -1,4 +1,4 @@
-package pl.f3f_klif.f3fstatapp;
+package pl.f3f_klif.f3fstatapp.api;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -15,5 +15,9 @@ public class F3XVaultApiClient {
 
     public static void post(RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.post(BASE_URL, params, responseHandler);
+    }
+
+    public static boolean isSuccess(String responseBody) {
+        return "1".equals(responseBody.substring(0,1));
     }
 }

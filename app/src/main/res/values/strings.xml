@@ -9,4 +9,8 @@
     <string name="password_text">Hasło:</string>
     <string name="settings_information_text">Podaj swoje dane, do konta z portalu
         http://www.f3xvault.com, by administrować rozgrywką.</string>
+    <string name="success_authorization_text">Autoryzacja przebiegła pomyślnie</string>
+    <string name="failure_authorization_text">Wpisane dane są niepoprawne</string>
+    <string name="enter_to_start_event_with_incorrect_data">Najpierw przejdź do ustawień i
+        wpisz poprawne dane</string>
 </resources>
