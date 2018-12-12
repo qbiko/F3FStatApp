@@ -1,5 +1,6 @@
 package pl.f3f_klif.f3fstatapp.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -50,7 +51,7 @@ public class StartEventValidatorActivity extends AppCompatActivity {
 
     @OnClick(R.id.confirm_button)
     void onClickConfirmButton() { //http://loopj.com/android-async-http/
-        int eventId = Integer.parseInt(eventIdEditText.getText().toString());
+        final int eventId = Integer.parseInt(eventIdEditText.getText().toString());
         RequestParams params = new RequestParams();
         params.put("login", email);
         params.put("password", password);
@@ -61,8 +62,11 @@ public class StartEventValidatorActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String responseText = new String(responseBody);
                 if(isSuccess(responseText)) {
-                    responseTextView.setText(R.string.success_authorization_text);
-                    resultImageView.setImageResource(R.drawable.success);
+                    Intent intent = new Intent(getApplicationContext(), EventActivity.class);
+                    intent.putExtra("responseText", responseText);
+                    startActivity(intent);
+                    /*responseTextView.setText(R.string.success_authorization_text);
+                    resultImageView.setImageResource(R.drawable.success);*/
                 }
                 else {
                     responseTextView.setText(R.string.failure_authorization_text);

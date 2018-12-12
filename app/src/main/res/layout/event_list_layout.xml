@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:weightSum="200">
+
+    <TextView
+        android:id="@+id/pilot_order_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"/>
+    <TextView
+        android:id="@+id/pilot_firstname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="25" />
+    <TextView
+        android:id="@+id/pilot_lastname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="30" />
+    <TextView
+        android:id="@+id/pilot_class"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="20" />
+    <TextView
+        android:id="@+id/pilot_ama"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="30" />
+    <TextView
+        android:id="@+id/pilot_fai"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="30" />
+    <TextView
+        android:id="@+id/pilot_fai_license"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="30" />
+    <TextView
+        android:id="@+id/pilot_team_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="25" />
+</LinearLayout>

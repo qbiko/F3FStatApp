@@ -13,4 +13,14 @@
     <string name="failure_authorization_text">Wpisane dane są niepoprawne</string>
     <string name="enter_to_start_event_with_incorrect_data">Najpierw przejdź do ustawień i
         wpisz poprawne dane</string>
+
+    <!-- Headers for event details list -->
+    <string name="start_number">Lp.</string>
+    <string name="pilot_first_name">Imię</string>
+    <string name="pilot_last_name">Nazwisko</string>
+    <string name="pilot_class">Klasa</string>
+    <string name="pilot_ama">AMA</string>
+    <string name="pilot_fai">FAI</string>
+    <string name="pilot_license_fai">Licencja FAI</string>
+    <string name="pilot_team_name">Zespół</string>
 </resources>
