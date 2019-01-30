@@ -40,7 +40,7 @@ public class PilotListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.event_list_layout, null);
+        view = inflater.inflate(R.layout.pilot_list_layout, null);
 
         TextView orderNumberTextView = view.findViewById(R.id.pilot_order_number);
         TextView firstNameTextView = view.findViewById(R.id.pilot_firstname);
@@ -52,7 +52,7 @@ public class PilotListAdapter extends BaseAdapter {
         TextView pilotFaiLicenseTextView = view.findViewById(R.id.pilot_fai_license);
         TextView pilotTeamNameTextView = view.findViewById(R.id.pilot_team_name);
 
-        orderNumberTextView.setText(String.valueOf(pilots.get(i).getOrderNumber()));
+        orderNumberTextView.setText(String.valueOf(pilots.get(i).getStartNumber()));
         firstNameTextView.setText(pilots.get(i).getFirstName());
         lastNameTextView.setText(pilots.get(i).getLastName());
         pilotClassTextView.setText(pilots.get(i).getPilotClass());

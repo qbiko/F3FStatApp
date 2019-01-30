@@ -1,0 +1,23 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="20">
+
+    <TextView
+        android:id="@+id/round_name_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"/>
+    <Button
+        android:id="@+id/round_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/start_round"
+        android:layout_weight="6"/>
+    <TextView
+        android:id="@+id/round_status_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"/>
+</LinearLayout>

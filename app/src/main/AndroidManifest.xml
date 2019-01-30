@@ -22,7 +22,9 @@
         </activity>
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.StartEventValidatorActivity" />
-        <activity android:name=".activities.EventActivity"></activity>
+        <activity android:name=".activities.EventActivity" />
+        <activity android:name=".activities.EventRoundsActivity" />
+        <activity android:name=".activities.EventGroupsActivity"></activity>
     </application>
 
 </manifest>

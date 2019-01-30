@@ -62,7 +62,7 @@ public class StartEventValidatorActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String responseText = new String(responseBody);
                 if(isSuccess(responseText)) {
-                    Intent intent = new Intent(getApplicationContext(), EventActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), EventRoundsActivity.class);
                     intent.putExtra("responseText", responseText);
                     startActivity(intent);
                     /*responseTextView.setText(R.string.success_authorization_text);

@@ -35,9 +35,9 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.result_image)
     ImageView resultImageView;
 
-    public static String email = "";
-    public static String password = "";
-    public static boolean isAccountCorrect = false;
+    public static String email = "kubiko13@gmail.com";
+    public static String password = "Magisterka1819";
+    public static boolean isAccountCorrect = true; //TODO change after test application
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
