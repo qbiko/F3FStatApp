@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-feature android:name="android.hardware.usb.host"
+        android:required="true"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,7 +27,20 @@
         <activity android:name=".activities.StartEventValidatorActivity" />
         <activity android:name=".activities.EventActivity" />
         <activity android:name=".activities.EventRoundsActivity" />
-        <activity android:name=".activities.EventGroupsActivity"></activity>
+        <activity android:name=".activities.EventGroupsActivity" />
+        <activity android:name=".activities.UartActivity">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+
+            <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
+
+        </activity>
+        <service
+            android:name="pl.f3f_klif.f3fstatapp.utils.UsbService"
+            android:enabled="true">
+        </service>
     </application>
 
 </manifest>

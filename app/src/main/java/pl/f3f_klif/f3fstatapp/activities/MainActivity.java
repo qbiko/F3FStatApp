@@ -39,4 +39,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(intent);
     }
+
+    @OnClick(R.id.uart_receiving_button)
+    void onUartTestButtonClick() {
+        Intent intent = new Intent(getApplicationContext(), UartActivity.class);
+        startActivity(intent);
+    }
 }
