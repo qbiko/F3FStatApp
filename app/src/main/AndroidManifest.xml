@@ -4,8 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-feature android:name="android.hardware.usb.host"
-        android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -33,14 +34,17 @@
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
 
-            <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
-
         </activity>
+
         <service
-            android:name="pl.f3f_klif.f3fstatapp.utils.UsbService"
-            android:enabled="true">
-        </service>
+            android:name=".utils.UsbService"
+            android:enabled="true"></service>
+
+        <activity android:name=".activities.PilotRunActivity"/>
+        <activity android:name=".activities.ChooseEventActivity"/>
     </application>
 
 </manifest>

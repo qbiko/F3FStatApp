@@ -58,7 +58,7 @@ public class EventActivity extends AppCompatActivity {
                 pilots.add(new Pilot(lines[i]));
             }
         }
-        pilotListAdapter = new PilotListAdapter(pilots, getApplicationContext());
+        pilotListAdapter = new PilotListAdapter(pilots, EventActivity.this);
         pilotsListView.setAdapter(pilotListAdapter);
         pilotListAdapter.notifyDataSetChanged();
     }

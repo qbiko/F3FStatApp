@@ -81,6 +81,10 @@ public class Pilot implements Parcelable {
         return orderNumber;
     }
 
+    public String getName() {
+        return this.firstName + " " + this.lastName;
+    }
+
     public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;
     }
