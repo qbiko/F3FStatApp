@@ -6,4 +6,6 @@ public class CurrentFlyFragment extends Fragment {
     public static CurrentFlyFragment newInstance() {
         return new CurrentFlyFragment();
     }
+
+    //TODO KUBA
 }
