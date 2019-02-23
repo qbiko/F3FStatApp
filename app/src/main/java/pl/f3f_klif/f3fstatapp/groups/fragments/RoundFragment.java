@@ -93,7 +93,7 @@ public class RoundFragment extends Fragment {
         List<List<Pilot>> pilotsGroups = Lists.partition(_pilots, MaxPilotsNumberInGroup);
         int groupIndex = 1;
         for (List<Pilot> pilotsGroup: pilotsGroups) {
-             CreateGroup(String.format("Grupa $s", groupIndex), pilotsGroup);
+             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup);
              groupIndex++;
         }
     }
