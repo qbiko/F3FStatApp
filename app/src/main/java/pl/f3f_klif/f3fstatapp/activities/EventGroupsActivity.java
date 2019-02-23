@@ -1,5 +1,6 @@
 package pl.f3f_klif.f3fstatapp.activities;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -15,20 +16,25 @@ import pl.f3f_klif.f3fstatapp.adapters.PilotListAdapter;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.utils.Pilot;
+import pl.f3f_klif.f3fstatapp.utils.Round;
 
 public class EventGroupsActivity extends AppCompatActivity {
 
-    private List<Pilot> pilots;
+    private List<Pilot> _pilots;
     private PilotListAdapter pilotListAdapter;
-
+    private int GroupsNumber = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_groups);
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        Round round = intent.getExtras().getParcelable("round");
+        _pilots = round.getStartingList();
+
         if(savedInstanceState == null){
-            showFragment(RoundFragment.newInstance());
+            showFragment(RoundFragment.newInstance(_pilots, GroupsNumber));
         }
     }
 
@@ -67,7 +73,7 @@ public class EventGroupsActivity extends AppCompatActivity {
                 showFragment(CurrentFlyFragment.newInstance());
                 return true;
             case R.id.action_event_groups:
-                showFragment(RoundFragment.newInstance());
+                showFragment(RoundFragment.newInstance(_pilots, GroupsNumber));
                 return true;
         }
         return super.onOptionsItemSelected(item);
