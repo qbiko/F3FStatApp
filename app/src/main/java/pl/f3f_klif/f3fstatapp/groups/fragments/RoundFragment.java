@@ -76,10 +76,4 @@ public class RoundFragment extends Fragment {
                         group.HasFixedItemSize);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_round, menu);
-    }
-
 }
