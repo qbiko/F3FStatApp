@@ -1,4 +1,4 @@
-package pl.f3f_klif.f3fstatapp.groups;
+package pl.f3f_klif.f3fstatapp.groups.fragments;
 
 import android.support.v4.app.Fragment;
 

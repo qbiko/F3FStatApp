@@ -10,10 +10,9 @@ import android.view.MenuItem;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.adapters.PilotListAdapter;
-import pl.f3f_klif.f3fstatapp.groups.CurrentFlyFragment;
-import pl.f3f_klif.f3fstatapp.groups.RoundFragment;
+import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
+import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.utils.Pilot;
 
 public class EventGroupsActivity extends AppCompatActivity {
