@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.adapters.PilotListAdapter;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;

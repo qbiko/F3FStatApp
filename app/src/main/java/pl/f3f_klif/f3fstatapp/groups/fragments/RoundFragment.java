@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.woxthebox.draglistview.BoardView;
 
+import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.callbacks.RoundBoardCallback;
 import pl.f3f_klif.f3fstatapp.groups.listeners.RoundBoardListener;
 import pl.f3f_klif.f3fstatapp.groups.services.GroupCreator;
