@@ -10,16 +10,19 @@ public class RoundBoardListener {
     public static BoardView.BoardListener GetBoardListener(final BoardView boardView){ return new BoardView.BoardListener() {
         @Override
         public void onItemDragStarted(int column, int row) {
+            int a=1;
         }
 
         @Override
         public void onItemDragEnded(int fromColumn, int fromRow, int toColumn, int toRow) {
             if (fromColumn != toColumn || fromRow != toRow) {
+                //tutaj bedzie kod do zapisu zmiany pozycji
             }
         }
 
         @Override
         public void onItemChangedPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
+            int a = 1;
         }
 
         @Override
