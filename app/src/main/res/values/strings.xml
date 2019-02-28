@@ -14,8 +14,8 @@
     <string name="enter_to_start_event_with_incorrect_data">Najpierw przejdź do ustawień i
         wpisz poprawne dane</string>
     <string name="start">Start</string>
-    <string name="prepare_time">Czas przygotowania:</string>
-    <string name="start_time">Czas startowy:</string>
+    <string name="prepare_time">Czas przygotowania: %1$.1f s</string>
+    <string name="start_time">Czas startowy: %1$.1f s</string>
 
     <!-- Headers for event details list -->
     <string name="start_number">Lp.</string>
@@ -33,4 +33,17 @@
 
     <string name="action_current_fly">Aktualny lot</string>
     <string name="action_event_groups">Aktualna runda</string>
+
+    <!-- flight -->
+    <string name="flight_number">Lot nr %1$d</string>
+    <string name="assign_pilot">Przypisz pilota</string>
+    <string name="flight_current_time">Czas: %1$.2f s</string>
+    <string name="flight_current_wind">Wiatr: %1$d</string>
+    <string name="results">Wyniki:</string>
+    <string name="prepare_period">Okres przygotowawczy...</string>
+    <string name="start_period">Okres startowy...</string>
+    <string name="player_started">Zawodnik wystartował</string>
+    <string name="base_result">Baza %1$d: %2$.2f s</string>
+    <string name="player_flight_by_base">Zawodnik przeleciał przez bazę %1$d</string>
+    <string name="player_flight_by_last_base">Zawodnik przeleciał przez ostatnią bazę</string>
 </resources>
