@@ -30,4 +30,7 @@
     <!-- event rounds -->
     <string name="add_round">Dodaj kolejkę</string>
     <string name="start_round">Start</string>
+
+    <string name="action_current_fly">Aktualny lot</string>
+    <string name="action_event_groups">Aktualna runda</string>
 </resources>
