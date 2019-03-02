@@ -5,19 +5,28 @@
   "entities": [
     {
       "id": "1:3537689645429666668",
-      "lastPropertyId": "1:340523061537020404",
+      "lastPropertyId": "2:6968018570123917369",
       "name": "Event",
       "properties": [
         {
           "id": "1:340523061537020404",
           "name": "Id"
+        },
+        {
+          "id": "2:6968018570123917369",
+          "name": "F3fId"
         }
       ],
-      "relations": []
+      "relations": [
+        {
+          "id": "1:5283161198470978260",
+          "name": "Rounds"
+        }
+      ]
     },
     {
       "id": "2:7254455926780055280",
-      "lastPropertyId": "2:7628031835904432877",
+      "lastPropertyId": "3:4921332997838616004",
       "name": "Group",
       "properties": [
         {
@@ -25,9 +34,8 @@
           "name": "Id"
         },
         {
-          "id": "2:7628031835904432877",
-          "indexId": "1:5504870288026887913",
-          "name": "GroupId"
+          "id": "3:4921332997838616004",
+          "name": "PilotsListJson"
         }
       ],
       "relations": []
@@ -40,25 +48,47 @@
         {
           "id": "1:875601233059208819",
           "name": "Id"
+        }
+      ],
+      "relations": [
+        {
+          "id": "2:4273233596356442871",
+          "name": "Groups"
+        }
+      ]
+    },
+    {
+      "id": "4:6692403560026116458",
+      "lastPropertyId": "2:3989321095417226231",
+      "name": "Pilot",
+      "properties": [
+        {
+          "id": "1:8325497135528831084",
+          "name": "Id"
         },
         {
-          "id": "2:9051168330460055190",
-          "indexId": "2:1952796574308910326",
-          "name": "EventId"
+          "id": "2:3989321095417226231",
+          "name": "F3fId"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "3:8207921825060849688",
+  "lastEntityId": "4:6692403560026116458",
   "lastIndexId": "2:1952796574308910326",
-  "lastRelationId": "0:0",
+  "lastRelationId": "2:4273233596356442871",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredIndexUids": [
+    5504870288026887913,
+    1952796574308910326
+  ],
+  "retiredPropertyUids": [
+    7628031835904432877,
+    9051168330460055190
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

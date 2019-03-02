@@ -18,6 +18,7 @@ import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 
 import static pl.f3f_klif.f3fstatapp.activities.SettingsActivity.email;
 import static pl.f3f_klif.f3fstatapp.activities.SettingsActivity.isAccountCorrect;
@@ -62,6 +63,7 @@ public class StartEventValidatorActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String responseText = new String(responseBody);
                 if(isSuccess(responseText)) {
+                    DatabaseRepository.Init(eventId);
                     Intent intent = new Intent(getApplicationContext(), EventRoundsActivity.class);
                     intent.putExtra("responseText", responseText);
                     startActivity(intent);

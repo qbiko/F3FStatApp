@@ -30,6 +30,8 @@ public class F3FEvent {
         type = requestValues[5].replace("\"", "");
     }
 
+    public long getId() {return id;}
+
     public String getName() {
         return name;
     }

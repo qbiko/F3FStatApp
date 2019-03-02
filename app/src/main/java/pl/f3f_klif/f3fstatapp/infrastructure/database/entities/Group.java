@@ -1,12 +1,27 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
-import io.objectbox.annotation.Entity;
-import io.objectbox.relation.ToOne;
+import android.util.JsonReader;
 
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.util.List;
+
+import io.objectbox.annotation.Entity;
+import io.objectbox.relation.ToMany;
+import io.objectbox.relation.ToOne;
+import io.objectbox.annotation.Id;
 @Entity
 public class Group {
-    @io.objectbox.annotation.Id
+    @Id
     long Id;
+
+    public String PilotsListJson;
+
     public Group(){ }
-    public ToOne<Group> Group;
+
+    public List<Pilot> getPilots() throws ParseException {
+        return (List<Pilot>)new JSONParser().parse(PilotsListJson);
+    }
+
 }
