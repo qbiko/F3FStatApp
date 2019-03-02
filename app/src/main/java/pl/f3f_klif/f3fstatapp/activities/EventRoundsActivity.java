@@ -15,6 +15,7 @@ import butterknife.OnClick;
 import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.adapters.RoundListAdapter;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.utils.F3FEvent;
@@ -59,6 +60,7 @@ public class EventRoundsActivity extends AppCompatActivity {
         eventBox = ObjectBox.get().boxFor(Event.class);
         List<Event> events = eventBox.query().build().find();
 
+        Event e = DatabaseRepository.GetEvent();
         rounds = new ArrayList<>();
         pilots = new ArrayList<>();
 

@@ -34,4 +34,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:21.+'
     api 'com.google.guava:guava:27.0.1-android'
     implementation "io.objectbox:objectbox-java:'2.3.3"
+    implementation 'com.googlecode.json-simple:json-simple:1.1'
 }
