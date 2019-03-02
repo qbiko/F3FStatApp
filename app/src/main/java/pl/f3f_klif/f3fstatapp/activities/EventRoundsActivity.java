@@ -13,8 +13,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.objectbox.Box;
+import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.adapters.RoundListAdapter;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.utils.F3FEvent;
@@ -38,6 +38,7 @@ public class EventRoundsActivity extends AppCompatActivity {
     private List<Pilot> pilots;
     private RoundListAdapter roundListAdapter;
     private List<Round> rounds;
+    private Box<Event> eventBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,9 @@ public class EventRoundsActivity extends AppCompatActivity {
         eventTypeTextView.setText(f3FEvent.getType());
         eventStartDateTextView.setText(f3FEvent.getStartDate().toString());
 
-        Event e = DatabaseRepository.GetEvent();
+        eventBox = ObjectBox.get().boxFor(Event.class);
+        List<Event> events = eventBox.query().build().find();
+
         rounds = new ArrayList<>();
         pilots = new ArrayList<>();
 

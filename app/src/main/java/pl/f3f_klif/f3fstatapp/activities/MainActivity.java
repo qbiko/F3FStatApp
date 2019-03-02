@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ObjectBox.init(this);
+
+        eventBox = ObjectBox.get().boxFor(Event.class);
+        eventBox.put(new Event(0));
     }
 
     @OnClick(R.id.start_event_button)

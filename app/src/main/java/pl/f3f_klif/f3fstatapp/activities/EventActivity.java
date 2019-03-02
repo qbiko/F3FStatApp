@@ -43,6 +43,7 @@ public class EventActivity extends AppCompatActivity {
         f3FEvent = new F3FEvent(lines[1]);
         eventTitleTextView.setText(f3FEvent.getName());
 
+
         for(int i = 3; i<lines.length; i++) {
             if(!lines[i].isEmpty()) {
                 pilots.add(new Pilot(lines[i]));

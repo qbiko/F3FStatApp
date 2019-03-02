@@ -14,44 +14,10 @@
         }
       ],
       "relations": []
-    },
-    {
-      "id": "2:7254455926780055280",
-      "lastPropertyId": "2:7628031835904432877",
-      "name": "Group",
-      "properties": [
-        {
-          "id": "1:3911984345685081282",
-          "name": "Id"
-        },
-        {
-          "id": "2:7628031835904432877",
-          "indexId": "1:5504870288026887913",
-          "name": "GroupId"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "3:8207921825060849688",
-      "lastPropertyId": "2:9051168330460055190",
-      "name": "Round",
-      "properties": [
-        {
-          "id": "1:875601233059208819",
-          "name": "Id"
-        },
-        {
-          "id": "2:9051168330460055190",
-          "indexId": "2:1952796574308910326",
-          "name": "EventId"
-        }
-      ],
-      "relations": []
     }
   ],
-  "lastEntityId": "3:8207921825060849688",
-  "lastIndexId": "2:1952796574308910326",
+  "lastEntityId": "1:3537689645429666668",
+  "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
