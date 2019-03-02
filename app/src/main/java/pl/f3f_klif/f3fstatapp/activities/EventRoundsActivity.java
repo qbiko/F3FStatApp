@@ -12,10 +12,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.R;
-import pl.f3f_klif.f3fstatapp.adapters.PilotListAdapter;
 import pl.f3f_klif.f3fstatapp.adapters.RoundListAdapter;
-import pl.f3f_klif.f3fstatapp.utils.Event;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
+import pl.f3f_klif.f3fstatapp.utils.F3FEvent;
 import pl.f3f_klif.f3fstatapp.utils.Pilot;
 import pl.f3f_klif.f3fstatapp.utils.ProcessingResponse;
 import pl.f3f_klif.f3fstatapp.utils.Round;
@@ -36,6 +38,7 @@ public class EventRoundsActivity extends AppCompatActivity {
     private List<Pilot> pilots;
     private RoundListAdapter roundListAdapter;
     private List<Round> rounds;
+    private Box<Event> eventBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +49,15 @@ public class EventRoundsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String[] lines = ProcessingResponse.receiveExtraAndDividePerLine(intent);
 
-        Event event = new Event(lines[1]);
+        F3FEvent f3FEvent = new F3FEvent(lines[1]);
 
-        eventNameTextView.setText(event.getName());
-        eventLocationTextView.setText(event.getLocation());
-        eventTypeTextView.setText(event.getType());
-        eventStartDateTextView.setText(event.getStartDate().toString());
+        eventNameTextView.setText(f3FEvent.getName());
+        eventLocationTextView.setText(f3FEvent.getLocation());
+        eventTypeTextView.setText(f3FEvent.getType());
+        eventStartDateTextView.setText(f3FEvent.getStartDate().toString());
+
+        eventBox = ObjectBox.get().boxFor(Event.class);
+        List<Event> events = eventBox.query().build().find();
 
         rounds = new ArrayList<>();
         pilots = new ArrayList<>();
