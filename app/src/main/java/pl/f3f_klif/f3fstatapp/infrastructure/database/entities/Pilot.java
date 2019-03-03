@@ -7,7 +7,14 @@ public class Pilot {
     @Id
     long Id;
 
-    public int F3fId;
+    public long F3fId;
+    public String FirstName;
+    public String LastName;
 
     public Pilot(){ }
+    public Pilot(long f3fId, String firstName, String lastName){
+        F3fId = f3fId;
+        FirstName = firstName;
+        LastName = lastName;
+    }
 }

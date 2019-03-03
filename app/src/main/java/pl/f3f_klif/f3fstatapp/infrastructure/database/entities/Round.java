@@ -10,7 +10,7 @@ import io.objectbox.relation.ToOne;
 @Entity
 public class Round {
     @Id
-    long Id;
+    public long Id;
 
     public ToMany<Group> Groups;
 

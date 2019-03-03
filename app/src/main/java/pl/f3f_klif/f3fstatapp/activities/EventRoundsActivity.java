@@ -12,16 +12,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.adapters.RoundListAdapter;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
+import pl.f3f_klif.f3fstatapp.mapper.RoundMapper;
 import pl.f3f_klif.f3fstatapp.utils.F3FEvent;
+import pl.f3f_klif.f3fstatapp.utils.F3FRound;
 import pl.f3f_klif.f3fstatapp.utils.Pilot;
 import pl.f3f_klif.f3fstatapp.utils.ProcessingResponse;
-import pl.f3f_klif.f3fstatapp.utils.Round;
 
 public class EventRoundsActivity extends AppCompatActivity {
 
@@ -38,8 +36,7 @@ public class EventRoundsActivity extends AppCompatActivity {
 
     private List<Pilot> pilots;
     private RoundListAdapter roundListAdapter;
-    private List<Round> rounds;
-    private Box<Event> eventBox;
+    private List<F3FRound> F3FRounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +54,7 @@ public class EventRoundsActivity extends AppCompatActivity {
         eventTypeTextView.setText(f3FEvent.getType());
         eventStartDateTextView.setText(f3FEvent.getStartDate().toString());
 
-        eventBox = ObjectBox.get().boxFor(Event.class);
-        List<Event> events = eventBox.query().build().find();
-
-        Event e = DatabaseRepository.GetEvent();
-        rounds = new ArrayList<>();
+        F3FRounds = RoundMapper.ToViewModel(DatabaseRepository.GetRounds());
         pilots = new ArrayList<>();
 
         for(int i = 3; i<lines.length; i++) {
@@ -70,14 +63,15 @@ public class EventRoundsActivity extends AppCompatActivity {
             }
         }
 
-        roundListAdapter = new RoundListAdapter(rounds,EventRoundsActivity.this);
+        roundListAdapter = new RoundListAdapter(F3FRounds,EventRoundsActivity.this);
         roundsListView.setAdapter(roundListAdapter);
     }
 
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {
-        int roundIndex = rounds.size();
-        rounds.add(new Round(roundIndex, pilots, "nie rozpoczeta"));
+        int roundIndex = F3FRounds.size();
+        DatabaseRepository.CreateRound(pilots);
+        F3FRounds.add(new F3FRound(roundIndex, pilots, "nie rozpoczeta"));
         roundListAdapter.notifyDataSetChanged();
     }
 }

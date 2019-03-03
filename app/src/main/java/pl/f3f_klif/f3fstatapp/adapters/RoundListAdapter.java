@@ -9,33 +9,30 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.activities.EventGroupsActivity;
-import pl.f3f_klif.f3fstatapp.activities.EventRoundsActivity;
-import pl.f3f_klif.f3fstatapp.utils.Round;
+import pl.f3f_klif.f3fstatapp.utils.F3FRound;
 
 public class RoundListAdapter extends BaseAdapter {
 
-    private List<Round> rounds;
+    private List<F3FRound> F3FRounds;
     private Context context;
 
-    public RoundListAdapter(List<Round> rounds, Context context) {
-        this.rounds = rounds;
+    public RoundListAdapter(List<F3FRound> F3FRounds, Context context) {
+        this.F3FRounds = F3FRounds;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return rounds.size();
+        return F3FRounds.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return rounds.get(i);
+        return F3FRounds.get(i);
     }
 
     @Override
@@ -56,14 +53,14 @@ public class RoundListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, EventGroupsActivity.class);
-                intent.putExtra("round", rounds.get(i));
+                intent.putExtra("round", F3FRounds.get(i));
 
                 context.startActivity(intent);
             }
         });
 
-        nameTextView.setText("Runda " + String.valueOf(rounds.get(i).getRoundId()+1));
-        statusTextView.setText(rounds.get(i).getStatus());
+        nameTextView.setText("Runda " + String.valueOf(F3FRounds.get(i).getRoundId()+1));
+        statusTextView.setText(F3FRounds.get(i).getStatus());
 
         return view;
     }

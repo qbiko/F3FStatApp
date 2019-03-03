@@ -1,5 +1,7 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.json.simple.parser.JSONParser;
 
 import java.util.ArrayList;
@@ -16,6 +18,9 @@ public class Group {
     public String PilotsListJson;
 
     public Group(){ }
+    public Group(String pilotsListJson){
+        PilotsListJson = pilotsListJson;
+    }
 
     public List<Pilot> getPilots() {
 
