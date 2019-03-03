@@ -36,4 +36,5 @@ dependencies {
     implementation "io.objectbox:objectbox-java:'2.3.3"
     implementation 'com.googlecode.json-simple:json-simple:1.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

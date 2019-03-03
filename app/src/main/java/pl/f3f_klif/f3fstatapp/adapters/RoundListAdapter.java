@@ -54,7 +54,6 @@ public class RoundListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(context, EventGroupsActivity.class);
                 intent.putExtra("round", F3FRounds.get(i));
-
                 context.startActivity(intent);
             }
         });

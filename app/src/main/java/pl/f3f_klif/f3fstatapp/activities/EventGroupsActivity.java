@@ -22,7 +22,7 @@ public class EventGroupsActivity extends AppCompatActivity {
 
     private List<Pilot> _pilots;
     private PilotListAdapter pilotListAdapter;
-    private int GroupsNumber = 2;
+    private long GroupId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +30,11 @@ public class EventGroupsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        F3FRound F3FRound = intent.getExtras().getParcelable("F3FRound");
-        _pilots = F3FRound.getStartingList();
+        F3FRound round = intent.getExtras().getParcelable("round");
+        GroupId = round.getRoundId();
 
         if(savedInstanceState == null){
-            showFragment(RoundFragment.newInstance(_pilots, GroupsNumber));
+            showFragment(RoundFragment.newInstance(GroupId));
         }
     }
 
@@ -73,7 +73,7 @@ public class EventGroupsActivity extends AppCompatActivity {
                 showFragment(CurrentFlyFragment.newInstance());
                 return true;
             case R.id.action_event_groups:
-                showFragment(RoundFragment.newInstance(_pilots, GroupsNumber));
+                showFragment(RoundFragment.newInstance(GroupId));
                 return true;
         }
         return super.onOptionsItemSelected(item);

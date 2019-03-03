@@ -15,11 +15,14 @@ public class Event {
     @NameInDb("F3fId")
     public int F3fId;
 
+    int GroupsCount;
     public ToMany<Round> Rounds;
 
     public Event(){ }
-    public Event(int f3fId){
+    public Event(int f3fId, int groupsCount){
         F3fId = f3fId;
+        GroupsCount = groupsCount;
+        Rounds = new ToMany<>(this, Event_.Rounds);
     }
 
     public List<Round> getRounds() { return this.Rounds.subList(0, Rounds.size());}
@@ -40,6 +43,10 @@ public class Event {
 
     public void setF3fId(int id) {
         this.F3fId = id;
+    }
+
+    public long getGroupsCount() {
+        return this.GroupsCount;
     }
 
 }

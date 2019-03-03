@@ -14,7 +14,9 @@ public class Round {
 
     public ToMany<Group> Groups;
 
-    public Round(){ }
+    public Round(){
+        Groups = new ToMany<>(this, Round_.Groups);
+    }
 
     public List<Group> getGroups() { return this.Groups.subList(0, Groups.size());}
 

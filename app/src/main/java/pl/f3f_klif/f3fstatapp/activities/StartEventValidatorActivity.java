@@ -63,7 +63,9 @@ public class StartEventValidatorActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String responseText = new String(responseBody);
                 if(isSuccess(responseText)) {
-                    DatabaseRepository.Init(eventId);
+                    int groupsCount = 3;
+                    DatabaseRepository.Init(eventId, groupsCount);
+
                     Intent intent = new Intent(getApplicationContext(), EventRoundsActivity.class);
                     intent.putExtra("responseText", responseText);
                     startActivity(intent);
