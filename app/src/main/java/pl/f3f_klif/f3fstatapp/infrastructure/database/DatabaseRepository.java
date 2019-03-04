@@ -89,4 +89,10 @@ public class DatabaseRepository {
         }
         return roundId;
     }
+
+    public static Group UpdateGroup(Group updatedGroup){
+        Box<Group> groupBox = ObjectBox.get().boxFor(Group.class);
+        groupBox.put(updatedGroup);
+        return updatedGroup;
+    }
 }

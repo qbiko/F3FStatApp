@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.woxthebox.draglistview.BoardView;
 
-import java.util.ArrayList;
 import java.util.List;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.callbacks.RoundBoardCallback;
@@ -25,6 +24,7 @@ public class RoundFragment extends Fragment {
 
     private BoardView _boardView;
     private long RoundId;
+    private List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> _groups;
     public static RoundFragment newInstance(long roundId) {
         return new RoundFragment(roundId);
     }
@@ -32,6 +32,7 @@ public class RoundFragment extends Fragment {
     @SuppressLint("ValidFragment")
     public RoundFragment(long roundId){
         RoundId = roundId;
+        _groups = DatabaseRepository.GetGroups(RoundId);
     }
 
     public RoundFragment(){}
@@ -58,7 +59,7 @@ public class RoundFragment extends Fragment {
         //_boardView.setCustomColumnDragItem(new MyColumnDragItem(getActivity(), R.layout.column_drag_layout));
         _boardView.setSnapToColumnInLandscape(false);
         _boardView.setColumnSnapPosition(BoardView.ColumnSnapPosition.CENTER);
-        _boardView.setBoardListener(RoundBoardListener.GetBoardListener(_boardView));
+        _boardView.setBoardListener(RoundBoardListener.GetBoardListener(_boardView, _groups));
         _boardView.setBoardCallback(RoundBoardCallback.GetBoardCallback);
 
         return view;
@@ -75,9 +76,9 @@ public class RoundFragment extends Fragment {
     }
 
     private void AddGroups(){
-        List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> groups = DatabaseRepository.GetGroups(RoundId);
+        _groups = DatabaseRepository.GetGroups(RoundId);
         int groupIndex = 1;
-        for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: groups) {
+        for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
              CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots());
              groupIndex++;
         }

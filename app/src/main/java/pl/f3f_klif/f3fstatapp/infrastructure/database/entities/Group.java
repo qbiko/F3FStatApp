@@ -32,4 +32,52 @@ public class Group {
         return new ArrayList<>();
     }
 
+    public List<Pilot> reorderPilots(int oldPosition, int newPosition) {
+
+        try{
+            List<Pilot> pilots = getPilots();
+            Pilot pilot = pilots.get(oldPosition);
+            pilots.remove(oldPosition);
+            pilots.add(newPosition, pilot);
+            PilotsListJson = new Gson().toJson(pilots);
+            return pilots;
+        }
+        catch(Exception e){
+
+        }
+
+        return new ArrayList<>();
+    }
+
+    public List<Pilot> addPilot(int position, Pilot pilot) {
+
+        try{
+            List<Pilot> pilots = getPilots();
+            pilots.add(position, pilot);
+            PilotsListJson = new Gson().toJson(pilots);
+            return pilots;
+        }
+        catch(Exception e){
+
+        }
+
+        return new ArrayList<>();
+    }
+
+    public Pilot removePilot(int position) {
+
+        try{
+            List<Pilot> pilots = getPilots();
+            Pilot removedPilot = pilots.get(position);
+            pilots.remove(position);
+            PilotsListJson = new Gson().toJson(pilots);
+            return removedPilot;
+        }
+        catch(Exception e){
+
+        }
+
+        return new Pilot();
+    }
+
 }
