@@ -20,7 +20,7 @@
         android:id="@+id/pilot_lastname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="30" />
+        android:layout_weight="25" />
     <TextView
         android:id="@+id/pilot_class"
         android:layout_width="0dp"
@@ -30,20 +30,20 @@
         android:id="@+id/pilot_ama"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="30" />
+        android:layout_weight="25" />
     <TextView
         android:id="@+id/pilot_fai"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="30" />
+        android:layout_weight="25" />
     <TextView
         android:id="@+id/pilot_fai_license"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="30" />
+        android:layout_weight="25" />
     <TextView
         android:id="@+id/pilot_team_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="25" />
+        android:layout_weight="20" />
 </LinearLayout>
