@@ -6,19 +6,19 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Round implements Parcelable {
+public class F3FRound implements Parcelable {
 
     private long roundId;
     private List<Pilot> startingList;
     private String status;
 
-    public Round(long roundId, List<Pilot> startingList, String status) {
+    public F3FRound(long roundId, List<Pilot> startingList, String status) {
         this.roundId = roundId;
         this.startingList = startingList;
         this.status = status;
     }
 
-    public Round(Parcel parcel) {
+    public F3FRound(Parcel parcel) {
         this.roundId = parcel.readLong();
         this.startingList = new ArrayList<>();
         parcel.readList(startingList,Pilot.class.getClassLoader());
@@ -49,15 +49,15 @@ public class Round implements Parcelable {
         parcel.writeString(status);
     }
 
-    public static final Creator<Round> CREATOR = new Creator<Round>() {
+    public static final Creator<F3FRound> CREATOR = new Creator<F3FRound>() {
         @Override
-        public Round createFromParcel(Parcel in) {
-            return new Round(in);
+        public F3FRound createFromParcel(Parcel in) {
+            return new F3FRound(in);
         }
 
         @Override
-        public Round[] newArray(int size) {
-            return new Round[size];
+        public F3FRound[] newArray(int size) {
+            return new F3FRound[size];
         }
     };
 }

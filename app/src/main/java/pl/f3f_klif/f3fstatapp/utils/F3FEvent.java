@@ -7,7 +7,7 @@ import java.util.Date;
 import static android.provider.Settings.System.DATE_FORMAT;
 import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.SIMPLE_DATE_FORMAT;
 
-public class Event {
+public class F3FEvent {
     private long id;
     private String name;
     private String location;
@@ -15,7 +15,7 @@ public class Event {
     private Date endDate;
     private String type;
 
-    public Event(String requestLine) {
+    public F3FEvent(String requestLine) {
         String[] requestValues = requestLine.split(",");
         id = Long.parseLong(requestValues[0].replace("\"", ""));
         name = requestValues[1].replace("\"", "");
@@ -29,6 +29,8 @@ public class Event {
         }
         type = requestValues[5].replace("\"", "");
     }
+
+    public long getId() {return id;}
 
     public String getName() {
         return name;

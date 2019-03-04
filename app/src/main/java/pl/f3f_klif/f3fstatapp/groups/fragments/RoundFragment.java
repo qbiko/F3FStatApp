@@ -7,43 +7,35 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.common.collect.Lists;
 import com.woxthebox.draglistview.BoardView;
 
 import java.util.List;
-
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.callbacks.RoundBoardCallback;
 import pl.f3f_klif.f3fstatapp.groups.listeners.RoundBoardListener;
 import pl.f3f_klif.f3fstatapp.groups.services.GroupCreator;
 import pl.f3f_klif.f3fstatapp.groups.services.models.Group;
-import pl.f3f_klif.f3fstatapp.utils.Pilot;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 
 public class RoundFragment extends Fragment {
 
     private BoardView _boardView;
-    private int RoundNumber;
-    private int GroupsCount;
-    private final int MaxPilotsNumberInGroup = 12;
-    private List<Pilot> _pilots;
-    public static RoundFragment newInstance(List<Pilot> pilots, int groupsNumber) {
-        return new RoundFragment(pilots, groupsNumber);
-    }
-
-    public RoundFragment(){
-
+    private long RoundId;
+    private List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> _groups;
+    public static RoundFragment newInstance(long roundId) {
+        return new RoundFragment(roundId);
     }
 
     @SuppressLint("ValidFragment")
-    public RoundFragment(List<Pilot> pilots, int groupsNumber){
-        _pilots = pilots;
-        GroupsCount = groupsNumber;
+    public RoundFragment(long roundId){
+        RoundId = roundId;
+        _groups = DatabaseRepository.GetGroups(RoundId);
     }
+
+    public RoundFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +59,7 @@ public class RoundFragment extends Fragment {
         //_boardView.setCustomColumnDragItem(new MyColumnDragItem(getActivity(), R.layout.column_drag_layout));
         _boardView.setSnapToColumnInLandscape(false);
         _boardView.setColumnSnapPosition(BoardView.ColumnSnapPosition.CENTER);
-        _boardView.setBoardListener(RoundBoardListener.GetBoardListener(_boardView));
+        _boardView.setBoardListener(RoundBoardListener.GetBoardListener(_boardView, _groups));
         _boardView.setBoardCallback(RoundBoardCallback.GetBoardCallback);
 
         return view;
@@ -76,7 +68,6 @@ public class RoundFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
                 .setTitle("Runda"); // <-tutaj jakoś przekazać numerek rundy
@@ -85,15 +76,10 @@ public class RoundFragment extends Fragment {
     }
 
     private void AddGroups(){
-        if(_pilots.size() < MaxPilotsNumberInGroup){
-            CreateGroup("Grupa 1", _pilots);
-            return;
-        }
-
-        List<List<Pilot>> pilotsGroups = Lists.partition(_pilots, MaxPilotsNumberInGroup);
+        _groups = DatabaseRepository.GetGroups(RoundId);
         int groupIndex = 1;
-        for (List<Pilot> pilotsGroup: pilotsGroups) {
-             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup);
+        for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
+             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots());
              groupIndex++;
         }
     }
