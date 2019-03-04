@@ -37,7 +37,7 @@
     <!-- flight -->
     <string name="flight_number">Lot nr %1$d</string>
     <string name="assign_pilot">Przypisz pilota</string>
-    <string name="flight_current_time">Czas: %1$.2f s</string>
+    <string name="flight_current_time">%1$.2f s</string>
     <string name="flight_current_wind">Wiatr: %1$d</string>
     <string name="results">Wyniki:</string>
     <string name="prepare_period">Okres przygotowawczy...</string>
@@ -46,4 +46,9 @@
     <string name="base_result">Baza %1$d: %2$.2f s</string>
     <string name="player_flight_by_base">Zawodnik przeleciał przez bazę %1$d</string>
     <string name="player_flight_by_last_base">Zawodnik przeleciał przez ostatnią bazę</string>
+    <string name="non_statutory_weather_condition">Nieregulaminowe warunki pogodowe!</string>
+    <string name="current_wind_speed">Chwilowa prędkość:\n %1$.2f m/s</string>
+    <string name="current_wind_direction">Chwilowy kierunek:\n %1$d°</string>
+    <string name="avg_wind_speed">Średnia prędkość:\n %1$.2f m/s</string>
+    <string name="avg_wind_direction">Średni\n kierunek:\n %1$d°</string>
 </resources>

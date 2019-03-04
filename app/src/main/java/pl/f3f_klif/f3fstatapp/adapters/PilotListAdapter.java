@@ -12,8 +12,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
-import pl.f3f_klif.f3fstatapp.activities.EventActivity;
-import pl.f3f_klif.f3fstatapp.activities.PilotRunActivity;
 import pl.f3f_klif.f3fstatapp.utils.Pilot;
 
 public class PilotListAdapter extends BaseAdapter {
@@ -55,7 +53,6 @@ public class PilotListAdapter extends BaseAdapter {
         TextView pilotFaiTextView = view.findViewById(R.id.pilot_fai);
         TextView pilotFaiLicenseTextView = view.findViewById(R.id.pilot_fai_license);
         TextView pilotTeamNameTextView = view.findViewById(R.id.pilot_team_name);
-        Button startRunPilotButton = view.findViewById(R.id.start_run_pilot);
 
         orderNumberTextView.setText(String.valueOf(pilots.get(i).getStartNumber()));
         firstNameTextView.setText(pilots.get(i).getFirstName());
@@ -65,15 +62,6 @@ public class PilotListAdapter extends BaseAdapter {
         pilotFaiTextView.setText(pilots.get(i).getFai());
         pilotFaiLicenseTextView.setText(pilots.get(i).getFaiLicense());
         pilotTeamNameTextView.setText(pilots.get(i).getTeamName());
-
-        startRunPilotButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, PilotRunActivity.class);
-                intent.putExtra("pilot", pilots.get(i));
-                context.startActivity(intent);
-            }
-        });
 
         return view;
     }

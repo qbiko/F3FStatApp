@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,8 +52,19 @@ public class CurrentFlyFragment extends Fragment {
     public TextView liveStatusTextView;
     @BindView(R.id.stats_container)
     public LinearLayout statsContainer;
+    @BindView(R.id.current_wind_speed_text_view)
+    public TextView currentWindSpeedTextView;
+    @BindView(R.id.current_wind_direction_text_view)
+    public TextView currentWindDirectionTextView;
+    @BindView(R.id.avg_wind_speed_text_view)
+    public TextView avgWindSpeedTextView;
+    @BindView(R.id.avg_wind_direction_text_view)
+    public TextView avgWindDirectionTextView;
+    @BindView(R.id.statusImageView)
+    public ImageView statusImageView;
 
     private int flightNumber;
+    public float flightTimeResult = 0f;
     private CurrentFlyHandler currentFlyHandler;
     private UsbService usbService;
 
@@ -65,6 +77,9 @@ public class CurrentFlyFragment extends Fragment {
         flightNumber = args.getInt("flightNumber", 0);
 
         currentFlyHandler = new CurrentFlyHandler(this);
+
+        //TODO save current state of flight and read frames in background
+
     }
 
     @Override
@@ -75,7 +90,16 @@ public class CurrentFlyFragment extends Fragment {
 
         flightNumberTextView.setText(getString(R.string.flight_number, flightNumber));
 
+        currentTimeTextView.setText(getString(R.string.flight_current_time, 0f));
 
+        currentWindSpeedTextView.setText(getString(R
+                .string.current_wind_speed, 0f));
+        avgWindSpeedTextView.setText(getString(R
+                .string.avg_wind_speed, 0f));
+        currentWindDirectionTextView.setText(getString(R
+                .string.current_wind_direction, 0));
+        avgWindDirectionTextView.setText(getString(R
+                .string.avg_wind_direction, 0));
 
         return view;
     }

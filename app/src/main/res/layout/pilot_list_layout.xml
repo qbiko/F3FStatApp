@@ -46,10 +46,4 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="20" />
-    <Button
-        android:id="@+id/start_run_pilot"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="25"
-        android:text="@string/start" />
 </LinearLayout>

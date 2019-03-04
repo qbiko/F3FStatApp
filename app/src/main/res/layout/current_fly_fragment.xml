@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:id="@+id/live_status_text_view"
@@ -41,34 +42,86 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:id="@+id/statusImageView"
+                android:layout_width="72dp"
+                android:layout_height="66dp"
+                android:contentDescription="flightStatus"
+                app:srcCompat="@drawable/timer" />
 
             <TextView
                 android:id="@+id/current_time_text_view"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/flight_current_time"
+                android:textAlignment="center"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-                android:textAlignment="center"/>
-
-            <TextView
-                android:id="@+id/current_wind_text_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/flight_current_wind"
-                android:textAllCaps="false"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-                android:textAlignment="center"/>
+                android:textSize="31sp" />
 
         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:layout_marginBottom="30dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/windsock" />
+
+        <TextView
+            android:id="@+id/current_wind_speed_text_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/current_wind_speed"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.SearchResult.Subtitle" />
+
+        <TextView
+            android:id="@+id/current_wind_direction_text_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/current_wind_direction"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.SearchResult.Subtitle" />
+
+        <TextView
+            android:id="@+id/avg_wind_speed_text_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/avg_wind_speed"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.SearchResult.Subtitle" />
+
+        <TextView
+            android:id="@+id/avg_wind_direction_text_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/avg_wind_direction"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.SearchResult.Subtitle" />
+
+    </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -85,7 +138,8 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:weightSum="2"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:id="@+id/prepare_time_result_text_view"
@@ -115,11 +169,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="200dp">
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/assign_pilot_button"

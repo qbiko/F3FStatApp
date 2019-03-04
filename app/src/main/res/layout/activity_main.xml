@@ -33,13 +33,4 @@
         android:layout_below="@id/start_event_button"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"/>
-
-    <Button
-        android:id="@+id/uart_receiving_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UART TEST"
-        android:layout_below="@id/settings_button"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="10dp"/>
 </RelativeLayout>

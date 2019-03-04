@@ -29,22 +29,11 @@
         <activity android:name=".activities.EventActivity" />
         <activity android:name=".activities.EventRoundsActivity" />
         <activity android:name=".activities.EventGroupsActivity" />
-        <activity android:name=".activities.UartActivity">
-            <intent-filter>
-                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-                android:resource="@xml/device_filter" />
-        </activity>
 
         <service
             android:name=".utils.UsbService"
             android:enabled="true"></service>
 
-        <activity android:name=".activities.PilotRunActivity"/>
-        <activity android:name=".activities.ChooseEventActivity"/>
     </application>
 
 </manifest>
