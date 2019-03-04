@@ -10,17 +10,22 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.R;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 
 import static pl.f3f_klif.f3fstatapp.activities.SettingsActivity.isAccountCorrect;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Box<Event> eventBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        ObjectBox.init(this);
     }
 
     @OnClick(R.id.start_event_button)

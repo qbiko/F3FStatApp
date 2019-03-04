@@ -14,7 +14,7 @@
     <string name="enter_to_start_event_with_incorrect_data">Najpierw przejdź do ustawień i
         wpisz poprawne dane</string>
 
-    <!-- Headers for event details list -->
+    <!-- Headers for f3FEvent details list -->
     <string name="start_number">Lp.</string>
     <string name="pilot_first_name">Imię</string>
     <string name="pilot_last_name">Nazwisko</string>
@@ -24,7 +24,7 @@
     <string name="pilot_license_fai">Licencja FAI</string>
     <string name="pilot_team_name">Zespół</string>
 
-    <!-- event rounds -->
+    <!-- f3FEvent F3FRounds -->
     <string name="add_round">Dodaj kolejkę</string>
     <string name="start_round">Start</string>
 

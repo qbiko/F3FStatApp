@@ -31,6 +31,12 @@ public class Pilot implements Parcelable {
         groupNumber = -1;
     }
 
+    public Pilot(long f3fId, String firstName, String lastName) {
+        id = f3fId;
+        firstName = firstName;
+        lastName = lastName;
+    }
+
     public Pilot(Parcel parcel) {
         id = parcel.readLong();
         startNumber = parcel.readInt();
@@ -44,6 +50,8 @@ public class Pilot implements Parcelable {
         orderNumber = parcel.readInt();
         groupNumber = parcel.readInt();
     }
+
+    public long getId() {return id;}
 
     public int getStartNumber() {
         return startNumber;

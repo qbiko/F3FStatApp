@@ -15,14 +15,14 @@ import pl.f3f_klif.f3fstatapp.utils.Pilot;
 
 public class GroupCreator {
 
-    public static Group Create(Context context, String groupName, List<Pilot> pilots){
+    public static Group Create(Context context, String groupName, List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot> pilots){
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
         long index = 0;
-        for (Pilot pilot: pilots) {
+        for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot pilot: pilots) {
             mItemArray
                     .add(new Pair<>(
                             index,
-                            String.format("%s %s", pilot.getFirstName(), pilot.getLastName())
+                            String.format("%s %s", pilot.FirstName, pilot.LastName)
                             )
                     );
             index++;
