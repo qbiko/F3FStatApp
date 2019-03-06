@@ -57,12 +57,12 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
         @Override
         public void onItemClicked(View view) {
-            Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Item clicked"+this.mText+this.mItemId, Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public boolean onItemLongClicked(View view) {
-            Toast.makeText(view.getContext(), "Item long clicked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Item long clicked"+this.mText+this.mItemId+mLayoutId, Toast.LENGTH_SHORT).show();
             return true;
         }
     }

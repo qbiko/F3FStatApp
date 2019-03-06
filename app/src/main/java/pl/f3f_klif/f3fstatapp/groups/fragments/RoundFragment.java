@@ -61,7 +61,7 @@ public class RoundFragment extends Fragment {
         _boardView.setColumnSnapPosition(BoardView.ColumnSnapPosition.CENTER);
         _boardView.setBoardListener(RoundBoardListener.GetBoardListener(_boardView, _groups));
         _boardView.setBoardCallback(RoundBoardCallback.GetBoardCallback);
-
+        _boardView.setDragEnabled(false);
         return view;
     }
 

@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3537689645429666668",
-      "lastPropertyId": "2:1264787784000850",
+      "lastPropertyId": "3:7394778024362533501",
       "name": "Event",
       "properties": [
         {
@@ -15,6 +15,10 @@
         {
           "id": "2:1264787784000850",
           "name": "F3fId"
+        },
+        {
+          "id": "3:7394778024362533501",
+          "name": "GroupsCount"
         }
       ],
       "relations": [
