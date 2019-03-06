@@ -69,8 +69,7 @@ public class EventRoundsActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {
-        int roundIndex = F3FRounds.size();
-        DatabaseRepository.CreateRound(pilots);
+        long roundIndex = DatabaseRepository.CreateRound(pilots);
         F3FRounds.add(new F3FRound(roundIndex, pilots, "nie rozpoczeta"));
         roundListAdapter.notifyDataSetChanged();
     }
