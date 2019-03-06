@@ -19,11 +19,28 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     private int mLayoutId;
     private int mGrabHandleId;
     private boolean mDragOnLongPress;
+    private int FlightNumber;
+    private float FlightTimeResult = 0f;
 
     public ItemAdapter(ArrayList<Pair<Long, String>> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
+        setItemList(list);
+    }
+
+    public ItemAdapter(
+            ArrayList<Pair<Long, String>> list,
+            int layoutId,
+            int grabHandleId,
+            boolean dragOnLongPress,
+            int flightNumber,
+            float flightTimeResult) {
+        mLayoutId = layoutId;
+        mGrabHandleId = grabHandleId;
+        mDragOnLongPress = dragOnLongPress;
+        FlightNumber = flightNumber;
+        FlightTimeResult = flightTimeResult;
         setItemList(list);
     }
 
@@ -63,6 +80,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         @Override
         public boolean onItemLongClicked(View view) {
             Toast.makeText(view.getContext(), "Item long clicked"+this.mText+this.mItemId+mLayoutId, Toast.LENGTH_SHORT).show();
+
             return true;
         }
     }

@@ -95,4 +95,13 @@ public class DatabaseRepository {
         groupBox.put(updatedGroup);
         return updatedGroup;
     }
+
+    public static Pilot UpdatePilot(Pilot updatedPilot){
+        Box<Pilot> pilotBox = ObjectBox.get().boxFor(Pilot.class);
+        pilotBox.put(updatedPilot);
+        return updatedPilot;
+    }
+
+
+
 }

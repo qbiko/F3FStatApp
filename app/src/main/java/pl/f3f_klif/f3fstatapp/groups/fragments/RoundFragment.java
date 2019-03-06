@@ -25,13 +25,29 @@ public class RoundFragment extends Fragment {
     private BoardView _boardView;
     private long RoundId;
     private List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> _groups;
+    private boolean DragEnabled = true;
+    private int FlightNumber;
+    private float FlightTimeResult = 0f;
     public static RoundFragment newInstance(long roundId) {
         return new RoundFragment(roundId);
+    }
+
+    public static RoundFragment newInstance(long roundId, int flightNumber, float flightTimeResult) {
+        return new RoundFragment(roundId, flightNumber, flightTimeResult);
     }
 
     @SuppressLint("ValidFragment")
     public RoundFragment(long roundId){
         RoundId = roundId;
+        _groups = DatabaseRepository.GetGroups(RoundId);
+    }
+
+    @SuppressLint("ValidFragment")
+    public RoundFragment(long roundId, int flightNumber, float flightTimeResult){
+        RoundId = roundId;
+        DragEnabled = false;
+        FlightNumber = flightNumber;
+        FlightTimeResult = flightTimeResult;
         _groups = DatabaseRepository.GetGroups(RoundId);
     }
 
@@ -61,16 +77,20 @@ public class RoundFragment extends Fragment {
         _boardView.setColumnSnapPosition(BoardView.ColumnSnapPosition.CENTER);
         _boardView.setBoardListener(RoundBoardListener.GetBoardListener(_boardView, _groups));
         _boardView.setBoardCallback(RoundBoardCallback.GetBoardCallback);
-        _boardView.setDragEnabled(false);
+        _boardView.setDragEnabled(DragEnabled);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        String roundTitle = DragEnabled
+                ? "Runda " + RoundId
+                : "Runda " + RoundId +": przypisz wynik";
+
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
-                .setTitle("Runda"); // <-tutaj jakoś przekazać numerek rundy
+                .setTitle(roundTitle);
 
         AddGroups();
     }
@@ -86,7 +106,7 @@ public class RoundFragment extends Fragment {
 
     private void CreateGroup(String groupName, List<Pilot> pilots){
         Group group = GroupCreator
-                .Create(getActivity(), groupName, pilots);
+                .Create(getActivity(), groupName, pilots, FlightNumber, FlightTimeResult);
 
         _boardView.addColumn(
                 group.ItemAdapter,

@@ -87,7 +87,7 @@ public class EventGroupsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_current_fly:
-                showFragment(CurrentFlyFragment.newInstance(0));
+                showFragment(CurrentFlyFragment.newInstance(GroupId,0));
                 return true;
             case R.id.action_event_groups:
                 showFragment(RoundFragment.newInstance(GroupId));

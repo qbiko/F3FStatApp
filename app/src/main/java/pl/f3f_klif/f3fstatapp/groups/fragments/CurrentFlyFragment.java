@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,10 +31,11 @@ import pl.f3f_klif.f3fstatapp.handlers.StartListHandler;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 public class CurrentFlyFragment extends Fragment {
-    public static CurrentFlyFragment newInstance(int flightNumber) {
+    public static CurrentFlyFragment newInstance(long groupId, int flightNumber) {
         CurrentFlyFragment f = new CurrentFlyFragment();
         Bundle args = new Bundle();
         args.putInt("flightNumber", flightNumber);
+        args.putLong("groupId", groupId);
         f.setArguments(args);
         return f;
     }
@@ -67,7 +69,7 @@ public class CurrentFlyFragment extends Fragment {
     public float flightTimeResult = 0f;
     private CurrentFlyHandler currentFlyHandler;
     private UsbService usbService;
-
+    private long groupId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +81,13 @@ public class CurrentFlyFragment extends Fragment {
         currentFlyHandler = new CurrentFlyHandler(this);
 
         //TODO save current state of flight and read frames in background
+
+        assignPilotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(RoundFragment.newInstance(groupId, flightNumber, flightTimeResult));
+            }
+        });
 
     }
 
@@ -188,5 +197,14 @@ public class CurrentFlyFragment extends Fragment {
         filter.addAction(UsbService.ACTION_USB_NOT_SUPPORTED);
         filter.addAction(UsbService.ACTION_USB_PERMISSION_NOT_GRANTED);
         this.getActivity().registerReceiver(mUsbReceiver, filter);
+    }
+
+    public void showFragment(Fragment fragment){
+        FragmentTransaction transaction = getFragmentManager()
+                .beginTransaction();
+
+        transaction
+                .replace(R.id.container, fragment, "fragment")
+                .commit();
     }
 }
