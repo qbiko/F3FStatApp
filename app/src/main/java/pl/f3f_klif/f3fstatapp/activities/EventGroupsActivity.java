@@ -22,7 +22,7 @@ public class EventGroupsActivity extends AppCompatActivity {
 
     private List<Pilot> _pilots;
     private PilotListAdapter pilotListAdapter;
-    private long GroupId;
+    private long RoundId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +31,10 @@ public class EventGroupsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         F3FRound round = intent.getExtras().getParcelable("round");
-        GroupId = round.getRoundId();
+        RoundId = round.getRoundId();
 
         if(savedInstanceState == null){
-            showFragment(RoundFragment.newInstance(GroupId));
+            showFragment(RoundFragment.newInstance(RoundId));
         }
     }
 
@@ -73,7 +73,7 @@ public class EventGroupsActivity extends AppCompatActivity {
                 showFragment(CurrentFlyFragment.newInstance());
                 return true;
             case R.id.action_event_groups:
-                showFragment(RoundFragment.newInstance(GroupId));
+                showFragment(RoundFragment.newInstance(RoundId));
                 return true;
         }
         return super.onOptionsItemSelected(item);
