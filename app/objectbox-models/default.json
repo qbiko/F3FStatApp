@@ -63,7 +63,7 @@
     },
     {
       "id": "4:3247046403844295083",
-      "lastPropertyId": "4:1108454721911218211",
+      "lastPropertyId": "6:8412478181591379519",
       "name": "Pilot",
       "properties": [
         {
@@ -81,6 +81,14 @@
         {
           "id": "4:1108454721911218211",
           "name": "LastName"
+        },
+        {
+          "id": "5:8349394518065994242",
+          "name": "FlightNumber"
+        },
+        {
+          "id": "6:8412478181591379519",
+          "name": "FlightTimeResult"
         }
       ],
       "relations": []

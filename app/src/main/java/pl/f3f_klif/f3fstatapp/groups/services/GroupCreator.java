@@ -20,13 +20,15 @@ public class GroupCreator {
             String groupName,
             List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot> pilots,
             int flightNumber,
-            float flightTimeResult){
+            float flightTimeResult,
+            long roundId,
+            long groupId){
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
         long index = 0;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot pilot: pilots) {
             mItemArray
                     .add(new Pair<>(
-                            index,
+                            pilot.Id,
                             String.format("%s %s", pilot.FirstName, pilot.LastName)
                             )
                     );
@@ -39,7 +41,9 @@ public class GroupCreator {
                 R.id.item_layout,
                 true,
                 flightNumber,
-                flightTimeResult);
+                flightTimeResult,
+                roundId,
+                groupId);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);

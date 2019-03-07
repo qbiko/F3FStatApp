@@ -5,7 +5,7 @@ import io.objectbox.annotation.Id;
 @Entity
 public class Pilot {
     @Id
-    long Id;
+    public long Id;
 
     public long F3fId;
     public String FirstName;

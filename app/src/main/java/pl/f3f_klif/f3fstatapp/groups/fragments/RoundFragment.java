@@ -99,14 +99,21 @@ public class RoundFragment extends Fragment {
         _groups = DatabaseRepository.GetGroups(RoundId);
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
-             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots());
+             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(), RoundId, groupIndex);
              groupIndex++;
         }
     }
 
-    private void CreateGroup(String groupName, List<Pilot> pilots){
+    private void CreateGroup(String groupName, List<Pilot> pilots, long roundId, long groupId){
         Group group = GroupCreator
-                .Create(getActivity(), groupName, pilots, FlightNumber, FlightTimeResult);
+                .Create(
+                        getActivity(),
+                        groupName,
+                        pilots,
+                        FlightNumber,
+                        FlightTimeResult,
+                        roundId,
+                        groupId);
 
         _boardView.addColumn(
                 group.ItemAdapter,
