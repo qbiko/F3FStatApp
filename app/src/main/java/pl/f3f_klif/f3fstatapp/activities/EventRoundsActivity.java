@@ -57,6 +57,8 @@ public class EventRoundsActivity extends AppCompatActivity {
         F3FRounds = RoundMapper.ToViewModel(DatabaseRepository.GetRounds());
         pilots = new ArrayList<>();
 
+        ((AppCompatActivity)this).getSupportActionBar().setTitle("Rundy");
+
         for(int i = 3; i<lines.length; i++) {
             if(!lines[i].isEmpty()) {
                 pilots.add(new Pilot(lines[i]));
@@ -66,6 +68,8 @@ public class EventRoundsActivity extends AppCompatActivity {
         roundListAdapter = new RoundListAdapter(F3FRounds,EventRoundsActivity.this);
         roundsListView.setAdapter(roundListAdapter);
     }
+
+
 
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {

@@ -28,7 +28,7 @@ public class GroupCreator {
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot pilot: pilots) {
             mItemArray
                     .add(new Pair<>(
-                            pilot.Id,
+                            index,
                             String.format("%s %s", pilot.FirstName, pilot.LastName)
                             )
                     );
