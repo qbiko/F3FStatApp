@@ -11,7 +11,6 @@ import java.util.List;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.infrastructure.ItemAdapter;
 import pl.f3f_klif.f3fstatapp.groups.services.models.Group;
-import pl.f3f_klif.f3fstatapp.utils.Pilot;
 
 public class GroupCreator {
 
@@ -22,7 +21,7 @@ public class GroupCreator {
             mItemArray
                     .add(new Pair<>(
                             index,
-                            String.format("%s %s", pilot.FirstName, pilot.LastName)
+                            String.format("%s %s", pilot.firstName, pilot.lastName)
                             )
                     );
             index++;

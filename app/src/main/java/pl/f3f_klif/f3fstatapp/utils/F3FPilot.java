@@ -3,7 +3,7 @@ package pl.f3f_klif.f3fstatapp.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Pilot implements Parcelable {
+public class F3FPilot implements Parcelable {
     private long id;
     private int startNumber;
     private String firstName;
@@ -16,7 +16,7 @@ public class Pilot implements Parcelable {
     private int orderNumber;
     private int groupNumber;
 
-    public Pilot(String requestLine) {
+    public F3FPilot(String requestLine) {
         String[] requestValues = requestLine.split(",");
         id = Long.parseLong(requestValues[0].replace("\"", ""));
         startNumber = Integer.parseInt(requestValues[1].replace("\"", ""));
@@ -31,13 +31,13 @@ public class Pilot implements Parcelable {
         groupNumber = -1;
     }
 
-    public Pilot(long f3fId, String firstName, String lastName) {
+    public F3FPilot(long f3fId, String firstName, String lastName) {
         id = f3fId;
         firstName = firstName;
         lastName = lastName;
     }
 
-    public Pilot(Parcel parcel) {
+    public F3FPilot(Parcel parcel) {
         id = parcel.readLong();
         startNumber = parcel.readInt();
         firstName = parcel.readString();
@@ -125,15 +125,15 @@ public class Pilot implements Parcelable {
         parcel.writeInt(groupNumber);
     }
 
-    public static final Creator<Pilot> CREATOR = new Creator<Pilot>() {
+    public static final Creator<F3FPilot> CREATOR = new Creator<F3FPilot>() {
         @Override
-        public Pilot createFromParcel(Parcel in) {
-            return new Pilot(in);
+        public F3FPilot createFromParcel(Parcel in) {
+            return new F3FPilot(in);
         }
 
         @Override
-        public Pilot[] newArray(int size) {
-            return new Pilot[size];
+        public F3FPilot[] newArray(int size) {
+            return new F3FPilot[size];
         }
     };
 }

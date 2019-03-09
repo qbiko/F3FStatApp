@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">F3FStatApp</string>
-    <string name="start_event_button_text">Rozpocznij zawody</string>
-    <string name="settings_button_text">Ustawienia</string>
-    <string name="enter_event_id_text">Wpisz identyfikator wydarzenia:</string>
+    <string name="start_event_text">Przejdź do zawodów</string>
+    <string name="settings_text">Ustawienia zawodów</string>
+    <string name="event_id_text">ID zawodów:</string>
     <string name="confirm_button">Zatwierdź</string>
     <string name="cancel_button">Anuluj</string>
     <string name="email_text">E-mail:</string>
@@ -16,6 +16,10 @@
     <string name="start">Start</string>
     <string name="prepare_time">Czas przygotowania: %1$.1f s</string>
     <string name="start_time">Czas startowy: %1$.1f s</string>
+    <string name="open_drawer_desc">Otwórz</string>
+    <string name="close_drawer_desc">Zamknij</string>
+    <string name="min_group_amount_text">Min. liczba zawodników w grupie:</string>
+    <string name="default_min_group_amount">12</string>
 
     <!-- Headers for f3FEvent details list -->
     <string name="start_number">Lp.</string>

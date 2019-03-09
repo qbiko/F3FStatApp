@@ -32,7 +32,7 @@ public class RoundFragment extends Fragment {
     @SuppressLint("ValidFragment")
     public RoundFragment(long roundId){
         RoundId = roundId;
-        _groups = DatabaseRepository.GetGroups(RoundId);
+        _groups = DatabaseRepository.getGroups(RoundId);
     }
 
     public RoundFragment(){}
@@ -76,7 +76,7 @@ public class RoundFragment extends Fragment {
     }
 
     private void AddGroups(){
-        _groups = DatabaseRepository.GetGroups(RoundId);
+        _groups = DatabaseRepository.getGroups(RoundId);
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
              CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots());

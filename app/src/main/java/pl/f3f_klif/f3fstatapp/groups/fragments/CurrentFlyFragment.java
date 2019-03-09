@@ -26,7 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.handlers.CurrentFlyHandler;
-import pl.f3f_klif.f3fstatapp.handlers.StartListHandler;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 public class CurrentFlyFragment extends Fragment {

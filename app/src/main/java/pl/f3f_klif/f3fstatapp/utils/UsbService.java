@@ -72,6 +72,7 @@ public class UsbService extends Service {
                     String frameToSend = messages.substring(startSign, endSign+1);
                     messages = messages.replace(frameToSend,
                             "");
+                    frameToSend = frameToSend.replace("\n", "");
                     if (mHandler != null)
                         mHandler.obtainMessage(MESSAGE_FROM_SERIAL_PORT, frameToSend).sendToTarget();
                 }

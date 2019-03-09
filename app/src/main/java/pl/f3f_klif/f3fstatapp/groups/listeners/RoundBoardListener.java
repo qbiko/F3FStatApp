@@ -4,7 +4,6 @@ import android.widget.TextView;
 
 import com.woxthebox.draglistview.BoardView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
@@ -24,18 +23,18 @@ public class RoundBoardListener {
             if (fromColumn != toColumn) {
                 Group oldGroup = groups.get(fromColumn);
                 Pilot removedPilot = oldGroup.removePilot(fromRow);
-                DatabaseRepository.UpdateGroup(oldGroup);
+                DatabaseRepository.updateGroup(oldGroup);
 
                 Group newGroup = groups.get(toColumn);
                 newGroup.addPilot(toRow, removedPilot);
-                DatabaseRepository.UpdateGroup(newGroup);
+                DatabaseRepository.updateGroup(newGroup);
                 return;
             }
 
             if (fromRow != toRow) {
                 Group targetGroup = groups.get(fromColumn);
                 targetGroup.reorderPilots(fromRow, toRow);
-                DatabaseRepository.UpdateGroup(targetGroup);
+                DatabaseRepository.updateGroup(targetGroup);
             }
         }
 

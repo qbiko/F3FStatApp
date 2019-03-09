@@ -1,37 +1,35 @@
 package pl.f3f_klif.f3fstatapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
-import pl.f3f_klif.f3fstatapp.utils.Pilot;
+import pl.f3f_klif.f3fstatapp.utils.F3FPilot;
 
 public class PilotListAdapter extends BaseAdapter {
 
-    private List<Pilot> pilots;
+    private List<F3FPilot> f3FPilots;
     private Context context;
 
-    public PilotListAdapter(List<Pilot> pilots, Context context) {
-        this.pilots = pilots;
+    public PilotListAdapter(List<F3FPilot> f3FPilots, Context context) {
+        this.f3FPilots = f3FPilots;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return pilots.size();
+        return f3FPilots.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return pilots.get(i);
+        return f3FPilots.get(i);
     }
 
     @Override
@@ -54,20 +52,20 @@ public class PilotListAdapter extends BaseAdapter {
         TextView pilotFaiLicenseTextView = view.findViewById(R.id.pilot_fai_license);
         TextView pilotTeamNameTextView = view.findViewById(R.id.pilot_team_name);
 
-        orderNumberTextView.setText(String.valueOf(pilots.get(i).getStartNumber()));
-        firstNameTextView.setText(pilots.get(i).getFirstName());
-        lastNameTextView.setText(pilots.get(i).getLastName());
-        pilotClassTextView.setText(pilots.get(i).getPilotClass());
-        pilotAmaTextView.setText(pilots.get(i).getAma());
-        pilotFaiTextView.setText(pilots.get(i).getFai());
-        pilotFaiLicenseTextView.setText(pilots.get(i).getFaiLicense());
-        pilotTeamNameTextView.setText(pilots.get(i).getTeamName());
+        orderNumberTextView.setText(String.valueOf(f3FPilots.get(i).getStartNumber()));
+        firstNameTextView.setText(f3FPilots.get(i).getFirstName());
+        lastNameTextView.setText(f3FPilots.get(i).getLastName());
+        pilotClassTextView.setText(f3FPilots.get(i).getPilotClass());
+        pilotAmaTextView.setText(f3FPilots.get(i).getAma());
+        pilotFaiTextView.setText(f3FPilots.get(i).getFai());
+        pilotFaiLicenseTextView.setText(f3FPilots.get(i).getFaiLicense());
+        pilotTeamNameTextView.setText(f3FPilots.get(i).getTeamName());
 
         return view;
     }
 
-    public Pilot getPilot(int position) {
-        return (Pilot)getItem(position);
+    public F3FPilot getPilot(int position) {
+        return (F3FPilot)getItem(position);
     }
 }
 

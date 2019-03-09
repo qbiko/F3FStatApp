@@ -9,10 +9,10 @@ import java.util.List;
 public class F3FRound implements Parcelable {
 
     private long roundId;
-    private List<Pilot> startingList;
+    private List<F3FPilot> startingList;
     private String status;
 
-    public F3FRound(long roundId, List<Pilot> startingList, String status) {
+    public F3FRound(long roundId, List<F3FPilot> startingList, String status) {
         this.roundId = roundId;
         this.startingList = startingList;
         this.status = status;
@@ -21,7 +21,7 @@ public class F3FRound implements Parcelable {
     public F3FRound(Parcel parcel) {
         this.roundId = parcel.readLong();
         this.startingList = new ArrayList<>();
-        parcel.readList(startingList,Pilot.class.getClassLoader());
+        parcel.readList(startingList, F3FPilot.class.getClassLoader());
         this.status = parcel.readString();
     }
 
@@ -29,7 +29,7 @@ public class F3FRound implements Parcelable {
         return roundId;
     }
 
-    public List<Pilot> getStartingList() {
+    public List<F3FPilot> getStartingList() {
         return startingList;
     }
 

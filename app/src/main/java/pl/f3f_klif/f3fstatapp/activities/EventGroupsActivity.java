@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,13 +24,13 @@ import pl.f3f_klif.f3fstatapp.adapters.PilotListAdapter;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.handlers.StartListHandler;
-import pl.f3f_klif.f3fstatapp.utils.Pilot;
+import pl.f3f_klif.f3fstatapp.utils.F3FPilot;
 import pl.f3f_klif.f3fstatapp.utils.F3FRound;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 public class EventGroupsActivity extends AppCompatActivity {
 
-    private List<Pilot> _pilots;
+    private List<F3FPilot> _F3F_pilots;
     private PilotListAdapter pilotListAdapter;
     private StartListHandler startListHandler;
     private UsbService usbService;
