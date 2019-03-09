@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3537689645429666668",
-      "lastPropertyId": "2:1264787784000850",
+      "lastPropertyId": "3:7394778024362533501",
       "name": "Event",
       "properties": [
         {
@@ -15,6 +15,10 @@
         {
           "id": "2:1264787784000850",
           "name": "F3fId"
+        },
+        {
+          "id": "3:7394778024362533501",
+          "name": "GroupsCount"
         }
       ],
       "relations": [
@@ -59,7 +63,7 @@
     },
     {
       "id": "4:3247046403844295083",
-      "lastPropertyId": "4:1108454721911218211",
+      "lastPropertyId": "6:8412478181591379519",
       "name": "Pilot",
       "properties": [
         {
@@ -77,6 +81,14 @@
         {
           "id": "4:1108454721911218211",
           "name": "LastName"
+        },
+        {
+          "id": "5:8349394518065994242",
+          "name": "FlightNumber"
+        },
+        {
+          "id": "6:8412478181591379519",
+          "name": "FlightTimeResult"
         }
       ],
       "relations": []

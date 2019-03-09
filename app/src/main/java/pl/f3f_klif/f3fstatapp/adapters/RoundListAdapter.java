@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -47,20 +48,9 @@ public class RoundListAdapter extends BaseAdapter {
 
         TextView nameTextView = view.findViewById(R.id.round_name_text_view);
         TextView statusTextView = view.findViewById(R.id.round_status_text_view);
-        Button roundButton = view.findViewById(R.id.round_button);
-
-        roundButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, EventGroupsActivity.class);
-                intent.putExtra("round", F3FRounds.get(i));
-                context.startActivity(intent);
-            }
-        });
-
-        nameTextView.setText("Runda " + String.valueOf(F3FRounds.get(i).getRoundId()+1));
+        nameTextView.setText("Runda " + String.valueOf(F3FRounds.get(i).getRoundId()));
         statusTextView.setText(F3FRounds.get(i).getStatus());
-
         return view;
     }
 }
+

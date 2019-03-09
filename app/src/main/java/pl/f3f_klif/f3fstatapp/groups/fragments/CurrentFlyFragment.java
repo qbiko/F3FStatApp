@@ -10,8 +10,11 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,16 +27,17 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.handlers.CurrentFlyHandler;
-import pl.f3f_klif.f3fstatapp.handlers.StartListHandler;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 public class CurrentFlyFragment extends Fragment {
-    public static CurrentFlyFragment newInstance(int flightNumber) {
+    public static CurrentFlyFragment newInstance(long groupId, int flightNumber) {
         CurrentFlyFragment f = new CurrentFlyFragment();
         Bundle args = new Bundle();
         args.putInt("flightNumber", flightNumber);
+        GroupId = groupId;
         f.setArguments(args);
         return f;
     }
@@ -67,7 +71,7 @@ public class CurrentFlyFragment extends Fragment {
     public float flightTimeResult = 0f;
     private CurrentFlyHandler currentFlyHandler;
     private UsbService usbService;
-
+    private static long GroupId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +83,11 @@ public class CurrentFlyFragment extends Fragment {
         currentFlyHandler = new CurrentFlyHandler(this);
 
         //TODO save current state of flight and read frames in background
+    }
 
+    @OnClick(R.id.assign_pilot_button)
+    void onAddRoundButtonClick() {
+        showFragment(RoundOrderFragment.newInstance(GroupId, flightNumber, flightTimeResult));
     }
 
     @Override
@@ -188,5 +196,14 @@ public class CurrentFlyFragment extends Fragment {
         filter.addAction(UsbService.ACTION_USB_NOT_SUPPORTED);
         filter.addAction(UsbService.ACTION_USB_PERMISSION_NOT_GRANTED);
         this.getActivity().registerReceiver(mUsbReceiver, filter);
+    }
+
+    public void showFragment(Fragment fragment){
+        FragmentTransaction transaction = getFragmentManager()
+                .beginTransaction();
+
+        transaction
+                .replace(R.id.container, fragment, "fragment")
+                .commit();
     }
 }

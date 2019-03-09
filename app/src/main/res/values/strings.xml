@@ -28,11 +28,15 @@
     <string name="pilot_team_name">Zespół</string>
 
     <!-- f3FEvent F3FRounds -->
-    <string name="add_round">Dodaj kolejkę</string>
+    <string name="add_round">Dodaj rundę</string>
     <string name="start_round">Start</string>
+
 
     <string name="action_current_fly">Aktualny lot</string>
     <string name="action_event_groups">Aktualna runda</string>
+    <string name="action_round_order">Ustawianie kolejności startowej</string>
+    <string name="cancel_round">Anuluj rundę</string>
+    <string name="send_results_to_server">Wyślij rezultaty rundy na serwer</string>
 
     <!-- flight -->
     <string name="flight_number">Lot nr %1$d</string>
