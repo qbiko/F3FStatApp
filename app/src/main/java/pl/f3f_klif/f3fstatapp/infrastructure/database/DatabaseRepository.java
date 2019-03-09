@@ -38,6 +38,16 @@ public class DatabaseRepository {
         return Event;
     }
 
+    public static Round GetRound(long roundId) {
+        return Event.getRound(roundId);
+    }
+
+    public static Round UpdateRound(Round updatedRound){
+        Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
+        roundBox.put(updatedRound);
+        return updatedRound;
+    }
+
     public static List<Round> GetRounds() {
         if(Event != null)
             return Event.getRounds();

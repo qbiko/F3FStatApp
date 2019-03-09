@@ -13,6 +13,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,9 +30,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.handlers.CurrentFlyHandler;
-import pl.f3f_klif.f3fstatapp.handlers.StartListHandler;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
-import pl.f3f_klif.f3fstatapp.utils.F3FRound;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 public class CurrentFlyFragment extends Fragment {
@@ -88,7 +87,7 @@ public class CurrentFlyFragment extends Fragment {
 
     @OnClick(R.id.assign_pilot_button)
     void onAddRoundButtonClick() {
-        showFragment(RoundFragment.newInstance(GroupId, flightNumber, flightTimeResult));
+        showFragment(RoundOrderFragment.newInstance(GroupId, flightNumber, flightTimeResult));
     }
 
     @Override

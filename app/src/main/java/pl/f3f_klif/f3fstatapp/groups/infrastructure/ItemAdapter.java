@@ -24,6 +24,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     private float FlightTimeResult = 0f;
     private long RoundId;
     private long GroupId;
+    private boolean AssignMode;
     public ItemAdapter(ArrayList<Pair<Long, String>> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
@@ -39,7 +40,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
             int flightNumber,
             float flightTimeResult,
             long roundId,
-            long groupId) {
+            long groupId,
+            boolean assignMode) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
@@ -80,16 +82,21 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
         @Override
         public void onItemClicked(View view) {
-            Toast.makeText(view.getContext(), "Item clicked"+this.mText+this.mItemId, Toast.LENGTH_SHORT).show();
+            if(AssignMode) {
+                Toast.makeText(view.getContext(), "Item clicked" + this.mText + this.mItemId, Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override
         public boolean onItemLongClicked(View view) {
-            Toast.makeText(view.getContext(), "Wynik został zapisany pilotowi: ", Toast.LENGTH_SHORT).show();
-            //wyciagnij grupe dla danej rundy
-            //mItemId to id pilota
-            //przypisz wynik pilotowi
-            //Toast.makeText(view.getContext(), "Item long clicked"+this.mText+this.mItemId+mLayoutId, Toast.LENGTH_SHORT).show();
+            if(AssignMode)
+            {
+                Toast.makeText(view.getContext(), "Wynik został zapisany pilotowi: ", Toast.LENGTH_SHORT).show();
+                //wyciagnij grupe dla danej rundy
+                //mItemId to id pilota
+                //przypisz wynik pilotowi
+                //Toast.makeText(view.getContext(), "Item long clicked"+this.mText+this.mItemId+mLayoutId, Toast.LENGTH_SHORT).show();
+            }
 
             return true;
         }
