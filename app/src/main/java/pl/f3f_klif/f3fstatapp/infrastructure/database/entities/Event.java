@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.annotation.NameInDb;
 import io.objectbox.relation.ToMany;
 
 import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.SIMPLE_DATE_FORMAT;
@@ -18,7 +19,7 @@ public class Event {
     @Id
     long id;
 
-    public int f3fId;
+    int f3fId;
     String name;
     String location;
     Date startDate;
@@ -28,8 +29,7 @@ public class Event {
 
     int groupsCount;
     public ToMany<Round> rounds;
-
-    private List<Pilot> pilots;
+    ToMany<Pilot> pilots;
 
     public Event(){ }
     public Event(int f3fId, int groupsCount, String[] lines){
@@ -38,7 +38,6 @@ public class Event {
         rounds = new ToMany<>(this, Event_.rounds);
 
         String[] requestValues = lines[1].split(",");
-        id = Long.parseLong(requestValues[0].replace("\"", ""));
         name = requestValues[1].replace("\"", "");
         location = requestValues[2].replace("\"", "");
         try {
@@ -50,7 +49,7 @@ public class Event {
         }
         type = requestValues[5].replace("\"", "");
 
-        pilots = new ArrayList<>();
+        pilots = new ToMany<>(this, Event_.pilots);
 
         for(int i = 3; i<lines.length; i++) {
             if(!lines[i].isEmpty()) {
@@ -59,7 +58,7 @@ public class Event {
         }
     }
 
-    public List<Round> getRounds() { return this.rounds.subList(0, rounds.size());}
+    public List<Round> getRounds() { return this.rounds;}
 
     public Round getRound(long id) { return this.rounds.getById(id);}
 

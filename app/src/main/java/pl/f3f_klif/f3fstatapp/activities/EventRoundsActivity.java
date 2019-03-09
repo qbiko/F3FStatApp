@@ -15,7 +15,6 @@ import pl.f3f_klif.f3fstatapp.adapters.RoundListAdapter;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.mapper.RoundMapper;
-import pl.f3f_klif.f3fstatapp.utils.F3FPilot;
 import pl.f3f_klif.f3fstatapp.utils.F3FRound;
 
 public class EventRoundsActivity extends AppCompatActivity {
@@ -31,9 +30,9 @@ public class EventRoundsActivity extends AppCompatActivity {
     @BindView(R.id.rounds_list_view)
     ListView roundsListView;
 
-    private List<F3FPilot> f3FPilots;
     private RoundListAdapter roundListAdapter;
     private List<F3FRound> F3FRounds;
+    private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class EventRoundsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_rounds);
         ButterKnife.bind(this);
 
-        Event event = DatabaseRepository.getEvent();
+        event = DatabaseRepository.getEvent();
         eventNameTextView.setText(event.getName());
         eventLocationTextView.setText(event.getLocation());
         eventTypeTextView.setText(event.getType());
@@ -55,8 +54,8 @@ public class EventRoundsActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {
-        long roundIndex = DatabaseRepository.createRound(f3FPilots);
-        F3FRounds.add(new F3FRound(roundIndex, f3FPilots, "nie rozpoczeta"));
+        long roundIndex = DatabaseRepository.createRound(event.getPilots());
+        F3FRounds.add(new F3FRound(roundIndex, event.getPilots(), "nie rozpoczeta"));
         roundListAdapter.notifyDataSetChanged();
     }
 }

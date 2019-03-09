@@ -1,11 +1,15 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+
 @Entity
-public class Pilot {
+public class Pilot  implements Parcelable {
     @Id
-    long Id;
+    long id;
 
     public long f3fId;
     private int startNumber;
@@ -39,6 +43,21 @@ public class Pilot {
         teamName = requestValues[8].replace("\"", "");
         orderNumber = -1;
         groupNumber = -1;
+    }
+
+    public Pilot(Parcel parcel) {
+        id = parcel.readLong();
+        f3fId = parcel.readLong();
+        startNumber = parcel.readInt();
+        firstName = parcel.readString();
+        lastName = parcel.readString();
+        pilotClass = parcel.readString();
+        ama = parcel.readString();
+        fai = parcel.readString();
+        faiLicense = parcel.readString();
+        teamName = parcel.readString();
+        orderNumber = parcel.readInt();
+        groupNumber = parcel.readInt();
     }
 
     public long getF3fId() {
@@ -84,4 +103,37 @@ public class Pilot {
     public int getGroupNumber() {
         return groupNumber;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeLong(f3fId);
+        parcel.writeInt(startNumber);
+        parcel.writeString(firstName);
+        parcel.writeString(lastName);
+        parcel.writeString(pilotClass);
+        parcel.writeString(ama);
+        parcel.writeString(fai);
+        parcel.writeString(faiLicense);
+        parcel.writeString(teamName);
+        parcel.writeInt(orderNumber);
+        parcel.writeInt(groupNumber);
+    }
+
+    public static final Parcelable.Creator<Pilot> CREATOR = new Parcelable.Creator<Pilot>() {
+        @Override
+        public Pilot createFromParcel(Parcel in) {
+            return new Pilot(in);
+        }
+
+        @Override
+        public Pilot[] newArray(int size) {
+            return new Pilot[size];
+        }
+    };
 }

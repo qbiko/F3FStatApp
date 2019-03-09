@@ -10,14 +10,14 @@ import android.widget.TextView;
 import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
-import pl.f3f_klif.f3fstatapp.utils.F3FPilot;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 
 public class PilotListAdapter extends BaseAdapter {
 
-    private List<F3FPilot> f3FPilots;
+    private List<Pilot> f3FPilots;
     private Context context;
 
-    public PilotListAdapter(List<F3FPilot> f3FPilots, Context context) {
+    public PilotListAdapter(List<Pilot> f3FPilots, Context context) {
         this.f3FPilots = f3FPilots;
         this.context = context;
     }
@@ -64,8 +64,8 @@ public class PilotListAdapter extends BaseAdapter {
         return view;
     }
 
-    public F3FPilot getPilot(int position) {
-        return (F3FPilot)getItem(position);
+    public Pilot getPilot(int position) {
+        return (Pilot) getItem(position);
     }
 }
 

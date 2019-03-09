@@ -6,13 +6,15 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
+
 public class F3FRound implements Parcelable {
 
     private long roundId;
-    private List<F3FPilot> startingList;
+    private List<Pilot> startingList;
     private String status;
 
-    public F3FRound(long roundId, List<F3FPilot> startingList, String status) {
+    public F3FRound(long roundId, List<Pilot> startingList, String status) {
         this.roundId = roundId;
         this.startingList = startingList;
         this.status = status;
@@ -21,7 +23,7 @@ public class F3FRound implements Parcelable {
     public F3FRound(Parcel parcel) {
         this.roundId = parcel.readLong();
         this.startingList = new ArrayList<>();
-        parcel.readList(startingList, F3FPilot.class.getClassLoader());
+        parcel.readList(startingList, Pilot.class.getClassLoader());
         this.status = parcel.readString();
     }
 
@@ -29,7 +31,7 @@ public class F3FRound implements Parcelable {
         return roundId;
     }
 
-    public List<F3FPilot> getStartingList() {
+    public List<Pilot> getStartingList() {
         return startingList;
     }
 
