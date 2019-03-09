@@ -3,6 +3,8 @@ package pl.f3f_klif.f3fstatapp.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,6 +58,16 @@ public class EventRoundsActivity extends AppCompatActivity {
 
         F3FRounds = RoundMapper.ToViewModel(DatabaseRepository.GetRounds());
         pilots = new ArrayList<>();
+        ListView listViewButton = (ListView)findViewById(R.id.rounds_list_view);
+
+        listViewButton.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(EventRoundsActivity.this, EventGroupsActivity.class);
+                intent.putExtra("round", F3FRounds.get(position));
+                EventRoundsActivity.this.startActivity(intent);
+            }
+        });
 
         ((AppCompatActivity)this).getSupportActionBar().setTitle("Rundy");
 
