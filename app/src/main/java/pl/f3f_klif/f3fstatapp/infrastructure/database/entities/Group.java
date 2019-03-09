@@ -15,7 +15,7 @@ public class Group {
     public Group(){ }
     public Group(List<Pilot> pilots){
         this.pilots = new ToMany<>(this, Group_.pilots);
-        pilots.addAll(pilots);
+        this.pilots.addAll(pilots);
     }
 
     public List<Pilot> getPilots() {
