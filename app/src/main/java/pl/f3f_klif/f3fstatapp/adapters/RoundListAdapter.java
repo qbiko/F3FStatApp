@@ -14,6 +14,8 @@ import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.activities.EventGroupsActivity;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.utils.F3FRound;
 
 public class RoundListAdapter extends BaseAdapter {
@@ -49,8 +51,28 @@ public class RoundListAdapter extends BaseAdapter {
         TextView nameTextView = view.findViewById(R.id.round_name_text_view);
         TextView statusTextView = view.findViewById(R.id.round_status_text_view);
         nameTextView.setText("Runda " + String.valueOf(F3FRounds.get(i).getRoundId()));
-        statusTextView.setText(F3FRounds.get(i).getStatus());
+        Round round = DatabaseRepository.GetRound(F3FRounds.get(i).getRoundId());
+
+        statusTextView.setText(GetStatus(round));
         return view;
+    }
+
+    public String GetStatus(Round round){
+        if(round.State == null)
+            return "Nie rozpoczęta";
+
+        switch(round.State){
+            case Finished:
+                return "Zakończona";
+            case Started:8
+                return "Trwa";
+            case Canceled:
+                return "Anulowana";
+            case NotStarted:
+                return "Nie rozpoczęta";
+                default:
+                    return "";
+        }
     }
 }
 
