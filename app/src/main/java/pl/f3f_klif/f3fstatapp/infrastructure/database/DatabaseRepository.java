@@ -13,6 +13,7 @@ import java.util.List;
 import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event_;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group_;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
@@ -52,6 +53,15 @@ public class DatabaseRepository {
         if(Event != null)
             return Event.getRounds();
         return new ArrayList<>();
+    }
+
+    public static Group GetGroup(long roundId, long groupId) {
+        List<Group> groups = Event.getRound(roundId).getGroups();
+        for (Group group:groups) {
+            if(group.Id == groupId)
+                return group;
+        }
+        return null;
     }
 
     public static List<Group> GetGroups(long roundId){

@@ -25,6 +25,7 @@ import pl.f3f_klif.f3fstatapp.adapters.PilotListAdapter;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundOrderFragment;
+import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendGroupStrategy;
 import pl.f3f_klif.f3fstatapp.handlers.StartListHandler;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
@@ -172,6 +173,8 @@ public class EventGroupsActivity extends AppCompatActivity {
             case CancelSubMenuId:
                 return true;
             case SendSubMenuId:
+                if(DatabaseRepository.GetGroup(RoundId, (long)itemId) != null)
+                    new SendGroupStrategy().Do(itemId, RoundId);
                 return true;
             default:
                 switch (itemId){
