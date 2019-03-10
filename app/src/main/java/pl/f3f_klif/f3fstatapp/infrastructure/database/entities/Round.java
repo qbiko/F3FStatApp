@@ -2,12 +2,14 @@ package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
 import java.util.List;
 
+import io.objectbox.Box;
 import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.converter.PropertyConverter;
 import io.objectbox.relation.ToMany;
 import io.objectbox.relation.ToOne;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 
 @Entity
 public class Round {
