@@ -64,7 +64,7 @@ public class RoundListAdapter extends BaseAdapter {
         switch(round.State){
             case Finished:
                 return "Zakończona";
-            case Started:8
+            case Started:
                 return "Trwa";
             case Canceled:
                 return "Anulowana";

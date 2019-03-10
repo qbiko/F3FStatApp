@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.widget.Toast;
 
 import java.util.List;
@@ -26,13 +27,12 @@ import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundOrderFragment;
 import pl.f3f_klif.f3fstatapp.handlers.StartListHandler;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 import pl.f3f_klif.f3fstatapp.utils.Pilot;
 import pl.f3f_klif.f3fstatapp.utils.F3FRound;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
-
-import static pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState.NotStarted;
 
 public class EventGroupsActivity extends AppCompatActivity {
 
@@ -40,6 +40,11 @@ public class EventGroupsActivity extends AppCompatActivity {
     private PilotListAdapter pilotListAdapter;
     private StartListHandler startListHandler;
     private UsbService usbService;
+
+    private final int CancelSubMenuId = 100000;
+    private final int SendSubMenuId = 100001;
+    private final int CancelGroupId = 100000;
+    private final int SendGroupId = 100001;
 
     private long RoundId;
     @Override
@@ -100,6 +105,30 @@ public class EventGroupsActivity extends AppCompatActivity {
         boolean isRoundOrderFragment = getSupportFragmentManager()
                 .findFragmentByTag("fragment") instanceof RoundOrderFragment;
 
+        List<Group> groups = DatabaseRepository.GetGroups(RoundId);
+        int index = 1;
+
+        SubMenu cancelSubMenu = null;
+        SubMenu sendSubMenu = null;
+
+        if(menu.findItem(CancelSubMenuId) == null)
+        {
+            cancelSubMenu = menu.addSubMenu(CancelGroupId, CancelSubMenuId, 0, "Anuluj grupy");
+            for (Group group: groups) {
+                cancelSubMenu.add(CancelGroupId,(int)group.Id, 0, "Anuluj grupę " + index);
+                index++;
+            }
+        }
+        index = 1;
+        if(menu.findItem(SendSubMenuId) == null)
+        {
+            sendSubMenu = menu.addSubMenu(SendGroupId, SendSubMenuId, 0, "Wyślij grupy");
+            for (Group group: groups) {
+                sendSubMenu.add(SendGroupId,(int)group.Id, 0, "Wyślij grupę " + index);
+                index++;
+            }
+        }
+
         if(isCurrentFlyFragment){
             menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + RoundId);
             menu.findItem(R.id.action_current_fly).setVisible(false);
@@ -107,6 +136,8 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(false);
             menu.findItem(R.id.action_send_results_to_server).setVisible(false);
+            menu.findItem(CancelSubMenuId).setVisible(false);
+            menu.findItem(SendSubMenuId).setVisible(false);
         }
 
         if(isRoundFragment){
@@ -115,6 +146,8 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(true);
             menu.findItem(R.id.action_send_results_to_server).setVisible(true);
+            menu.findItem(CancelSubMenuId).setVisible(true);
+            menu.findItem(SendSubMenuId).setVisible(true);
         }
 
         if(isRoundOrderFragment){
@@ -124,6 +157,8 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(false);
             menu.findItem(R.id.action_send_results_to_server).setVisible(false);
+            menu.findItem(CancelSubMenuId).setVisible(false);
+            menu.findItem(SendSubMenuId).setVisible(false);
         }
 
         return true;
@@ -132,24 +167,32 @@ public class EventGroupsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Round round = DatabaseRepository.GetRound(RoundId);
-        switch (item.getItemId()){
-            case R.id.action_current_fly:
-                showFragment(CurrentFlyFragment.newInstance(RoundId,0));
+        int itemId = item.getItemId();
+        switch(item.getGroupId()){
+            case CancelSubMenuId:
                 return true;
-            case R.id.action_event_pilots_order:
-                showFragment(RoundOrderFragment.newInstance(RoundId));
+            case SendSubMenuId:
                 return true;
-            case R.id.action_event_groups:
-                showFragment(RoundFragment.newInstance(RoundId));
-                return true;
-            case R.id.action_cancel_round:
-                round.State = RoundState.Canceled;
-                DatabaseRepository.UpdateRound(round);
-                return true;
-            case R.id.action_send_results_to_server:
-                round.State = RoundState.Finished;
-                DatabaseRepository.UpdateRound(round);
-                return true;
+            default:
+                switch (itemId){
+                    case R.id.action_current_fly:
+                        showFragment(CurrentFlyFragment.newInstance(RoundId,0));
+                        return true;
+                    case R.id.action_event_pilots_order:
+                        showFragment(RoundOrderFragment.newInstance(RoundId));
+                        return true;
+                    case R.id.action_event_groups:
+                        showFragment(RoundFragment.newInstance(RoundId));
+                        return true;
+                    case R.id.action_cancel_round:
+                        round.State = RoundState.Canceled;
+                        DatabaseRepository.UpdateRound(round);
+                        return true;
+                    case R.id.action_send_results_to_server:
+                        round.State = RoundState.Finished;
+                        DatabaseRepository.UpdateRound(round);
+                        return true;
+                }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -10,7 +10,7 @@ import io.objectbox.annotation.Id;
 @Entity
 public class Group {
     @Id
-    long Id;
+    public long Id;
 
     public String PilotsListJson;
 
