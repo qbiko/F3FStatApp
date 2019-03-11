@@ -1,41 +1,37 @@
 package pl.f3f_klif.f3fstatapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
-import pl.f3f_klif.f3fstatapp.activities.EventGroupsActivity;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
-import pl.f3f_klif.f3fstatapp.utils.F3FRound;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 
 public class RoundListAdapter extends BaseAdapter {
 
-    private List<F3FRound> F3FRounds;
+    private List<Round> rounds;
     private Context context;
 
-    public RoundListAdapter(List<F3FRound> F3FRounds, Context context) {
-        this.F3FRounds = F3FRounds;
+    public RoundListAdapter(List<Round> rounds, Context context) {
+        this.rounds = rounds;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return F3FRounds.size();
+        return rounds.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return F3FRounds.get(i);
+        return rounds.get(i);
     }
 
     @Override
@@ -50,29 +46,17 @@ public class RoundListAdapter extends BaseAdapter {
 
         TextView nameTextView = view.findViewById(R.id.round_name_text_view);
         TextView statusTextView = view.findViewById(R.id.round_status_text_view);
-        nameTextView.setText("Runda " + String.valueOf(F3FRounds.get(i).getRoundId()));
-        Round round = DatabaseRepository.GetRound(F3FRounds.get(i).getRoundId());
+        nameTextView.setText("Runda " + String.valueOf(rounds.get(i).getRoundId()));
 
-        statusTextView.setText(GetStatus(round));
+        statusTextView.setText(getStatus(rounds.get(i).state));
         return view;
     }
 
-    public String GetStatus(Round round){
-        if(round.State == null)
-            return "Nie rozpoczęta";
-
-        switch(round.State){
-            case Finished:
-                return "Zakończona";
-            case Started:
-                return "Trwa";
-            case Canceled:
-                return "Anulowana";
-            case NotStarted:
-                return "Nie rozpoczęta";
-                default:
-                    return "";
+    public String getStatus(RoundState state){
+        if(state != null) {
+            return context.getString(state.getStateKey());
         }
+        return context.getString(RoundState.NOT_STARTED.getStateKey());
     }
 }
 

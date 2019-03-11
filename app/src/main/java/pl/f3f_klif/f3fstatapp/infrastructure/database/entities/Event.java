@@ -2,13 +2,11 @@ package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
-import io.objectbox.annotation.NameInDb;
 import io.objectbox.relation.ToMany;
 
 import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.SIMPLE_DATE_FORMAT;

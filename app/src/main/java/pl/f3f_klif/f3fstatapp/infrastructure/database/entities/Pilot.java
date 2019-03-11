@@ -22,8 +22,8 @@ public class Pilot  implements Parcelable {
     private String teamName;
     private int orderNumber;
     private int groupNumber;
-    public int FlightNumber;
-    public float FlightTimeResult = 0f;
+    public int flightNumber;
+    public float flightTimeResult = 0f;
 
     public Pilot(){ }
     public Pilot(long f3fId, String firstName, String lastName){

@@ -1,7 +1,5 @@
 package pl.f3f_klif.f3fstatapp.groups.strategy.menu;
 
-import android.content.Intent;
-
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -19,12 +17,12 @@ import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.isSuccess;
 public class SendGroupStrategy implements Strategy {
 
     @Override
-    public void Do(long groupId, long roundId) {
-        Event event = DatabaseRepository.GetEvent();
-        Group group = DatabaseRepository.GetGroup(roundId, groupId);
-        Round round = DatabaseRepository.GetRound(roundId);
-        List<Group> groups = DatabaseRepository.GetGroups(roundId);
-        List<Round> rounds = DatabaseRepository.GetRounds();
+    public void doStrategy(long groupId, long roundId) {
+        Event event = DatabaseRepository.getEvent();
+        Group group = DatabaseRepository.getGroup(roundId, groupId);
+        Round round = DatabaseRepository.getRound(roundId);
+        List<Group> groups = DatabaseRepository.getGroups(roundId);
+        List<Round> rounds = DatabaseRepository.getRounds();
         List<Pilot> pilots = group.getPilots();
 
         for (Pilot pilot:pilots) {
@@ -32,17 +30,17 @@ public class SendGroupStrategy implements Strategy {
             params.put("login", "ssarnecki34@gmail.com");
             params.put("password", "989865aa");
             params.put("function", "postScore");
-            params.put("event_id", event.F3fId);
-            params.put("pilot_id", pilot.F3fId);
-            params.put("seconds", pilot.FlightTimeResult);
+            params.put("event_id", event.getF3fId());
+            params.put("pilot_id", pilot.f3fId);
+            params.put("seconds", pilot.flightTimeResult);
             params.put("round", rounds.indexOf(round) + 1);
             params.put("group", groups.indexOf(group) + 1);
 
-            SendSinglePilot(params);
+            sendSinglePilot(params);
         }
     }
 
-    private void SendSinglePilot(RequestParams params){
+    private void sendSinglePilot(RequestParams params){
 
         F3XVaultApiClient.post(params, new AsyncHttpResponseHandler() {
             @Override

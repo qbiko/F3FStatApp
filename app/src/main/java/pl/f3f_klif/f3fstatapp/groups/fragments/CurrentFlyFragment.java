@@ -13,8 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,7 +35,7 @@ public class CurrentFlyFragment extends Fragment {
         CurrentFlyFragment f = new CurrentFlyFragment();
         Bundle args = new Bundle();
         args.putInt("flightNumber", flightNumber);
-        GroupId = groupId;
+        CurrentFlyFragment.groupId = groupId;
         f.setArguments(args);
         return f;
     }
@@ -71,7 +69,7 @@ public class CurrentFlyFragment extends Fragment {
     public float flightTimeResult = 0f;
     private CurrentFlyHandler currentFlyHandler;
     private UsbService usbService;
-    private static long GroupId;
+    private static long groupId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +85,7 @@ public class CurrentFlyFragment extends Fragment {
 
     @OnClick(R.id.assign_pilot_button)
     void onAddRoundButtonClick() {
-        showFragment(RoundOrderFragment.newInstance(GroupId, flightNumber, flightTimeResult));
+        showFragment(RoundOrderFragment.newInstance(groupId, flightNumber, flightTimeResult));
     }
 
     @Override

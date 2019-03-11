@@ -25,7 +25,6 @@ import static pl.f3f_klif.f3fstatapp.activities.SettingsActivity.responseText;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Box<Event> eventBox;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @BindView(R.id.drawer_layout)

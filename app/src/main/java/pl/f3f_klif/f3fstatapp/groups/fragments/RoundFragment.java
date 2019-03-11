@@ -27,11 +27,11 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 public class RoundFragment extends Fragment {
 
     private BoardView _boardView;
-    private long RoundId;
+    private long roundId;
     private List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> _groups;
-    private boolean AssignMode = false;
-    private int FlightNumber;
-    private float FlightTimeResult = 0f;
+    private boolean assignMode = false;
+    private int flightNumber;
+    private float flightTimeResult = 0f;
     public static RoundFragment newInstance(long roundId) {
         return new RoundFragment(roundId);
     }
@@ -42,25 +42,25 @@ public class RoundFragment extends Fragment {
 
     @SuppressLint("ValidFragment")
     public RoundFragment(long roundId){
-        RoundId = roundId;
-        _groups = DatabaseRepository.getGroups(RoundId);
-        _groups = DatabaseRepository.GetGroups(RoundId);
-        Round round = DatabaseRepository.GetRound(RoundId);
-        round.State = RoundState.Started;
-        DatabaseRepository.UpdateRound(round);
+        this.roundId = roundId;
+        _groups = DatabaseRepository.getGroups(this.roundId);
+        _groups = DatabaseRepository.getGroups(this.roundId);
+        Round round = DatabaseRepository.getRound(this.roundId);
+        round.state = RoundState.STARTED;
+        DatabaseRepository.updateRound(round);
     }
 
     @SuppressLint("ValidFragment")
     public RoundFragment(long roundId, int flightNumber, float flightTimeResult){
-        RoundId = roundId;
-        AssignMode = true;
-        FlightNumber = flightNumber;
-        FlightTimeResult = flightTimeResult;
-        _groups = DatabaseRepository.GetGroups(RoundId);
+        this.roundId = roundId;
+        assignMode = true;
+        this.flightNumber = flightNumber;
+        this.flightTimeResult = flightTimeResult;
+        _groups = DatabaseRepository.getGroups(this.roundId);
 
-        Round round = DatabaseRepository.GetRound(RoundId);
-        round.State = RoundState.Started;
-        DatabaseRepository.UpdateRound(round);
+        Round round = DatabaseRepository.getRound(this.roundId);
+        round.state = RoundState.STARTED;
+        DatabaseRepository.updateRound(round);
     }
 
     public RoundFragment(){}
@@ -94,9 +94,9 @@ public class RoundFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String roundTitle = AssignMode
-                ? "Runda " + RoundId + ": przypisz wynik do pilota"
-                : "Runda " + RoundId ;
+        String roundTitle = assignMode
+                ? "Runda " + roundId + ": przypisz wynik do pilota"
+                : "Runda " + roundId;
 
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
@@ -106,31 +106,31 @@ public class RoundFragment extends Fragment {
     }
 
     private void AddGroups(){
-        _groups = DatabaseRepository.getGroups(RoundId);
+        _groups = DatabaseRepository.getGroups(roundId);
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
-             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(), RoundId, groupIndex);
+             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(), roundId, groupIndex);
              groupIndex++;
         }
     }
 
     private void CreateGroup(String groupName, List<Pilot> pilots, long roundId, long groupId){
         Group group = GroupCreator
-                .CreateRoundGroup(
+                .createRoundGroup(
                         getActivity(),
                         groupName,
                         pilots,
-                        FlightNumber,
-                        FlightTimeResult,
+                        flightNumber,
+                        flightTimeResult,
                         roundId,
                         groupId,
-                        AssignMode);
+                        assignMode);
 
         _boardView.addColumn(
-                group.ItemAdapter,
-                group.Header,
-                group.Header,
-                group.HasFixedItemSize);
+                group.itemAdapter,
+                group.header,
+                group.header,
+                group.hasFixedItemSize);
     }
 
 }

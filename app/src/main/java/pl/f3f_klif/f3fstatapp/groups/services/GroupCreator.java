@@ -14,7 +14,7 @@ import pl.f3f_klif.f3fstatapp.groups.services.models.Group;
 
 public class GroupCreator {
 
-    public static Group Create(
+    public static Group create(
             Context context,
             String groupName,
             List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot> pilots,
@@ -53,7 +53,7 @@ public class GroupCreator {
         return new Group(listAdapter, header, false);
     }
 
-    public static Group CreateRoundGroup(
+    public static Group createRoundGroup(
             Context context,
             String groupName,
             List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot> pilots,
@@ -68,7 +68,8 @@ public class GroupCreator {
             mItemArray
                     .add(new Pair<>(
                                     index,
-                                    String.format("%s. %s %s\n Czas: %s\n Punkty: %s",index+1, pilot.FirstName, pilot.LastName, "czas", "punkty")
+                                    String.format("%s. %s %s\n Czas: %s\n Punkty: %s",index+1,
+                                            pilot.firstName, pilot.lastName, "czas", "punkty")
                             )
                     );
             index++;
@@ -87,7 +88,7 @@ public class GroupCreator {
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + pilots.size());
+        ((TextView) header.findViewById(R.id.item_count)).setText(String.valueOf(pilots.size()));
 
         return new Group(listAdapter, header, false);
     }

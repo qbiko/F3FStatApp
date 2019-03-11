@@ -95,7 +95,7 @@
     },
     {
       "id": "4:8249585362096531617",
-      "lastPropertyId": "12:1472830935677486008",
+      "lastPropertyId": "14:6634286339692249957",
       "name": "Pilot",
       "properties": [
         {
@@ -145,24 +145,40 @@
         {
           "id": "12:1472830935677486008",
           "name": "groupNumber"
+        },
+        {
+          "id": "13:8187942330648837059",
+          "name": "flightNumber"
+        },
+        {
+          "id": "14:6634286339692249957",
+          "name": "flightTimeResult"
         }
       ],
       "relations": []
     },
     {
       "id": "5:490089103343672783",
-      "lastPropertyId": "1:4472629390029784339",
+      "lastPropertyId": "3:5742987355953910884",
       "name": "Round",
       "properties": [
         {
           "id": "1:4472629390029784339",
-          "name": "Id"
+          "name": "id"
+        },
+        {
+          "id": "2:9052804687402619069",
+          "name": "state"
+        },
+        {
+          "id": "3:5742987355953910884",
+          "name": "roundId"
         }
       ],
       "relations": [
         {
           "id": "3:8700630626175594649",
-          "name": "Groups"
+          "name": "groups"
         }
       ]
     }

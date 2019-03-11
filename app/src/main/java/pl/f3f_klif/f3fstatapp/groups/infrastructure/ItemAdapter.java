@@ -13,18 +13,17 @@ import com.woxthebox.draglistview.DragItemAdapter;
 import java.util.ArrayList;
 
 import pl.f3f_klif.f3fstatapp.R;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
 
 public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter.ViewHolder> {
 
     private int mLayoutId;
     private int mGrabHandleId;
     private boolean mDragOnLongPress;
-    private int FlightNumber;
-    private float FlightTimeResult = 0f;
-    private long RoundId;
-    private long GroupId;
-    private boolean AssignMode;
+    private int flightNumber;
+    private float flightTimeResult = 0f;
+    private long roundId;
+    private long groupId;
+    private boolean assignMode;
     public ItemAdapter(ArrayList<Pair<Long, String>> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
@@ -45,10 +44,10 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
-        FlightNumber = flightNumber;
-        FlightTimeResult = flightTimeResult;
-        RoundId = roundId;
-        GroupId = groupId;
+        this.flightNumber = flightNumber;
+        this.flightTimeResult = flightTimeResult;
+        this.roundId = roundId;
+        this.groupId = groupId;
         setItemList(list);
     }
 
@@ -82,14 +81,14 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
         @Override
         public void onItemClicked(View view) {
-            if(AssignMode) {
+            if(assignMode) {
                 Toast.makeText(view.getContext(), "Item clicked" + this.mText + this.mItemId, Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public boolean onItemLongClicked(View view) {
-            if(AssignMode)
+            if(assignMode)
             {
                 Toast.makeText(view.getContext(), "Wynik został zapisany pilotowi: ", Toast.LENGTH_SHORT).show();
                 //wyciagnij grupe dla danej rundy

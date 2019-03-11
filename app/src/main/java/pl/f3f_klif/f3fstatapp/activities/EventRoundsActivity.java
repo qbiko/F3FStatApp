@@ -1,5 +1,6 @@
 package pl.f3f_klif.f3fstatapp.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,8 +17,8 @@ import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.adapters.RoundListAdapter;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
-import pl.f3f_klif.f3fstatapp.mapper.RoundMapper;
-import pl.f3f_klif.f3fstatapp.utils.F3FRound;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 
 public class EventRoundsActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class EventRoundsActivity extends AppCompatActivity {
     ListView roundsListView;
 
     private RoundListAdapter roundListAdapter;
-    private List<F3FRound> F3FRounds;
+    private List<Round> rounds;
     private Event event;
 
     @Override
@@ -48,34 +49,22 @@ public class EventRoundsActivity extends AppCompatActivity {
         eventTypeTextView.setText(event.getType());
         eventStartDateTextView.setText(event.getStartDate().toString());
 
-        F3FRounds = RoundMapper.ToViewModel(DatabaseRepository.getRounds());
-        eventNameTextView.setText(f3FEvent.getName());
-        eventLocationTextView.setText(f3FEvent.getLocation());
-        eventTypeTextView.setText(f3FEvent.getType());
-        eventStartDateTextView.setText(f3FEvent.getStartDate().toString());
+        rounds = DatabaseRepository.getRounds();
 
-        F3FRounds = RoundMapper.ToViewModel(DatabaseRepository.GetRounds());
-        pilots = new ArrayList<>();
-        ListView listViewButton = (ListView)findViewById(R.id.rounds_list_view);
+        ListView listViewButton = findViewById(R.id.rounds_list_view);
 
         listViewButton.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(EventRoundsActivity.this, EventGroupsActivity.class);
-                intent.putExtra("round", F3FRounds.get(position));
+                intent.putExtra("round", rounds.get(position));
                 EventRoundsActivity.this.startActivity(intent);
             }
         });
 
-        ((AppCompatActivity)this).getSupportActionBar().setTitle("Rundy");
+        getSupportActionBar().setTitle("Rundy");
 
-        for(int i = 3; i<lines.length; i++) {
-            if(!lines[i].isEmpty()) {
-                pilots.add(new Pilot(lines[i]));
-            }
-        }
-
-        roundListAdapter = new RoundListAdapter(F3FRounds,EventRoundsActivity.this);
+        roundListAdapter = new RoundListAdapter(rounds,EventRoundsActivity.this);
         roundsListView.setAdapter(roundListAdapter);
     }
 
@@ -84,7 +73,7 @@ public class EventRoundsActivity extends AppCompatActivity {
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {
         long roundIndex = DatabaseRepository.createRound(event.getPilots());
-        F3FRounds.add(new F3FRound(roundIndex, event.getPilots(), "nie rozpoczeta"));
+        rounds.add(new Round(roundIndex, RoundState.NOT_STARTED));
         roundListAdapter.notifyDataSetChanged();
     }
 }

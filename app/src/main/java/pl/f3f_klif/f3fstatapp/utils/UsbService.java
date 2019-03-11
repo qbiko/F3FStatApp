@@ -83,7 +83,7 @@ public class UsbService extends Service {
     };
 
     /*
-     * State changes in the CTS line will be received here
+     * state changes in the CTS line will be received here
      */
     private UsbSerialInterface.UsbCTSCallback ctsCallback = new UsbSerialInterface.UsbCTSCallback() {
         @Override
@@ -94,7 +94,7 @@ public class UsbService extends Service {
     };
 
     /*
-     * State changes in the DSR line will be received here
+     * state changes in the DSR line will be received here
      */
     private UsbSerialInterface.UsbDSRCallback dsrCallback = new UsbSerialInterface.UsbDSRCallback() {
         @Override
