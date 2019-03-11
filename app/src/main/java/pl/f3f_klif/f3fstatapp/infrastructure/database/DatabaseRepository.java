@@ -7,6 +7,7 @@ import java.util.List;
 import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event_;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group_;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
@@ -31,12 +32,36 @@ public class DatabaseRepository {
         return event;
     }
 
+    public static Round GetRound(long roundId) {
+        return Event.getRound(roundId);
+    }
+
+    public static Round UpdateRound(Round updatedRound){
+        Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
+        roundBox.put(updatedRound);
+        return updatedRound;
+    }
+
+    public static List<Round> GetRounds() {
+        if(Event != null)
+            return Event.getRounds();
     public static List<Round> getRounds() {
         if(event != null)
             return event.getRounds();
         return new ArrayList<>();
     }
 
+    public static Group GetGroup(long roundId, long groupId) {
+        List<Group> groups = Event.getRound(roundId).getGroups();
+        for (Group group:groups) {
+            if(group.Id == groupId)
+                return group;
+        }
+        return null;
+    }
+
+    public static List<Group> GetGroups(long roundId){
+        return Event.getRound(roundId).getGroups();
     public static List<Group> getGroups(long roundId){
         return event.getRound(roundId).getGroups();
     }
@@ -73,4 +98,13 @@ public class DatabaseRepository {
         groupBox.put(updatedGroup);
         return updatedGroup;
     }
+
+    public static Pilot UpdatePilot(Pilot updatedPilot){
+        Box<Pilot> pilotBox = ObjectBox.get().boxFor(Pilot.class);
+        pilotBox.put(updatedPilot);
+        return updatedPilot;
+    }
+
+
+
 }

@@ -44,7 +44,7 @@ public class StartListHandler extends Handler {
 
         if(NEW_FLIGHT.equals(typeOfMessage)) {
             int flightNumber = Integer.parseInt(message[1]);
-            mActivity.get().showFragment(CurrentFlyFragment.newInstance(flightNumber));
+            mActivity.get().showFragment(CurrentFlyFragment.newInstance(0, flightNumber));
         }
 
     }

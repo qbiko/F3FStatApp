@@ -8,7 +8,7 @@ import io.objectbox.relation.ToMany;
 @Entity
 public class Group {
     @Id
-    long Id;
+    public long Id;
 
     public ToMany<Pilot> pilots;
 
@@ -17,6 +17,7 @@ public class Group {
         this.pilots = new ToMany<>(this, Group_.pilots);
         this.pilots.addAll(pilots);
     }
+
 
     public List<Pilot> getPilots() {
         return pilots;

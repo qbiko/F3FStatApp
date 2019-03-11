@@ -2,6 +2,8 @@ package pl.f3f_klif.f3fstatapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,10 +49,37 @@ public class EventRoundsActivity extends AppCompatActivity {
         eventStartDateTextView.setText(event.getStartDate().toString());
 
         F3FRounds = RoundMapper.ToViewModel(DatabaseRepository.getRounds());
+        eventNameTextView.setText(f3FEvent.getName());
+        eventLocationTextView.setText(f3FEvent.getLocation());
+        eventTypeTextView.setText(f3FEvent.getType());
+        eventStartDateTextView.setText(f3FEvent.getStartDate().toString());
+
+        F3FRounds = RoundMapper.ToViewModel(DatabaseRepository.GetRounds());
+        pilots = new ArrayList<>();
+        ListView listViewButton = (ListView)findViewById(R.id.rounds_list_view);
+
+        listViewButton.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(EventRoundsActivity.this, EventGroupsActivity.class);
+                intent.putExtra("round", F3FRounds.get(position));
+                EventRoundsActivity.this.startActivity(intent);
+            }
+        });
+
+        ((AppCompatActivity)this).getSupportActionBar().setTitle("Rundy");
+
+        for(int i = 3; i<lines.length; i++) {
+            if(!lines[i].isEmpty()) {
+                pilots.add(new Pilot(lines[i]));
+            }
+        }
 
         roundListAdapter = new RoundListAdapter(F3FRounds,EventRoundsActivity.this);
         roundsListView.setAdapter(roundListAdapter);
     }
+
+
 
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {
