@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">F3FStatApp</string>
-    <string name="start_event_button_text">Rozpocznij zawody</string>
-    <string name="settings_button_text">Ustawienia</string>
-    <string name="enter_event_id_text">Wpisz identyfikator wydarzenia:</string>
+    <string name="start_event_text">Przejdź do zawodów</string>
+    <string name="settings_text">Ustawienia zawodów</string>
+    <string name="event_id_text">ID zawodów:</string>
     <string name="confirm_button">Zatwierdź</string>
     <string name="cancel_button">Anuluj</string>
     <string name="email_text">E-mail:</string>
@@ -16,6 +16,10 @@
     <string name="start">Start</string>
     <string name="prepare_time">Czas przygotowania: %1$.1f s</string>
     <string name="start_time">Czas startowy: %1$.1f s</string>
+    <string name="open_drawer_desc">Otwórz</string>
+    <string name="close_drawer_desc">Zamknij</string>
+    <string name="min_group_amount_text">Min. liczba zawodników w grupie:</string>
+    <string name="default_min_group_amount">12</string>
 
     <!-- Headers for f3FEvent details list -->
     <string name="start_number">Lp.</string>
@@ -27,7 +31,7 @@
     <string name="pilot_license_fai">Licencja FAI</string>
     <string name="pilot_team_name">Zespół</string>
 
-    <!-- f3FEvent F3FRounds -->
+    <!-- f3FEvent rounds -->
     <string name="add_round">Dodaj rundę</string>
     <string name="start_round">Start</string>
 
@@ -37,10 +41,22 @@
     <string name="action_round_order">Ustawianie kolejności startowej</string>
     <string name="cancel_round">Anuluj rundę</string>
     <string name="send_results_to_server">Wyślij rezultaty rundy na serwer</string>
+    <string name="cancel_groups">Anuluj grupy</string>
+    <string name="send_groups">Wyślij grupy</string>
+    <string name="back_to_round_view">Wróć do widoku rundy %1$d</string>
+    <string name="send_group">Wyślij grupę %1$d</string>
+    <string name="cancel_group">Anuluj grupę %1$d</string>
+
+    <!-- states -->
+    <string name="not_started">Nierozpoczęta</string>
+    <string name="started">Trwa</string>
+    <string name="finished">Zakończona</string>
+    <string name="canceled">Anulowana</string>
 
     <!-- flight -->
     <string name="flight_number">Lot nr %1$d</string>
     <string name="assign_pilot">Przypisz pilota</string>
+    <string name="dnf">DNF</string>
     <string name="flight_current_time">%1$.2f s</string>
     <string name="flight_current_wind">Wiatr: %1$d</string>
     <string name="results">Wyniki:</string>

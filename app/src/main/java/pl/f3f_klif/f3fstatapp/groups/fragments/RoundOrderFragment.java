@@ -18,38 +18,40 @@ import pl.f3f_klif.f3fstatapp.groups.callbacks.RoundBoardCallback;
 import pl.f3f_klif.f3fstatapp.groups.listeners.RoundBoardListener;
 import pl.f3f_klif.f3fstatapp.groups.services.GroupCreator;
 import pl.f3f_klif.f3fstatapp.groups.services.models.Group;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 
 public class RoundOrderFragment extends Fragment {
 
     private BoardView _boardView;
-    private long RoundId;
+    private Round round;
     private List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> _groups;
-    private boolean DragEnabled = true;
-    private int FlightNumber;
-    private float FlightTimeResult = 0f;
-    public static RoundOrderFragment newInstance(long roundId) {
-        return new RoundOrderFragment(roundId);
+    private boolean dragEnabled = true;
+    private int flightNumber;
+    private Result result;
+    public static RoundOrderFragment newInstance(Round round) {
+        return new RoundOrderFragment(round);
     }
 
-    public static RoundOrderFragment newInstance(long roundId, int flightNumber, float flightTimeResult) {
-        return new RoundOrderFragment(roundId, flightNumber, flightTimeResult);
-    }
-
-    @SuppressLint("ValidFragment")
-    public RoundOrderFragment(long roundId){
-        RoundId = roundId;
-        _groups = DatabaseRepository.GetGroups(RoundId);
+    public static RoundOrderFragment newInstance(Round round, int flightNumber,
+                                                 Result result) {
+        return new RoundOrderFragment(round, flightNumber, result);
     }
 
     @SuppressLint("ValidFragment")
-    public RoundOrderFragment(long roundId, int flightNumber, float flightTimeResult){
-        RoundId = roundId;
-        DragEnabled = false;
-        FlightNumber = flightNumber;
-        FlightTimeResult = flightTimeResult;
-        _groups = DatabaseRepository.GetGroups(RoundId);
+    public RoundOrderFragment(Round round){
+        this.round = round;
+        _groups = round.getGroups();
+    }
+
+    @SuppressLint("ValidFragment")
+    public RoundOrderFragment(Round round, int flightNumber, Result result){
+        this.round = round;
+        dragEnabled = false;
+        this.flightNumber = flightNumber;
+        this.result = result;
+        _groups = round.getGroups();
     }
 
     public RoundOrderFragment(){}
@@ -76,59 +78,60 @@ public class RoundOrderFragment extends Fragment {
         _boardView.setColumnSnapPosition(BoardView.ColumnSnapPosition.CENTER);
         _boardView.setBoardListener(RoundBoardListener.GetBoardListener(_boardView, _groups));
         _boardView.setBoardCallback(RoundBoardCallback.GetBoardCallback);
-        _boardView.setDragEnabled(DragEnabled);
+        _boardView.setDragEnabled(dragEnabled);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String roundTitle = DragEnabled
-                ? "Runda " + RoundId + ": ustaw kolejność"
-                : "Runda " + RoundId +": przypisz wynik do pilota";
+        String roundTitle = dragEnabled
+                ? "Runda " + round.getId() + ": ustaw kolejność"
+                : "Runda " + round.getId() +": przypisz wynik do pilota";
 
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
                 .setTitle(roundTitle);
 
-        AddGroups();
+        addGroups();
     }
 
-    private void AddGroups(){
-        _groups = DatabaseRepository.GetGroups(RoundId);
+    private void addGroups(){
+        _groups = round.getGroups();
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
-             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(), RoundId, groupIndex);
+             createGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(),
+                     round, groupIndex);
              groupIndex++;
         }
     }
 
-    private void CreateGroup(String groupName, List<Pilot> pilots, long roundId, long groupId){
+    private void createGroup(String groupName, List<Pilot> pilots, Round round, long groupId){
         Group group = GroupCreator
-                .Create(
+                .create(
                         getActivity(),
                         groupName,
                         pilots,
-                        FlightNumber,
-                        FlightTimeResult,
-                        roundId,
+                        flightNumber,
+                        result,
+                        round,
                         groupId,
                         false);
 
         _boardView.addColumn(
-                group.ItemAdapter,
-                group.Header,
-                group.Header,
-                group.HasFixedItemSize);
+                group.itemAdapter,
+                group.header,
+                group.header,
+                group.hasFixedItemSize);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if(DragEnabled)
-            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + RoundId);
+        if(dragEnabled)
+            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + round.getId());
         else
-            menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + RoundId);
+            menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + round.getId());
     }
 
 }

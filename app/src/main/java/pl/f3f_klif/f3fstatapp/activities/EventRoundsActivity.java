@@ -8,20 +8,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.adapters.RoundListAdapter;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
-import pl.f3f_klif.f3fstatapp.mapper.RoundMapper;
-import pl.f3f_klif.f3fstatapp.utils.F3FEvent;
-import pl.f3f_klif.f3fstatapp.utils.F3FRound;
-import pl.f3f_klif.f3fstatapp.utils.Pilot;
-import pl.f3f_klif.f3fstatapp.utils.ProcessingResponse;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 
 public class EventRoundsActivity extends AppCompatActivity {
 
@@ -36,9 +35,9 @@ public class EventRoundsActivity extends AppCompatActivity {
     @BindView(R.id.rounds_list_view)
     ListView roundsListView;
 
-    private List<Pilot> pilots;
     private RoundListAdapter roundListAdapter;
-    private List<F3FRound> F3FRounds;
+    private List<Round> rounds;
+    private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,38 +45,28 @@ public class EventRoundsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_rounds);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        String[] lines = ProcessingResponse.receiveExtraAndDividePerLine(intent);
+        event = DatabaseRepository.getEvent();
+        eventNameTextView.setText(event.getName());
+        eventLocationTextView.setText(event.getLocation());
+        eventTypeTextView.setText(event.getType());
+        eventStartDateTextView.setText(event.getStartDate().toString());
 
-        F3FEvent f3FEvent = new F3FEvent(lines[1]);
+        rounds = event.getRounds();
 
-        eventNameTextView.setText(f3FEvent.getName());
-        eventLocationTextView.setText(f3FEvent.getLocation());
-        eventTypeTextView.setText(f3FEvent.getType());
-        eventStartDateTextView.setText(f3FEvent.getStartDate().toString());
-
-        F3FRounds = RoundMapper.ToViewModel(DatabaseRepository.GetRounds());
-        pilots = new ArrayList<>();
-        ListView listViewButton = (ListView)findViewById(R.id.rounds_list_view);
+        ListView listViewButton = findViewById(R.id.rounds_list_view);
 
         listViewButton.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(EventRoundsActivity.this, EventGroupsActivity.class);
-                intent.putExtra("round", F3FRounds.get(position));
+                intent.putExtra("roundId", rounds.get(position).id);
                 EventRoundsActivity.this.startActivity(intent);
             }
         });
 
-        ((AppCompatActivity)this).getSupportActionBar().setTitle("Rundy");
+        getSupportActionBar().setTitle("Rundy");
 
-        for(int i = 3; i<lines.length; i++) {
-            if(!lines[i].isEmpty()) {
-                pilots.add(new Pilot(lines[i]));
-            }
-        }
-
-        roundListAdapter = new RoundListAdapter(F3FRounds,EventRoundsActivity.this);
+        roundListAdapter = new RoundListAdapter(rounds,EventRoundsActivity.this);
         roundsListView.setAdapter(roundListAdapter);
     }
 
@@ -85,8 +74,8 @@ public class EventRoundsActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {
-        long roundIndex = DatabaseRepository.CreateRound(pilots);
-        F3FRounds.add(new F3FRound(roundIndex, pilots, "nie rozpoczeta"));
+        Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
+        roundBox.put(event.createRound());
         roundListAdapter.notifyDataSetChanged();
     }
 }

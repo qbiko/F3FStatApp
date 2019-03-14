@@ -1,14 +1,20 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
+import pl.f3f_klif.f3fstatapp.R;
+
 public enum RoundState {
-    NotStarted(0),
-    Started(1),
-    Finished(2),
-    Canceled(3);
+    NOT_STARTED(R.string.not_started),
+    STARTED(R.string.started),
+    FINISHED(R.string.finished),
+    CANCELED(R.string.canceled);
 
-    final int id;
+    final int stateKey;
 
-    RoundState(int id) {
-        this.id = id;
+    RoundState(int stateKey) {
+        this.stateKey = stateKey;
+    }
+
+    public int getStateKey() {
+        return stateKey;
     }
 }

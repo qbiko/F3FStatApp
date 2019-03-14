@@ -86,6 +86,7 @@ public class CurrentFlyHandler extends Handler {
                 mFragment.get().startTimeResultTextView.setText(mFragment.get().getString(R
                         .string.start_time, startTime));
 
+                mFragment.get().result.setClimbOut(startTime);
                 break;
             }
             case COMPLETED_NEXT_BASE: {
@@ -100,6 +101,9 @@ public class CurrentFlyHandler extends Handler {
 
                     Float time = Float.parseFloat(message[3])/100;
                     Float partTime = time - mFragment.get().flightTimeResult;
+
+                    mFragment.get().result.addLap(partTime);
+
                     mFragment.get().flightTimeResult = time;
                     if(baseNumber % 2 == 0) {
                         TextView textView = mFragment.get().getActivity().findViewById
@@ -152,6 +156,7 @@ public class CurrentFlyHandler extends Handler {
 
                 Float time = Float.parseFloat(message[3])/100;
                 Float partTime = time - mFragment.get().flightTimeResult;
+                mFragment.get().result.addLap(partTime);
                 mFragment.get().flightTimeResult = time;
                 if(baseNumber % 2 == 0) {
                     TextView textView = mFragment.get().getActivity().findViewById
@@ -199,6 +204,8 @@ public class CurrentFlyHandler extends Handler {
                         .flight_current_time, time));
 
                 mFragment.get().statusImageView.setImageResource(R.drawable.finish);
+
+                mFragment.get().result.setTotalFlightTime(time);
 
                 break;
             }

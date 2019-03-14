@@ -1,122 +1,48 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 
-import org.json.simple.parser.JSONParser;
+import android.content.Context;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import io.objectbox.Box;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event_;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group_;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
-import pl.f3f_klif.f3fstatapp.mapper.PilotMapper;
 
 public class DatabaseRepository {
-    private static final int MaxPilotsNumberInGroup = 12;
-    private static Box<Event> EventBox;
-    private static Event Event;
-    private static Box<Round> RoundBox;
-    private static long F3fId;
-    public static void Init(int f3fId, int groupsCount) {
-        F3fId = f3fId;
-        EventBox = ObjectBox.get().boxFor(Event.class);
-        Event = EventBox.query().equal(Event_.F3fId, f3fId).build().findFirst();
-        if(Event == null){
-            CreateEvent(f3fId, groupsCount);
+    private static Box<Event> eventBox;
+    private static Event event;
+
+    public static boolean init() {
+        eventBox = ObjectBox.get().boxFor(Event.class);
+        event = eventBox.getAll().get(0);
+        if(event == null){
+            return false;
         }
-        Event = EventBox.query().equal(Event_.F3fId, f3fId).build().findFirst();
-    }
 
-    public static Event GetEvent() {
-        return Event;
-    }
-
-    public static Round GetRound(long roundId) {
-        return Event.getRound(roundId);
-    }
-
-    public static Round UpdateRound(Round updatedRound){
         Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
-        roundBox.put(updatedRound);
-        return updatedRound;
+        List<Round> rounds = roundBox.getAll();
+        event.fillRounds(rounds);
+
+        return true;
     }
 
-    public static List<Round> GetRounds() {
-        if(Event != null)
-            return Event.getRounds();
-        return new ArrayList<>();
+    public static void initNew(int f3fId, int minGroupAmount, String[] lines, Context context) {
+        ObjectBox.clear(context);
+        eventBox = ObjectBox.get().boxFor(Event.class);
+        createEvent(f3fId, minGroupAmount, lines);
+        event = eventBox.query().build().findFirst();
     }
 
-    public static Group GetGroup(long roundId, long groupId) {
-        List<Group> groups = Event.getRound(roundId).getGroups();
-        for (Group group:groups) {
-            if(group.Id == groupId)
-                return group;
-        }
-        return null;
+    public static Event getEvent() {
+        return event;
     }
 
-    public static List<Group> GetGroups(long roundId){
-        return Event.getRound(roundId).getGroups();
+    private static Long createEvent(int f3fId, int minGroupAmount, String[] lines){
+        return eventBox.put(new Event(f3fId, minGroupAmount, lines));
     }
 
-    public static Long CreateEvent(int f3fId, int groupsCount){
-        return EventBox.put(new Event(f3fId, groupsCount));
-    }
-
-    public static long CreateRound(List<pl.f3f_klif.f3fstatapp.utils.Pilot> pilots){
-        long roundId = 0;
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            String pilotsJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(PilotMapper.ToDbModel(pilots));
-            Round round = new Round();
-
-            if(pilots.size() < MaxPilotsNumberInGroup){
-                round.Groups.add(new Group(pilotsJson));
-            }
-            else{
-                List<List<pl.f3f_klif.f3fstatapp.utils.Pilot>> pilotsGroups = Lists.partition(pilots, MaxPilotsNumberInGroup);
-
-                for (List<pl.f3f_klif.f3fstatapp.utils.Pilot> pilotsGroup: pilotsGroups) {
-                    String groupPilotsJson = mapper
-                            .writerWithDefaultPrettyPrinter()
-                            .writeValueAsString(PilotMapper.ToDbModel(pilotsGroup));
-
-                    round.Groups.add(new Group(groupPilotsJson));
-                }
-            }
-
-            Event.Rounds.add(round);
-            EventBox.put(Event);
-            Event = EventBox.query().equal(Event_.F3fId, F3fId).build().findFirst();
-
-            roundId = Event.getRounds().get(Event.getRounds().size()-1).Id;
-
-        } catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return roundId;
-    }
-
-    public static Group UpdateGroup(Group updatedGroup){
-        Box<Group> groupBox = ObjectBox.get().boxFor(Group.class);
-        groupBox.put(updatedGroup);
-        return updatedGroup;
-    }
-
-    public static Pilot UpdatePilot(Pilot updatedPilot){
+    public static Pilot updatePilot(Pilot updatedPilot){
         Box<Pilot> pilotBox = ObjectBox.get().boxFor(Pilot.class);
         pilotBox.put(updatedPilot);
         return updatedPilot;

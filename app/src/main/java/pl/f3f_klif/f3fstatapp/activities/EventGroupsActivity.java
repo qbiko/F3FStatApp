@@ -21,7 +21,6 @@ import java.util.Set;
 
 import butterknife.ButterKnife;
 import pl.f3f_klif.f3fstatapp.R;
-import pl.f3f_klif.f3fstatapp.adapters.PilotListAdapter;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundOrderFragment;
@@ -31,23 +30,21 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
-import pl.f3f_klif.f3fstatapp.utils.Pilot;
-import pl.f3f_klif.f3fstatapp.utils.F3FRound;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 public class EventGroupsActivity extends AppCompatActivity {
 
-    private List<Pilot> _pilots;
-    private PilotListAdapter pilotListAdapter;
     private StartListHandler startListHandler;
     private UsbService usbService;
 
-    private final int CancelSubMenuId = 100000;
-    private final int SendSubMenuId = 100001;
-    private final int CancelGroupId = 100000;
-    private final int SendGroupId = 100001;
+    private final int CANCEL_SUBMENU_ID = 100000;
+    private final int SEND_SUBMENU_ID = 100001;
+    private final int CANCEL_GROUP_ID = 100000;
+    private final int SEND_GROUP_ID = 100001;
 
-    private long RoundId;
+
+    private Round round;
+    private long roundId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,29 +52,28 @@ public class EventGroupsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        F3FRound round = intent.getExtras().getParcelable("round");
-        RoundId = round.getRoundId();
+        roundId = intent.getExtras().getLong("roundId");
+        round = DatabaseRepository.getEvent().getRound(roundId);
 
         if(savedInstanceState == null){
-            Round roundDb = DatabaseRepository.GetRound(RoundId);
-            if(roundDb.State == null)
-                showFragment(RoundOrderFragment.newInstance(RoundId));
+            if(round.state == null)
+                showFragment(RoundOrderFragment.newInstance(round));
             else{
-                switch (roundDb.State){
-                    case NotStarted:
-                    case Canceled:
-                        showFragment(RoundOrderFragment.newInstance(RoundId));
+                switch (round.state){
+                    case NOT_STARTED:
+                    case CANCELED:
+                        showFragment(RoundOrderFragment.newInstance(round));
                         break;
-                    case Started:
-                    case Finished:
-                        showFragment(RoundFragment.newInstance(RoundId));
+                    case STARTED:
+                    case FINISHED:
+                        showFragment(RoundFragment.newInstance(round));
                         break;
                 }
             }
 
         }
 
-        startListHandler = new StartListHandler(this);
+        startListHandler = new StartListHandler(this, round);
     }
 
     public void showFragment(Fragment fragment){
@@ -106,39 +102,41 @@ public class EventGroupsActivity extends AppCompatActivity {
         boolean isRoundOrderFragment = getSupportFragmentManager()
                 .findFragmentByTag("fragment") instanceof RoundOrderFragment;
 
-        List<Group> groups = DatabaseRepository.GetGroups(RoundId);
+        List<Group> groups = round.getGroups();
         int index = 1;
 
         SubMenu cancelSubMenu = null;
         SubMenu sendSubMenu = null;
 
-        if(menu.findItem(CancelSubMenuId) == null)
+        if(menu.findItem(CANCEL_SUBMENU_ID) == null)
         {
-            cancelSubMenu = menu.addSubMenu(CancelGroupId, CancelSubMenuId, 0, "Anuluj grupy");
+            cancelSubMenu = menu.addSubMenu(CANCEL_GROUP_ID, CANCEL_SUBMENU_ID, 0, R.string.cancel_groups);
             for (Group group: groups) {
-                cancelSubMenu.add(CancelGroupId,(int)group.Id, 0, "Anuluj grupę " + index);
+                cancelSubMenu.add(CANCEL_GROUP_ID,(int)group.id, 0, getString(R.string.cancel_group,
+                        index));
                 index++;
             }
         }
         index = 1;
-        if(menu.findItem(SendSubMenuId) == null)
+        if(menu.findItem(SEND_SUBMENU_ID) == null)
         {
-            sendSubMenu = menu.addSubMenu(SendGroupId, SendSubMenuId, 0, "Wyślij grupy");
+            sendSubMenu = menu.addSubMenu(SEND_GROUP_ID, SEND_SUBMENU_ID, 0, R.string.send_groups);
             for (Group group: groups) {
-                sendSubMenu.add(SendGroupId,(int)group.Id, 0, "Wyślij grupę " + index);
+                sendSubMenu.add(SEND_GROUP_ID,(int)group.id, 0,
+                        getString(R.string.send_group, index));
                 index++;
             }
         }
 
         if(isCurrentFlyFragment){
-            menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + RoundId);
+            menu.findItem(R.id.action_event_groups).setTitle(getString(R.string.back_to_round_view, roundId));
             menu.findItem(R.id.action_current_fly).setVisible(false);
             menu.findItem(R.id.action_event_groups).setVisible(true);
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(false);
             menu.findItem(R.id.action_send_results_to_server).setVisible(false);
-            menu.findItem(CancelSubMenuId).setVisible(false);
-            menu.findItem(SendSubMenuId).setVisible(false);
+            menu.findItem(CANCEL_SUBMENU_ID).setVisible(false);
+            menu.findItem(SEND_SUBMENU_ID).setVisible(false);
         }
 
         if(isRoundFragment){
@@ -147,19 +145,19 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(true);
             menu.findItem(R.id.action_send_results_to_server).setVisible(true);
-            menu.findItem(CancelSubMenuId).setVisible(true);
-            menu.findItem(SendSubMenuId).setVisible(true);
+            menu.findItem(CANCEL_SUBMENU_ID).setVisible(true);
+            menu.findItem(SEND_SUBMENU_ID).setVisible(true);
         }
 
         if(isRoundOrderFragment){
-            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + RoundId);
+            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + roundId);
             menu.findItem(R.id.action_current_fly).setVisible(false);
             menu.findItem(R.id.action_event_groups).setVisible(true);
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(false);
             menu.findItem(R.id.action_send_results_to_server).setVisible(false);
-            menu.findItem(CancelSubMenuId).setVisible(false);
-            menu.findItem(SendSubMenuId).setVisible(false);
+            menu.findItem(CANCEL_SUBMENU_ID).setVisible(false);
+            menu.findItem(SEND_SUBMENU_ID).setVisible(false);
         }
 
         return true;
@@ -167,33 +165,30 @@ public class EventGroupsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Round round = DatabaseRepository.GetRound(RoundId);
         int itemId = item.getItemId();
         switch(item.getGroupId()){
-            case CancelSubMenuId:
+            case CANCEL_SUBMENU_ID:
                 return true;
-            case SendSubMenuId:
-                if(DatabaseRepository.GetGroup(RoundId, (long)itemId) != null)
-                    new SendGroupStrategy().Do(itemId, RoundId);
+            case SEND_SUBMENU_ID:
+                if(round.getGroup(itemId) != null)
+                    new SendGroupStrategy().doStrategy(itemId, roundId);
                 return true;
             default:
                 switch (itemId){
                     case R.id.action_current_fly:
-                        showFragment(CurrentFlyFragment.newInstance(RoundId,0));
+                        showFragment(CurrentFlyFragment.newInstance(round,0));
                         return true;
                     case R.id.action_event_pilots_order:
-                        showFragment(RoundOrderFragment.newInstance(RoundId));
+                        showFragment(RoundOrderFragment.newInstance(round));
                         return true;
                     case R.id.action_event_groups:
-                        showFragment(RoundFragment.newInstance(RoundId));
+                        showFragment(RoundFragment.newInstance(round));
                         return true;
                     case R.id.action_cancel_round:
-                        round.State = RoundState.Canceled;
-                        DatabaseRepository.UpdateRound(round);
+                        round.setState(RoundState.CANCELED);
                         return true;
                     case R.id.action_send_results_to_server:
-                        round.State = RoundState.Finished;
-                        DatabaseRepository.UpdateRound(round);
+                        round.setState(RoundState.FINISHED);
                         return true;
                 }
         }

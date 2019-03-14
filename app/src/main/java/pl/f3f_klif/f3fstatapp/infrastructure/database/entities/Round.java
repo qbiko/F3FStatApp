@@ -8,25 +8,34 @@ import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.converter.PropertyConverter;
 import io.objectbox.relation.ToMany;
-import io.objectbox.relation.ToOne;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 
 @Entity
 public class Round {
     @Id
-    public long Id;
-
-    public ToMany<Group> Groups;
-
+    public long id;
+    public ToMany<Group> groups;
     @Convert(converter = RoleConverter.class, dbType = Integer.class)
-    public RoundState State;
+    public RoundState state;
 
     public Round(){
-        State = RoundState.NotStarted;
-        Groups = new ToMany<>(this, Round_.Groups);
+        state = RoundState.NOT_STARTED;
+        groups = new ToMany<>(this, Round_.groups);
     }
 
-    public List<Group> getGroups() { return this.Groups.subList(0, Groups.size());}
+    public long getId() {
+        return id;
+    }
+
+    public void setState(RoundState state) {
+        this.state = state;
+        Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
+        roundBox.put(this);
+    }
+
+    public List<Group> getGroups() { return this.groups;}
+
+    public Group getGroup(long id) { return this.groups.getById(id);}
 
     public static class RoleConverter implements PropertyConverter<RoundState, Integer> {
         @Override
@@ -35,16 +44,16 @@ public class Round {
                 return null;
             }
             for (RoundState role : RoundState.values()) {
-                if (role.id == databaseValue) {
+                if (role.stateKey == databaseValue) {
                     return role;
                 }
             }
-            return RoundState.NotStarted;
+            return RoundState.NOT_STARTED;
         }
 
         @Override
         public Integer convertToDatabaseValue(RoundState entityProperty) {
-            return entityProperty == null ? null : entityProperty.id;
+            return entityProperty == null ? null : entityProperty.stateKey;
         }
     }
 }

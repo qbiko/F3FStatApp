@@ -1,52 +1,128 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
+
+import com.google.common.collect.Lists;
+
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
-import io.objectbox.annotation.NameInDb;
 import io.objectbox.relation.ToMany;
+
+import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.SIMPLE_DATE_FORMAT;
 
 @Entity
 public class Event {
+
     @Id
-    long Id;
+    long id;
 
-    @NameInDb("F3fId")
-    public int F3fId;
+    int f3fId;
+    String name;
+    String location;
+    Date startDate;
+    Date endDate;
+    String type;
+    int minGroupAmount;
 
-    int GroupsCount;
-    public ToMany<Round> Rounds;
+    private ToMany<Round> rounds;
+    ToMany<Pilot> pilots;
 
-    public Event(){ }
-    public Event(int f3fId, int groupsCount){
-        F3fId = f3fId;
-        GroupsCount = groupsCount;
-        Rounds = new ToMany<>(this, Event_.Rounds);
+    public Event() {
+        rounds = new ToMany<>(this, Event_.rounds);
+        pilots = new ToMany<>(this, Event_.pilots);
     }
 
-    public List<Round> getRounds() { return this.Rounds.subList(0, Rounds.size());}
+    public Event(int f3fId, int minGroupAmount, String[] lines){
+        this.f3fId = f3fId;
+        this.minGroupAmount = minGroupAmount;
+        rounds = new ToMany<>(this, Event_.rounds);
 
-    public Round getRound(long id) { return this.Rounds.getById(id);}
+        String[] requestValues = lines[1].split(",");
+        name = requestValues[1].replace("\"", "");
+        location = requestValues[2].replace("\"", "");
+        try {
+            startDate = SIMPLE_DATE_FORMAT.parse(requestValues[3].replace("\"", ""));
+            endDate = SIMPLE_DATE_FORMAT.parse(requestValues[4].replace("\"", ""));
+        } catch(ParseException ex) {
+            startDate = new Date();
+            endDate = new Date();
+        }
+        type = requestValues[5].replace("\"", "");
+
+        pilots = new ToMany<>(this, Event_.pilots);
+
+        for(int i = 3; i<lines.length; i++) {
+            if(!lines[i].isEmpty()) {
+                pilots.add(new Pilot(lines[i]));
+            }
+        }
+    }
+
+    public List<Round> getRounds() { return this.rounds;}
+
+    public Round getRound(long id) { return this.rounds.getById(id);}
 
     public long getId() {
-        return this.Id;
+        return this.id;
     }
 
     public void setId(long id) {
-        this.Id = id;
+        this.id = id;
     }
 
     public long getF3fId() {
-        return this.F3fId;
+        return this.f3fId;
     }
 
-    public void setF3fId(int id) {
-        this.F3fId = id;
+    public void setF3fId(int f3fId) {
+        this.f3fId = f3fId;
     }
 
-    public long getGroupsCount() {
-        return this.GroupsCount;
+    public String getName() {
+        return name;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public List<Pilot> getPilots() {
+        return pilots;
+    }
+
+    public Round createRound() {
+        Round round = new Round();
+
+        if(pilots.size() < minGroupAmount) {
+            round.groups.add(new Group(pilots));
+        }
+        else {
+            List<List<Pilot>> pilotsGroups = Lists.partition(pilots, minGroupAmount);
+            for (List<Pilot> groupPilots : pilotsGroups) {
+                round.groups.add(new Group(groupPilots));
+            }
+        }
+        rounds.add(round);
+
+        return round;
+    }
+
+    public void fillRounds(List<Round> rounds) {
+        this.rounds.addAll(rounds);
+    }
 }

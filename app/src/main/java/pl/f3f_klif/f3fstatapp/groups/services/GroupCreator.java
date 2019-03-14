@@ -11,17 +11,18 @@ import java.util.List;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.infrastructure.ItemAdapter;
 import pl.f3f_klif.f3fstatapp.groups.services.models.Group;
-import pl.f3f_klif.f3fstatapp.utils.Pilot;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 
 public class GroupCreator {
 
-    public static Group Create(
+    public static Group create(
             Context context,
             String groupName,
             List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot> pilots,
             int flightNumber,
-            float flightTimeResult,
-            long roundId,
+            Result result,
+            Round round,
             long groupId,
             boolean assignMode){
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
@@ -30,7 +31,7 @@ public class GroupCreator {
             mItemArray
                     .add(new Pair<>(
                             index,
-                            String.format("%s %s", pilot.FirstName, pilot.LastName)
+                            String.format("%s %s", pilot.firstName, pilot.lastName)
                             )
                     );
             index++;
@@ -42,34 +43,41 @@ public class GroupCreator {
                 R.id.item_layout,
                 true,
                 flightNumber,
-                flightTimeResult,
-                roundId,
+                result,
+                round,
                 groupId,
                 assignMode);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + pilots.size());
+        ((TextView) header.findViewById(R.id.item_count)).setText(String.valueOf(pilots.size()));
 
         return new Group(listAdapter, header, false);
     }
 
-    public static Group CreateRoundGroup(
+    public static Group createRoundGroup(
             Context context,
             String groupName,
             List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot> pilots,
             int flightNumber,
-            float flightTimeResult,
-            long roundId,
+            Result result,
+            Round round,
             long groupId,
             boolean assignMode){
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
         long index = 0;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot pilot: pilots) {
+            float time = -1f;
+            Result pilotResult = pilot.getResult(round.getId());
+            if(pilotResult != null) {
+                time = pilotResult.getTotalFlightTime();
+            }
             mItemArray
                     .add(new Pair<>(
                                     index,
-                                    String.format("%s. %s %s\n Czas: %s\n Punkty: %s",index+1, pilot.FirstName, pilot.LastName, "czas", "punkty")
+
+                                    String.format("%s. %s %s\n Czas: %f\n Punkty: %s",index+1,
+                                            pilot.firstName, pilot.lastName, time, "punkty")
                             )
                     );
             index++;
@@ -81,14 +89,14 @@ public class GroupCreator {
                 R.id.item_layout,
                 true,
                 flightNumber,
-                flightTimeResult,
-                roundId,
+                result,
+                round,
                 groupId,
                 assignMode);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);
-        ((TextView) header.findViewById(R.id.item_count)).setText("" + pilots.size());
+        ((TextView) header.findViewById(R.id.item_count)).setText(String.valueOf(pilots.size()));
 
         return new Group(listAdapter, header, false);
     }

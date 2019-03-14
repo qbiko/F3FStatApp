@@ -13,8 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,14 +28,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.handlers.CurrentFlyHandler;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 public class CurrentFlyFragment extends Fragment {
-    public static CurrentFlyFragment newInstance(long groupId, int flightNumber) {
+    public static CurrentFlyFragment newInstance(Round round, int flightNumber) {
         CurrentFlyFragment f = new CurrentFlyFragment();
         Bundle args = new Bundle();
         args.putInt("flightNumber", flightNumber);
-        GroupId = groupId;
+        CurrentFlyFragment.round = round;
         f.setArguments(args);
         return f;
     }
@@ -46,6 +46,8 @@ public class CurrentFlyFragment extends Fragment {
     TextView flightNumberTextView;
     @BindView(R.id.assign_pilot_button)
     public Button assignPilotButton;
+    @BindView(R.id.dnf_button)
+    public Button dnfButton;
     @BindView(R.id.prepare_time_result_text_view)
     public TextView prepareTimeResultTextView;
     @BindView(R.id.start_time_result_text_view)
@@ -71,7 +73,9 @@ public class CurrentFlyFragment extends Fragment {
     public float flightTimeResult = 0f;
     private CurrentFlyHandler currentFlyHandler;
     private UsbService usbService;
-    private static long GroupId;
+    private static Round round;
+
+    public Result result;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,14 +84,27 @@ public class CurrentFlyFragment extends Fragment {
         Bundle args = getArguments();
         flightNumber = args.getInt("flightNumber", 0);
 
+        result = new Result(flightNumber, round.getId());
+
         currentFlyHandler = new CurrentFlyHandler(this);
 
         //TODO save current state of flight and read frames in background
     }
 
     @OnClick(R.id.assign_pilot_button)
-    void onAddRoundButtonClick() {
-        showFragment(RoundOrderFragment.newInstance(GroupId, flightNumber, flightTimeResult));
+    void onAssignPilotButtonClick() {
+        showFragment(RoundFragment.newInstance(round, flightNumber, result));
+    }
+
+    @OnClick(R.id.cancel_button)
+    void onCancelButtonClick() {
+        showFragment(RoundFragment.newInstance(round));
+    }
+
+    @OnClick(R.id.dnf_button)
+    void onDNFButtonClick() {
+        result.setDnf(true);
+        showFragment(RoundFragment.newInstance(round, flightNumber, result));
     }
 
     @Override
