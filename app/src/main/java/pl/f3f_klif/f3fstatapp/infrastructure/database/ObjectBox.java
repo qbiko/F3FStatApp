@@ -19,7 +19,7 @@ public class ObjectBox {
         return boxStore;
     }
 
-    public static void clear(Context context) {
+    static void clear(Context context) {
         boxStore.close();
         boxStore.deleteAllFiles();
 

@@ -21,6 +21,7 @@ import pl.f3f_klif.f3fstatapp.groups.services.GroupCreator;
 import pl.f3f_klif.f3fstatapp.groups.services.models.Group;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 
@@ -31,14 +32,14 @@ public class RoundFragment extends Fragment {
     private List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> _groups;
     private boolean assignMode = false;
     private int flightNumber;
-    private float flightTimeResult = 0f;
+    private Result result;
     public static RoundFragment newInstance(Round round) {
         return new RoundFragment(round);
     }
 
     public static RoundFragment newInstance(Round round, int flightNumber,
-                                            float flightTimeResult) {
-        return new RoundFragment(round, flightNumber, flightTimeResult);
+                                            Result result) {
+        return new RoundFragment(round, flightNumber, result);
     }
 
     @SuppressLint("ValidFragment")
@@ -49,11 +50,11 @@ public class RoundFragment extends Fragment {
     }
 
     @SuppressLint("ValidFragment")
-    public RoundFragment(Round round, int flightNumber, float flightTimeResult){
+    public RoundFragment(Round round, int flightNumber, Result result){
         this.round = round;
         assignMode = true;
         this.flightNumber = flightNumber;
-        this.flightTimeResult = flightTimeResult;
+        this.result = result;
         _groups = this.round.getGroups();
 
         this.round.setState(RoundState.STARTED);
@@ -106,21 +107,21 @@ public class RoundFragment extends Fragment {
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
              createGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(),
-                     round.getId(),
+                     round,
                      groupIndex);
              groupIndex++;
         }
     }
 
-    private void createGroup(String groupName, List<Pilot> pilots, long roundId, long groupId){
+    private void createGroup(String groupName, List<Pilot> pilots, Round round, long groupId){
         Group group = GroupCreator
                 .createRoundGroup(
                         getActivity(),
                         groupName,
                         pilots,
                         flightNumber,
-                        flightTimeResult,
-                        roundId,
+                        result,
+                        round,
                         groupId,
                         assignMode);
 

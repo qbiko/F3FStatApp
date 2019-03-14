@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.handlers.CurrentFlyHandler;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
@@ -45,6 +46,8 @@ public class CurrentFlyFragment extends Fragment {
     TextView flightNumberTextView;
     @BindView(R.id.assign_pilot_button)
     public Button assignPilotButton;
+    @BindView(R.id.dnf_button)
+    public Button dnfButton;
     @BindView(R.id.prepare_time_result_text_view)
     public TextView prepareTimeResultTextView;
     @BindView(R.id.start_time_result_text_view)
@@ -72,12 +75,16 @@ public class CurrentFlyFragment extends Fragment {
     private UsbService usbService;
     private static Round round;
 
+    public Result result;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
         flightNumber = args.getInt("flightNumber", 0);
+
+        result = new Result(flightNumber, round.getId());
 
         currentFlyHandler = new CurrentFlyHandler(this);
 
@@ -86,7 +93,18 @@ public class CurrentFlyFragment extends Fragment {
 
     @OnClick(R.id.assign_pilot_button)
     void onAssignPilotButtonClick() {
-        showFragment(RoundOrderFragment.newInstance(round, flightNumber, flightTimeResult));
+        showFragment(RoundFragment.newInstance(round, flightNumber, result));
+    }
+
+    @OnClick(R.id.cancel_button)
+    void onCancelButtonClick() {
+        showFragment(RoundFragment.newInstance(round));
+    }
+
+    @OnClick(R.id.dnf_button)
+    void onDNFButtonClick() {
+        result.setDnf(true);
+        showFragment(RoundFragment.newInstance(round, flightNumber, result));
     }
 
     @Override

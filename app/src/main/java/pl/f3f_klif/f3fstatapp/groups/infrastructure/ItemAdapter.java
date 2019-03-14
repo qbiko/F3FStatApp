@@ -1,7 +1,11 @@
 package pl.f3f_klif.f3fstatapp.groups.infrastructure;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +15,13 @@ import android.widget.Toast;
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
+import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 
 public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter.ViewHolder> {
 
@@ -20,16 +29,10 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     private int mGrabHandleId;
     private boolean mDragOnLongPress;
     private int flightNumber;
-    private float flightTimeResult = 0f;
-    private long roundId;
+    private Result result;
+    private Round round;
     private long groupId;
     private boolean assignMode;
-    public ItemAdapter(ArrayList<Pair<Long, String>> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
-        mLayoutId = layoutId;
-        mGrabHandleId = grabHandleId;
-        mDragOnLongPress = dragOnLongPress;
-        setItemList(list);
-    }
 
     public ItemAdapter(
             ArrayList<Pair<Long, String>> list,
@@ -37,17 +40,18 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
             int grabHandleId,
             boolean dragOnLongPress,
             int flightNumber,
-            float flightTimeResult,
-            long roundId,
+            Result result,
+            Round round,
             long groupId,
             boolean assignMode) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
         this.flightNumber = flightNumber;
-        this.flightTimeResult = flightTimeResult;
-        this.roundId = roundId;
+        this.result = result;
+        this.round = round;
         this.groupId = groupId;
+        this.assignMode = assignMode;
         setItemList(list);
     }
 
@@ -88,16 +92,29 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
         @Override
         public boolean onItemLongClicked(View view) {
-            if(assignMode)
-            {
-                Toast.makeText(view.getContext(), "Wynik został zapisany pilotowi: ", Toast.LENGTH_SHORT).show();
+            if(assignMode) {
+                Pilot pilot = round.getGroup(groupId).getPilots().get((int)this.mItemId);
+                Toast.makeText(view.getContext(),
+                        "Wynik został zapisany pilotowi: " + pilot.getFirstName() + " " + pilot.getLastName(),
+                        Toast.LENGTH_SHORT).show();
+                pilot.addResult(result);
                 //wyciagnij grupe dla danej rundy
                 //mItemId to id pilota
                 //przypisz wynik pilotowi
                 //Toast.makeText(view.getContext(), "Item long clicked"+this.mText+this.mItemId+mLayoutId, Toast.LENGTH_SHORT).show();
+                showFragment(RoundFragment.newInstance(round), view);
             }
 
             return true;
         }
+    }
+
+    public void showFragment(Fragment fragment, View view){
+        FragmentManager manager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        transaction
+                .replace(R.id.container, fragment, "fragment")
+                .commit();
     }
 }

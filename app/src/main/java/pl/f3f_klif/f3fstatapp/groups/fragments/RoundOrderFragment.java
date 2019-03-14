@@ -18,8 +18,8 @@ import pl.f3f_klif.f3fstatapp.groups.callbacks.RoundBoardCallback;
 import pl.f3f_klif.f3fstatapp.groups.listeners.RoundBoardListener;
 import pl.f3f_klif.f3fstatapp.groups.services.GroupCreator;
 import pl.f3f_klif.f3fstatapp.groups.services.models.Group;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 
 public class RoundOrderFragment extends Fragment {
@@ -29,14 +29,14 @@ public class RoundOrderFragment extends Fragment {
     private List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> _groups;
     private boolean dragEnabled = true;
     private int flightNumber;
-    private float flightTimeResult = 0f;
+    private Result result;
     public static RoundOrderFragment newInstance(Round round) {
         return new RoundOrderFragment(round);
     }
 
     public static RoundOrderFragment newInstance(Round round, int flightNumber,
-                                                 float flightTimeResult) {
-        return new RoundOrderFragment(round, flightNumber, flightTimeResult);
+                                                 Result result) {
+        return new RoundOrderFragment(round, flightNumber, result);
     }
 
     @SuppressLint("ValidFragment")
@@ -46,11 +46,11 @@ public class RoundOrderFragment extends Fragment {
     }
 
     @SuppressLint("ValidFragment")
-    public RoundOrderFragment(Round round, int flightNumber, float flightTimeResult){
+    public RoundOrderFragment(Round round, int flightNumber, Result result){
         this.round = round;
         dragEnabled = false;
         this.flightNumber = flightNumber;
-        this.flightTimeResult = flightTimeResult;
+        this.result = result;
         _groups = round.getGroups();
     }
 
@@ -93,28 +93,28 @@ public class RoundOrderFragment extends Fragment {
                 .getSupportActionBar()
                 .setTitle(roundTitle);
 
-        AddGroups();
+        addGroups();
     }
 
-    private void AddGroups(){
+    private void addGroups(){
         _groups = round.getGroups();
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
-             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(),
-                     round.getId(), groupIndex);
+             createGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(),
+                     round, groupIndex);
              groupIndex++;
         }
     }
 
-    private void CreateGroup(String groupName, List<Pilot> pilots, long roundId, long groupId){
+    private void createGroup(String groupName, List<Pilot> pilots, Round round, long groupId){
         Group group = GroupCreator
                 .create(
                         getActivity(),
                         groupName,
                         pilots,
                         flightNumber,
-                        flightTimeResult,
-                        roundId,
+                        result,
+                        round,
                         groupId,
                         false);
 

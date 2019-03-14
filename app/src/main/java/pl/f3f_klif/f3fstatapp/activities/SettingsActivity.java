@@ -37,7 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.password_editText)
     EditText passwordEditText;
     @BindView(R.id.event_id_editText)
-    EditText eventIdEdtiText;
+    EditText eventIdEditText;
     @BindView(R.id.min_group_amount_editText)
     EditText minGroupAmountEditText;
     @BindView(R.id.result_image)
@@ -66,7 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         if(!eventBox.isEmpty()) {
             Event event = eventBox.getAll().get(0);
-            eventIdEdtiText.setText(String.valueOf(event.getF3fId()));
+            eventIdEditText.setText(String.valueOf(event.getF3fId()));
 
             DatabaseRepository.init();
         }
@@ -79,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @OnClick(R.id.confirm_button)
     void onClickConfirmButton() { //http://loopj.com/android-async-http/
-        int eventId = Integer.parseInt(eventIdEdtiText.getText().toString());
+        int eventId = Integer.parseInt(eventIdEditText.getText().toString());
         String mail = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 

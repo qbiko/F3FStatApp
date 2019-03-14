@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.List;
 
 import io.objectbox.Box;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event_;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
@@ -13,8 +12,6 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 public class DatabaseRepository {
     private static Box<Event> eventBox;
     private static Event event;
-    private static Box<Round> roundBox;
-    private static long f3fId;
 
     public static boolean init() {
         eventBox = ObjectBox.get().boxFor(Event.class);
@@ -22,29 +19,27 @@ public class DatabaseRepository {
         if(event == null){
             return false;
         }
-        DatabaseRepository.f3fId = event.getF3fId();
 
-        roundBox = ObjectBox.get().boxFor(Round.class);
+        Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
         List<Round> rounds = roundBox.getAll();
         event.fillRounds(rounds);
 
         return true;
     }
 
-    public static void initNew(int f3fId, int groupsCount, String[] lines, Context context) {
-        DatabaseRepository.f3fId = f3fId;
+    public static void initNew(int f3fId, int minGroupAmount, String[] lines, Context context) {
         ObjectBox.clear(context);
         eventBox = ObjectBox.get().boxFor(Event.class);
-        createEvent(f3fId, groupsCount, lines);
-        event = eventBox.query().equal(Event_.f3fId, f3fId).build().findFirst();
+        createEvent(f3fId, minGroupAmount, lines);
+        event = eventBox.query().build().findFirst();
     }
 
     public static Event getEvent() {
         return event;
     }
 
-    private static Long createEvent(int f3fId, int groupsCount, String[] lines){
-        return eventBox.put(new Event(f3fId, groupsCount, lines));
+    private static Long createEvent(int f3fId, int minGroupAmount, String[] lines){
+        return eventBox.put(new Event(f3fId, minGroupAmount, lines));
     }
 
     public static Pilot updatePilot(Pilot updatedPilot){

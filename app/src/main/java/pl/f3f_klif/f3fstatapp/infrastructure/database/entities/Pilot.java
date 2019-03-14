@@ -3,8 +3,11 @@ package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import io.objectbox.Box;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.relation.ToMany;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 
 @Entity
 public class Pilot  implements Parcelable {
@@ -20,16 +23,15 @@ public class Pilot  implements Parcelable {
     private String fai;
     private String faiLicense;
     private String teamName;
-    private int orderNumber;
-    private int groupNumber;
-    public int flightNumber;
-    public float flightTimeResult = 0f;
+
+    ToMany<Result> results;
 
     public Pilot(){ }
     public Pilot(long f3fId, String firstName, String lastName){
         this.f3fId = f3fId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.results = new ToMany<>(this, Pilot_.results);
     }
 
     public Pilot(String requestLine) {
@@ -43,8 +45,6 @@ public class Pilot  implements Parcelable {
         fai = requestValues[6].replace("\"", "");
         faiLicense = requestValues[7].replace("\"", "");
         teamName = requestValues[8].replace("\"", "");
-        orderNumber = -1;
-        groupNumber = -1;
     }
 
     public Pilot(Parcel parcel) {
@@ -58,8 +58,6 @@ public class Pilot  implements Parcelable {
         fai = parcel.readString();
         faiLicense = parcel.readString();
         teamName = parcel.readString();
-        orderNumber = parcel.readInt();
-        groupNumber = parcel.readInt();
     }
 
     public long getF3fId() {
@@ -98,14 +96,6 @@ public class Pilot  implements Parcelable {
         return teamName;
     }
 
-    public int getOrderNumber() {
-        return orderNumber;
-    }
-
-    public int getGroupNumber() {
-        return groupNumber;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -123,8 +113,6 @@ public class Pilot  implements Parcelable {
         parcel.writeString(fai);
         parcel.writeString(faiLicense);
         parcel.writeString(teamName);
-        parcel.writeInt(orderNumber);
-        parcel.writeInt(groupNumber);
     }
 
     public static final Parcelable.Creator<Pilot> CREATOR = new Parcelable.Creator<Pilot>() {
@@ -138,4 +126,24 @@ public class Pilot  implements Parcelable {
             return new Pilot[size];
         }
     };
+
+    public void addResult(Result result) {
+/*        Box<Result> resultBox = ObjectBox.get().boxFor(Result.class);
+        resultBox.put(result);*/
+        results.add(result);
+        update();
+    }
+
+    private void update() {
+        Box<Pilot> pilotBox = ObjectBox.get().boxFor(Pilot.class);
+        pilotBox.put(this);
+    }
+
+    public Result getResult(long roundId) {
+        for (Result result : results) {
+            if(result.getRoundId() == roundId)
+                return result;
+        }
+        return null;
+    }
 }

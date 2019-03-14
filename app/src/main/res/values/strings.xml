@@ -56,6 +56,7 @@
     <!-- flight -->
     <string name="flight_number">Lot nr %1$d</string>
     <string name="assign_pilot">Przypisz pilota</string>
+    <string name="dnf">DNF</string>
     <string name="flight_current_time">%1$.2f s</string>
     <string name="flight_current_wind">Wiatr: %1$d</string>
     <string name="results">Wyniki:</string>

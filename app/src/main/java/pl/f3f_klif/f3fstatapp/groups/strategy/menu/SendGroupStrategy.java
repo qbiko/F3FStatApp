@@ -6,8 +6,12 @@ import com.loopj.android.http.RequestParams;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import io.objectbox.Box;
+import io.objectbox.BoxStore;
 import pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Account;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
@@ -22,23 +26,28 @@ public class SendGroupStrategy implements Strategy {
         Round round = event.getRound(roundId);
         Group group = round.getGroup(groupId);
 
-        List<Group> groups = round.getGroups();
-        List<Round> rounds = event.getRounds();
         List<Pilot> pilots = group.getPilots();
 
-        for (Pilot pilot:pilots) {
-            RequestParams params = new RequestParams();
-            params.put("login", "ssarnecki34@gmail.com");
-            params.put("password", "989865aa");
-            params.put("function", "postScore");
-            params.put("event_id", event.getF3fId());
-            params.put("pilot_id", pilot.f3fId);
-            params.put("seconds", pilot.flightTimeResult);
-            params.put("round", rounds.indexOf(round) + 1);
-            params.put("group", groups.indexOf(group) + 1);
+        Box<Account> accountBox = ObjectBox.get().boxFor(Account.class);
+        if(!accountBox.isEmpty()) {
+            Account account = accountBox.getAll().get(0);
 
-            sendSinglePilot(params);
+            for (Pilot pilot:pilots) {
+                RequestParams params = new RequestParams();
+                params.put("login", account.getMail());
+                params.put("password", account.getPassword());
+                params.put("function", "postScore");
+                params.put("event_id", event.getF3fId());
+                params.put("pilot_id", pilot.f3fId);
+                params.put("seconds", pilot.getStartNumber());
+                params.put("round", roundId);
+                params.put("group", groupId);
+
+                sendSinglePilot(params);
+            }
         }
+
+
     }
 
     private void sendSinglePilot(RequestParams params){
