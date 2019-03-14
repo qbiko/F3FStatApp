@@ -43,7 +43,7 @@
     <string name="send_results_to_server">Wyślij rezultaty rundy na serwer</string>
     <string name="cancel_groups">Anuluj grupy</string>
     <string name="send_groups">Wyślij grupy</string>
-    <string name="back_to_round_view">Wróć do widoku rundy %1$l</string>
+    <string name="back_to_round_view">Wróć do widoku rundy %1$d</string>
     <string name="send_group">Wyślij grupę %1$d</string>
     <string name="cancel_group">Anuluj grupę %1$d</string>
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.objectbox.Box;
+import io.objectbox.relation.ToMany;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event_;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
@@ -17,13 +18,29 @@ public class DatabaseRepository {
     private static Event event;
     private static Box<Round> roundBox;
     private static long f3fId;
-    public static void init(int f3fId, int groupsCount, String[] lines) {
+
+    public static boolean init() {
+        eventBox = ObjectBox.get().boxFor(Event.class);
+        event = eventBox.getAll().get(0);
+        if(event == null){
+            return false;
+        }
+        DatabaseRepository.f3fId = event.getF3fId();
+
+        roundBox = ObjectBox.get().boxFor(Round.class);
+        List<Round> rounds = roundBox.getAll();
+        event.rounds.addAll(rounds);
+
+        return true;
+    }
+
+    public static void initNew(int f3fId, int groupsCount, String[] lines) {
         DatabaseRepository.f3fId = f3fId;
         eventBox = ObjectBox.get().boxFor(Event.class);
-        event = eventBox.query().equal(Event_.f3fId, f3fId).build().findFirst();
-        if(event == null){
-            createEvent(f3fId, groupsCount, lines);
-        }
+        eventBox.removeAll();
+        roundBox = ObjectBox.get().boxFor(Round.class);
+        roundBox.removeAll();
+        createEvent(f3fId, groupsCount, lines);
         event = eventBox.query().equal(Event_.f3fId, f3fId).build().findFirst();
     }
 
@@ -42,15 +59,16 @@ public class DatabaseRepository {
     }
 
     public static List<Round> getRounds() {
-        if(event != null)
+        if(event != null) {
             return event.getRounds();
+        }
         return new ArrayList<>();
     }
 
     public static Group getGroup(long roundId, long groupId) {
         List<Group> groups = event.getRound(roundId).getGroups();
         for (Group group:groups) {
-            if(group.Id == groupId)
+            if(group.id == groupId)
                 return group;
         }
         return null;
@@ -60,13 +78,16 @@ public class DatabaseRepository {
         return event.getRound(roundId).getGroups();
     }
 
+    public static List<Group> getGroups(Round round) {
+        return round.getGroups();
+    }
+
     public static Long createEvent(int f3fId, int groupsCount, String[] lines){
         return eventBox.put(new Event(f3fId, groupsCount, lines));
     }
 
-    public static long createRound(List<Pilot> f3FPilots) {
-        long roundId = 0;
-        Round round = new Round();
+    public static Round createRound(List<Pilot> f3FPilots) {
+        Round round = new Round(event.rounds.size()+1);
 
         if(f3FPilots.size() < maxPilotsNumberInGroup) {
             round.groups.add(new Group(f3FPilots));
@@ -77,14 +98,9 @@ public class DatabaseRepository {
                 round.groups.add(new Group(groupPilots));
             }
         }
-
         event.rounds.add(round);
-        eventBox.put(event);
-        event = eventBox.query().equal(Event_.f3fId, f3fId).build().findFirst();
 
-        roundId = event.getRounds().get(event.getRounds().size()-1).id;
-
-        return roundId;
+        return round;
     }
 
     public static Group updateGroup(Group updatedGroup){

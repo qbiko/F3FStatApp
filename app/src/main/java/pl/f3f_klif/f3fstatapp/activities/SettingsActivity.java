@@ -20,6 +20,7 @@ import pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Account;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 
 import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.isSuccess;
 
@@ -43,10 +44,9 @@ public class SettingsActivity extends AppCompatActivity {
     ImageView resultImageView;
 
     Box<Account> accountBox;
+    Box<Event> eventBox;
 
     public static String responseText;
-
-    public static boolean isAccountCorrect = true; //TODO change after test application
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +55,20 @@ public class SettingsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         accountBox = ObjectBox.get().boxFor(Account.class);
+        eventBox = ObjectBox.get().boxFor(Event.class);
+
 
         if(!accountBox.isEmpty()) {
             Account account = accountBox.getAll().get(0);
             emailEditText.setText(account.getMail());
             passwordEditText.setText((account.getPassword()));
+        }
+
+        if(!eventBox.isEmpty()) {
+            Event event = eventBox.getAll().get(0);
+            eventIdEdtiText.setText(String.valueOf(event.getF3fId()));
+
+            DatabaseRepository.init();
         }
     }
 
@@ -87,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
                     int groupsCount = 3;
 
                     String[] lines = responseText.split(System.getProperty("line.separator"));
-                    DatabaseRepository.init(eventId, groupsCount, lines);
+                    DatabaseRepository.initNew(eventId, groupsCount, lines);
 
                     accountBox.removeAll();
                     Account account = new Account(mail, password);

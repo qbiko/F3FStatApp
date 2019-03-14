@@ -49,7 +49,7 @@ public class EventRoundsActivity extends AppCompatActivity {
         eventTypeTextView.setText(event.getType());
         eventStartDateTextView.setText(event.getStartDate().toString());
 
-        rounds = DatabaseRepository.getRounds();
+        rounds = event.getRounds();
 
         ListView listViewButton = findViewById(R.id.rounds_list_view);
 
@@ -72,8 +72,7 @@ public class EventRoundsActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {
-        long roundIndex = DatabaseRepository.createRound(event.getPilots());
-        rounds.add(new Round(roundIndex, RoundState.NOT_STARTED));
+        DatabaseRepository.createRound(event.getPilots());
         roundListAdapter.notifyDataSetChanged();
     }
 }

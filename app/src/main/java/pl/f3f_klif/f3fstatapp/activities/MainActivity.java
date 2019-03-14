@@ -17,10 +17,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.R;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Account;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 
-import static pl.f3f_klif.f3fstatapp.activities.SettingsActivity.isAccountCorrect;
 import static pl.f3f_klif.f3fstatapp.activities.SettingsActivity.responseText;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,12 +33,18 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.navigation)
     NavigationView navigationView;
 
+    public static Box<Account> accountBox;
+    public static Box<Event> eventBox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ObjectBox.init(this);
+
+        accountBox = ObjectBox.get().boxFor(Account.class);
+        eventBox = ObjectBox.get().boxFor(Event.class);
 
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer_desc,
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             switch(id)
             {
                 case R.id.start_event:
-                    if(isAccountCorrect) {
+                    if(DatabaseRepository.getEvent() != null) {
                         Intent intent = new Intent(getApplicationContext(), EventRoundsActivity.class);
                         intent.putExtra("responseText", responseText);
                         startActivity(intent);

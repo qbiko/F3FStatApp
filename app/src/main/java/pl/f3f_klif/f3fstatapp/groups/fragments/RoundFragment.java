@@ -27,40 +27,39 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 public class RoundFragment extends Fragment {
 
     private BoardView _boardView;
-    private long roundId;
+    private Round round;
     private List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> _groups;
     private boolean assignMode = false;
     private int flightNumber;
     private float flightTimeResult = 0f;
-    public static RoundFragment newInstance(long roundId) {
-        return new RoundFragment(roundId);
+    public static RoundFragment newInstance(Round round) {
+        return new RoundFragment(round);
     }
 
-    public static RoundFragment newInstance(long roundId, int flightNumber, float flightTimeResult) {
-        return new RoundFragment(roundId, flightNumber, flightTimeResult);
+    public static RoundFragment newInstance(Round round, int flightNumber,
+                                            float flightTimeResult) {
+        return new RoundFragment(round, flightNumber, flightTimeResult);
     }
 
     @SuppressLint("ValidFragment")
-    public RoundFragment(long roundId){
-        this.roundId = roundId;
-        _groups = DatabaseRepository.getGroups(this.roundId);
-        _groups = DatabaseRepository.getGroups(this.roundId);
-        Round round = DatabaseRepository.getRound(this.roundId);
+    public RoundFragment(Round round){
+        this.round = round;
+        _groups = DatabaseRepository.getGroups(this.round);
+        this.round.state = RoundState.STARTED;
         round.state = RoundState.STARTED;
-        DatabaseRepository.updateRound(round);
+        DatabaseRepository.updateRound(this.round);
     }
 
     @SuppressLint("ValidFragment")
-    public RoundFragment(long roundId, int flightNumber, float flightTimeResult){
-        this.roundId = roundId;
+    public RoundFragment(Round round, int flightNumber, float flightTimeResult){
+        this.round = round;
         assignMode = true;
         this.flightNumber = flightNumber;
         this.flightTimeResult = flightTimeResult;
-        _groups = DatabaseRepository.getGroups(this.roundId);
+        _groups = DatabaseRepository.getGroups(round);
 
-        Round round = DatabaseRepository.getRound(this.roundId);
-        round.state = RoundState.STARTED;
-        DatabaseRepository.updateRound(round);
+        this.round.state = RoundState.STARTED;
+        DatabaseRepository.updateRound(this.round);
     }
 
     public RoundFragment(){}
@@ -95,8 +94,8 @@ public class RoundFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         String roundTitle = assignMode
-                ? "Runda " + roundId + ": przypisz wynik do pilota"
-                : "Runda " + roundId;
+                ? "Runda " + round.getRoundId() + ": przypisz wynik do pilota"
+                : "Runda " + round.getRoundId();
 
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
@@ -106,10 +105,11 @@ public class RoundFragment extends Fragment {
     }
 
     private void AddGroups(){
-        _groups = DatabaseRepository.getGroups(roundId);
+        _groups = DatabaseRepository.getGroups(round);
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
-             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(), roundId, groupIndex);
+             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(), round.getRoundId(),
+                     groupIndex);
              groupIndex++;
         }
     }

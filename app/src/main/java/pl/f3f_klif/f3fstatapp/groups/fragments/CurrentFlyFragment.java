@@ -28,14 +28,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.handlers.CurrentFlyHandler;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 public class CurrentFlyFragment extends Fragment {
-    public static CurrentFlyFragment newInstance(long groupId, int flightNumber) {
+    public static CurrentFlyFragment newInstance(Round round, int flightNumber) {
         CurrentFlyFragment f = new CurrentFlyFragment();
         Bundle args = new Bundle();
         args.putInt("flightNumber", flightNumber);
-        CurrentFlyFragment.groupId = groupId;
+        CurrentFlyFragment.round = round;
         f.setArguments(args);
         return f;
     }
@@ -69,7 +70,7 @@ public class CurrentFlyFragment extends Fragment {
     public float flightTimeResult = 0f;
     private CurrentFlyHandler currentFlyHandler;
     private UsbService usbService;
-    private static long groupId;
+    private static Round round;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class CurrentFlyFragment extends Fragment {
 
     @OnClick(R.id.assign_pilot_button)
     void onAddRoundButtonClick() {
-        showFragment(RoundOrderFragment.newInstance(groupId, flightNumber, flightTimeResult));
+        showFragment(RoundOrderFragment.newInstance(round, flightNumber, flightTimeResult));
     }
 
     @Override

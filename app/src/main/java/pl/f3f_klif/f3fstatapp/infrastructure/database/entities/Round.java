@@ -28,6 +28,12 @@ public class Round implements Parcelable {
         groups = new ToMany<>(this, Round_.groups);
     }
 
+    public Round(long roundId){
+        this.roundId = roundId;
+        state = RoundState.NOT_STARTED;
+        groups = new ToMany<>(this, Round_.groups);
+    }
+
     public Round(long roundId, RoundState state) {
         this.roundId = roundId;
         this.state = state;
@@ -36,6 +42,8 @@ public class Round implements Parcelable {
     public Round(Parcel parcel) {
         this.roundId = parcel.readLong();
         this.state = RoundState.valueOf(parcel.readString());
+        groups = new ToMany<>(this, Round_.groups);
+        parcel.readList(groups, Group.class.getClassLoader());
 /*        this.startingList = new ArrayList<>();
         parcel.readList(startingList, Pilot.class.getClassLoader());
         this.status = parcel.readString();*/
@@ -76,6 +84,7 @@ public class Round implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(roundId);
         parcel.writeString(state.name());
+        parcel.writeList(groups);
     }
 
     public static final Creator<Round> CREATOR = new Creator<Round>() {

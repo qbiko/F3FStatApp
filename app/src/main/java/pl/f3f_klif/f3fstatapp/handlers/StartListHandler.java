@@ -8,6 +8,7 @@ import java.lang.ref.WeakReference;
 
 import pl.f3f_klif.f3fstatapp.activities.EventGroupsActivity;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.NEW_FLIGHT;
@@ -15,9 +16,11 @@ import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.NEW_FLIGHT;
 public class StartListHandler extends Handler {
 
     private final WeakReference<EventGroupsActivity> mActivity;
+    private Round round;
 
-    public StartListHandler(EventGroupsActivity activity) {
+    public StartListHandler(EventGroupsActivity activity, Round round) {
         mActivity = new WeakReference<>(activity);
+        this.round = round;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class StartListHandler extends Handler {
 
         if(NEW_FLIGHT.equals(typeOfMessage)) {
             int flightNumber = Integer.parseInt(message[1]);
-            mActivity.get().showFragment(CurrentFlyFragment.newInstance(0, flightNumber));
+            mActivity.get().showFragment(CurrentFlyFragment.newInstance(round, flightNumber));
         }
 
     }

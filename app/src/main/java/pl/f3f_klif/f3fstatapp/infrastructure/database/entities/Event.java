@@ -8,6 +8,7 @@ import java.util.List;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToMany;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 
 import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.SIMPLE_DATE_FORMAT;
 

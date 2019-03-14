@@ -42,6 +42,8 @@ public class EventGroupsActivity extends AppCompatActivity {
     private final int CANCEL_GROUP_ID = 100000;
     private final int SEND_GROUP_ID = 100001;
 
+
+    private Round round;
     private long roundId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,28 +52,28 @@ public class EventGroupsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        Round round = intent.getExtras().getParcelable("round");
+        round = intent.getExtras().getParcelable("round");
         roundId = round.getRoundId();
 
         if(savedInstanceState == null){
             if(round.state == null)
-                showFragment(RoundOrderFragment.newInstance(roundId));
+                showFragment(RoundOrderFragment.newInstance(round));
             else{
                 switch (round.state){
                     case NOT_STARTED:
                     case CANCELED:
-                        showFragment(RoundOrderFragment.newInstance(roundId));
+                        showFragment(RoundOrderFragment.newInstance(round));
                         break;
                     case STARTED:
                     case FINISHED:
-                        showFragment(RoundFragment.newInstance(roundId));
+                        showFragment(RoundFragment.newInstance(round));
                         break;
                 }
             }
 
         }
 
-        startListHandler = new StartListHandler(this);
+        startListHandler = new StartListHandler(this, round);
     }
 
     public void showFragment(Fragment fragment){
@@ -100,7 +102,7 @@ public class EventGroupsActivity extends AppCompatActivity {
         boolean isRoundOrderFragment = getSupportFragmentManager()
                 .findFragmentByTag("fragment") instanceof RoundOrderFragment;
 
-        List<Group> groups = DatabaseRepository.getGroups(roundId);
+        List<Group> groups = DatabaseRepository.getGroups(round);
         int index = 1;
 
         SubMenu cancelSubMenu = null;
@@ -110,7 +112,7 @@ public class EventGroupsActivity extends AppCompatActivity {
         {
             cancelSubMenu = menu.addSubMenu(CANCEL_GROUP_ID, CANCEL_SUBMENU_ID, 0, R.string.cancel_groups);
             for (Group group: groups) {
-                cancelSubMenu.add(CANCEL_GROUP_ID,(int)group.Id, 0, getString(R.string.cancel_group,
+                cancelSubMenu.add(CANCEL_GROUP_ID,(int)group.id, 0, getString(R.string.cancel_group,
                         index));
                 index++;
             }
@@ -120,7 +122,7 @@ public class EventGroupsActivity extends AppCompatActivity {
         {
             sendSubMenu = menu.addSubMenu(SEND_GROUP_ID, SEND_SUBMENU_ID, 0, R.string.send_groups);
             for (Group group: groups) {
-                sendSubMenu.add(SEND_GROUP_ID,(int)group.Id, 0,
+                sendSubMenu.add(SEND_GROUP_ID,(int)group.id, 0,
                         getString(R.string.send_group, index));
                 index++;
             }
@@ -163,7 +165,6 @@ public class EventGroupsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Round round = DatabaseRepository.getRound(roundId);
         int itemId = item.getItemId();
         switch(item.getGroupId()){
             case CANCEL_SUBMENU_ID:
@@ -175,13 +176,13 @@ public class EventGroupsActivity extends AppCompatActivity {
             default:
                 switch (itemId){
                     case R.id.action_current_fly:
-                        showFragment(CurrentFlyFragment.newInstance(roundId,0));
+                        showFragment(CurrentFlyFragment.newInstance(round,0));
                         return true;
                     case R.id.action_event_pilots_order:
-                        showFragment(RoundOrderFragment.newInstance(roundId));
+                        showFragment(RoundOrderFragment.newInstance(round));
                         return true;
                     case R.id.action_event_groups:
-                        showFragment(RoundFragment.newInstance(roundId));
+                        showFragment(RoundFragment.newInstance(round));
                         return true;
                     case R.id.action_cancel_round:
                         round.state = RoundState.CANCELED;
