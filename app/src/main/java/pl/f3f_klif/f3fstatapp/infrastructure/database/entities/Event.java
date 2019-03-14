@@ -1,6 +1,8 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
 
+import com.google.common.collect.Lists;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -24,16 +26,19 @@ public class Event {
     Date startDate;
     Date endDate;
     String type;
-    String minGroupAmount;
+    int minGroupAmount;
 
-    int groupsCount;
     public ToMany<Round> rounds;
     ToMany<Pilot> pilots;
 
-    public Event(){ }
-    public Event(int f3fId, int groupsCount, String[] lines){
+    public Event() {
+        rounds = new ToMany<>(this, Event_.rounds);
+        pilots = new ToMany<>(this, Event_.pilots);
+    }
+
+    public Event(int f3fId, int minGroupAmount, String[] lines){
         this.f3fId = f3fId;
-        this.groupsCount = groupsCount;
+        this.minGroupAmount = minGroupAmount;
         rounds = new ToMany<>(this, Event_.rounds);
 
         String[] requestValues = lines[1].split(",");
@@ -77,10 +82,6 @@ public class Event {
         this.f3fId = f3fId;
     }
 
-    public long getGroupsCount() {
-        return this.groupsCount;
-    }
-
     public String getName() {
         return name;
     }
@@ -103,5 +104,22 @@ public class Event {
 
     public List<Pilot> getPilots() {
         return pilots;
+    }
+
+    public Round createRound() {
+        Round round = new Round();
+
+        if(pilots.size() < minGroupAmount) {
+            round.groups.add(new Group(pilots));
+        }
+        else {
+            List<List<Pilot>> pilotsGroups = Lists.partition(pilots, minGroupAmount);
+            for (List<Pilot> groupPilots : pilotsGroups) {
+                round.groups.add(new Group(groupPilots));
+            }
+        }
+        rounds.add(round);
+
+        return round;
     }
 }

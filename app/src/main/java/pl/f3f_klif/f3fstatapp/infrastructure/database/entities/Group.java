@@ -9,22 +9,15 @@ import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToMany;
 
 @Entity
-public class Group implements Parcelable {
+public class Group {
     @Id
     public long id;
-
     public ToMany<Pilot> pilots;
 
     public Group(){ }
     public Group(List<Pilot> pilots){
         this.pilots = new ToMany<>(this, Group_.pilots);
         this.pilots.addAll(pilots);
-    }
-
-    public Group(Parcel parcel) {
-        id = parcel.readLong();
-        pilots = new ToMany<>(this, Group_.pilots);
-        parcel.readList(pilots, Pilot.class.getClassLoader());
     }
 
 
@@ -45,27 +38,4 @@ public class Group implements Parcelable {
     public Pilot removePilot(int position) {
         return pilots.remove(position);
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeLong(id);
-        parcel.writeList(pilots);
-    }
-
-    public static final Parcelable.Creator<Group> CREATOR = new Parcelable.Creator<Group>() {
-        @Override
-        public Group createFromParcel(Parcel in) {
-            return new Group(in);
-        }
-
-        @Override
-        public Group[] newArray(int size) {
-            return new Group[size];
-        }
-    };
 }

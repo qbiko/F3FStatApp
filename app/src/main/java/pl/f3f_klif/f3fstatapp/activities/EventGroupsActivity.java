@@ -52,8 +52,8 @@ public class EventGroupsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        round = intent.getExtras().getParcelable("round");
-        roundId = round.getRoundId();
+        roundId = intent.getExtras().getLong("roundId");
+        round = DatabaseRepository.getEvent().getRound(roundId);
 
         if(savedInstanceState == null){
             if(round.state == null)
@@ -185,12 +185,10 @@ public class EventGroupsActivity extends AppCompatActivity {
                         showFragment(RoundFragment.newInstance(round));
                         return true;
                     case R.id.action_cancel_round:
-                        round.state = RoundState.CANCELED;
-                        DatabaseRepository.updateRound(round);
+                        round.setState(RoundState.CANCELED);
                         return true;
                     case R.id.action_send_results_to_server:
-                        round.state = RoundState.FINISHED;
-                        DatabaseRepository.updateRound(round);
+                        round.setState(RoundState.FINISHED);
                         return true;
                 }
         }

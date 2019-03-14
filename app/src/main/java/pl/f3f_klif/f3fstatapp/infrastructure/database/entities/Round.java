@@ -1,25 +1,20 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.List;
 
+import io.objectbox.Box;
 import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.converter.PropertyConverter;
 import io.objectbox.relation.ToMany;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 
 @Entity
-public class Round implements Parcelable {
+public class Round {
     @Id
     public long id;
-
-    public long roundId;
-
     public ToMany<Group> groups;
-
     @Convert(converter = RoleConverter.class, dbType = Integer.class)
     public RoundState state;
 
@@ -28,29 +23,19 @@ public class Round implements Parcelable {
         groups = new ToMany<>(this, Round_.groups);
     }
 
-    public Round(long roundId){
-        this.roundId = roundId;
-        state = RoundState.NOT_STARTED;
-        groups = new ToMany<>(this, Round_.groups);
-    }
 
-    public Round(long roundId, RoundState state) {
-        this.roundId = roundId;
+    public Round(RoundState state) {
         this.state = state;
     }
 
-    public Round(Parcel parcel) {
-        this.roundId = parcel.readLong();
-        this.state = RoundState.valueOf(parcel.readString());
-        groups = new ToMany<>(this, Round_.groups);
-        parcel.readList(groups, Group.class.getClassLoader());
-/*        this.startingList = new ArrayList<>();
-        parcel.readList(startingList, Pilot.class.getClassLoader());
-        this.status = parcel.readString();*/
+    public long getId() {
+        return id;
     }
 
-    public long getRoundId() {
-        return roundId;
+    public void setState(RoundState state) {
+        this.state = state;
+        Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
+        roundBox.put(this);
     }
 
     public List<Group> getGroups() { return this.groups.subList(0, groups.size());}
@@ -74,28 +59,4 @@ public class Round implements Parcelable {
             return entityProperty == null ? null : entityProperty.stateKey;
         }
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeLong(roundId);
-        parcel.writeString(state.name());
-        parcel.writeList(groups);
-    }
-
-    public static final Creator<Round> CREATOR = new Creator<Round>() {
-        @Override
-        public Round createFromParcel(Parcel in) {
-            return new Round(in);
-        }
-
-        @Override
-        public Round[] newArray(int size) {
-            return new Round[size];
-        }
-    };
 }

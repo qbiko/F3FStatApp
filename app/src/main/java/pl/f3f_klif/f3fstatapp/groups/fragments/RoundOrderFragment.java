@@ -86,8 +86,8 @@ public class RoundOrderFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         String roundTitle = dragEnabled
-                ? "Runda " + round.roundId + ": ustaw kolejność"
-                : "Runda " + round.roundId +": przypisz wynik do pilota";
+                ? "Runda " + round.getId() + ": ustaw kolejność"
+                : "Runda " + round.getId() +": przypisz wynik do pilota";
 
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
@@ -101,7 +101,7 @@ public class RoundOrderFragment extends Fragment {
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
              CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(),
-                     round.roundId, groupIndex);
+                     round.getId(), groupIndex);
              groupIndex++;
         }
     }
@@ -129,9 +129,9 @@ public class RoundOrderFragment extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         if(dragEnabled)
-            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + round.getRoundId());
+            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + round.getId());
         else
-            menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + round.getRoundId());
+            menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + round.getId());
     }
 
 }

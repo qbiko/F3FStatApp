@@ -1,11 +1,8 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database;
-import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.objectbox.Box;
-import io.objectbox.relation.ToMany;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event_;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
@@ -13,7 +10,6 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 
 public class DatabaseRepository {
-    private static final int maxPilotsNumberInGroup = 12;
     private static Box<Event> eventBox;
     private static Event event;
     private static Box<Round> roundBox;
@@ -48,23 +44,6 @@ public class DatabaseRepository {
         return event;
     }
 
-    public static Round getRound(long roundId) {
-        return event.getRound(roundId);
-    }
-
-    public static Round updateRound(Round updatedRound){
-        Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
-        roundBox.put(updatedRound);
-        return updatedRound;
-    }
-
-    public static List<Round> getRounds() {
-        if(event != null) {
-            return event.getRounds();
-        }
-        return new ArrayList<>();
-    }
-
     public static Group getGroup(long roundId, long groupId) {
         List<Group> groups = event.getRound(roundId).getGroups();
         for (Group group:groups) {
@@ -84,23 +63,6 @@ public class DatabaseRepository {
 
     public static Long createEvent(int f3fId, int groupsCount, String[] lines){
         return eventBox.put(new Event(f3fId, groupsCount, lines));
-    }
-
-    public static Round createRound(List<Pilot> f3FPilots) {
-        Round round = new Round(event.rounds.size()+1);
-
-        if(f3FPilots.size() < maxPilotsNumberInGroup) {
-            round.groups.add(new Group(f3FPilots));
-        }
-        else {
-            List<List<Pilot>> pilotsGroups = Lists.partition(f3FPilots, maxPilotsNumberInGroup);
-            for (List<Pilot> groupPilots : pilotsGroups) {
-                round.groups.add(new Group(groupPilots));
-            }
-        }
-        event.rounds.add(round);
-
-        return round;
     }
 
     public static Group updateGroup(Group updatedGroup){

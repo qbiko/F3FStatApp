@@ -13,9 +13,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.adapters.RoundListAdapter;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
@@ -57,7 +59,7 @@ public class EventRoundsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(EventRoundsActivity.this, EventGroupsActivity.class);
-                intent.putExtra("round", rounds.get(position));
+                intent.putExtra("roundId", rounds.get(position).id);
                 EventRoundsActivity.this.startActivity(intent);
             }
         });
@@ -72,7 +74,8 @@ public class EventRoundsActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {
-        DatabaseRepository.createRound(event.getPilots());
+        Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
+        roundBox.put(event.createRound());
         roundListAdapter.notifyDataSetChanged();
     }
 }

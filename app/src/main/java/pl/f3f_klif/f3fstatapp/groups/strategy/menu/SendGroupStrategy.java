@@ -20,9 +20,9 @@ public class SendGroupStrategy implements Strategy {
     public void doStrategy(long groupId, long roundId) {
         Event event = DatabaseRepository.getEvent();
         Group group = DatabaseRepository.getGroup(roundId, groupId);
-        Round round = DatabaseRepository.getRound(roundId);
+        Round round = event.getRound(roundId);
         List<Group> groups = DatabaseRepository.getGroups(roundId);
-        List<Round> rounds = DatabaseRepository.getRounds();
+        List<Round> rounds = event.getRounds();
         List<Pilot> pilots = group.getPilots();
 
         for (Pilot pilot:pilots) {

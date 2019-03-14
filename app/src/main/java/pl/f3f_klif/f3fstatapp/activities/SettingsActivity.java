@@ -93,10 +93,10 @@ public class SettingsActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 responseText = new String(responseBody);
                 if (isSuccess(responseText)) {
-                    int groupsCount = 3;
+                    int minGroupAmount = Integer.parseInt(minGroupAmountEditText.getText().toString());
 
                     String[] lines = responseText.split(System.getProperty("line.separator"));
-                    DatabaseRepository.initNew(eventId, groupsCount, lines);
+                    DatabaseRepository.initNew(eventId, minGroupAmount, lines);
 
                     accountBox.removeAll();
                     Account account = new Account(mail, password);
