@@ -18,4 +18,11 @@ public class ObjectBox {
     public static BoxStore get() {
         return boxStore;
     }
+
+    public static void clear(Context context) {
+        boxStore.close();
+        boxStore.deleteAllFiles();
+
+        init(context);
+    }
 }

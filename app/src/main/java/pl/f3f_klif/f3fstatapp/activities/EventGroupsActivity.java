@@ -102,7 +102,7 @@ public class EventGroupsActivity extends AppCompatActivity {
         boolean isRoundOrderFragment = getSupportFragmentManager()
                 .findFragmentByTag("fragment") instanceof RoundOrderFragment;
 
-        List<Group> groups = DatabaseRepository.getGroups(round);
+        List<Group> groups = round.getGroups();
         int index = 1;
 
         SubMenu cancelSubMenu = null;
@@ -170,7 +170,7 @@ public class EventGroupsActivity extends AppCompatActivity {
             case CANCEL_SUBMENU_ID:
                 return true;
             case SEND_SUBMENU_ID:
-                if(DatabaseRepository.getGroup(roundId, (long)itemId) != null)
+                if(round.getGroup(itemId) != null)
                     new SendGroupStrategy().doStrategy(itemId, roundId);
                 return true;
             default:

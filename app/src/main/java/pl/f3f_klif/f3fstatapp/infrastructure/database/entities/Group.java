@@ -4,9 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
+
+import io.objectbox.Box;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToMany;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 
 @Entity
 public class Group {
@@ -29,13 +32,22 @@ public class Group {
         Pilot pilot = pilots.get(oldPosition);
         pilots.remove(oldPosition);
         pilots.add(newPosition, pilot);
+        update();
     }
 
     public void addPilot(int position, Pilot pilot) {
         pilots.add(position, pilot);
+        update();
     }
 
     public Pilot removePilot(int position) {
-        return pilots.remove(position);
+        Pilot removedPilot = pilots.remove(position);
+        update();
+        return removedPilot;
+    }
+
+    private void update() {
+        Box<Group> groupBox = ObjectBox.get().boxFor(Group.class);
+        groupBox.put(this);
     }
 }

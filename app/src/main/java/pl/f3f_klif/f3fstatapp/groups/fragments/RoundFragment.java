@@ -44,7 +44,7 @@ public class RoundFragment extends Fragment {
     @SuppressLint("ValidFragment")
     public RoundFragment(Round round){
         this.round = round;
-        _groups = DatabaseRepository.getGroups(this.round);
+        _groups = this.round.getGroups();
         this.round.setState(RoundState.STARTED);
     }
 
@@ -54,7 +54,7 @@ public class RoundFragment extends Fragment {
         assignMode = true;
         this.flightNumber = flightNumber;
         this.flightTimeResult = flightTimeResult;
-        _groups = DatabaseRepository.getGroups(round);
+        _groups = this.round.getGroups();
 
         this.round.setState(RoundState.STARTED);
     }
@@ -98,21 +98,21 @@ public class RoundFragment extends Fragment {
                 .getSupportActionBar()
                 .setTitle(roundTitle);
 
-        AddGroups();
+        addGroups();
     }
 
-    private void AddGroups(){
-        _groups = DatabaseRepository.getGroups(round);
+    private void addGroups(){
+        _groups = round.getGroups();
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
-             CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(),
+             createGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(),
                      round.getId(),
                      groupIndex);
              groupIndex++;
         }
     }
 
-    private void CreateGroup(String groupName, List<Pilot> pilots, long roundId, long groupId){
+    private void createGroup(String groupName, List<Pilot> pilots, long roundId, long groupId){
         Group group = GroupCreator
                 .createRoundGroup(
                         getActivity(),

@@ -96,9 +96,9 @@ public class SettingsActivity extends AppCompatActivity {
                     int minGroupAmount = Integer.parseInt(minGroupAmountEditText.getText().toString());
 
                     String[] lines = responseText.split(System.getProperty("line.separator"));
-                    DatabaseRepository.initNew(eventId, minGroupAmount, lines);
+                    DatabaseRepository.initNew(eventId, minGroupAmount, lines, getApplicationContext());
 
-                    accountBox.removeAll();
+                    accountBox = ObjectBox.get().boxFor(Account.class);
                     Account account = new Account(mail, password);
                     accountBox.put(account);
 

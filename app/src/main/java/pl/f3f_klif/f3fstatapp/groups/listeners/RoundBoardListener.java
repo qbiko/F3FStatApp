@@ -23,18 +23,15 @@ public class RoundBoardListener {
             if (fromColumn != toColumn) {
                 Group oldGroup = groups.get(fromColumn);
                 Pilot removedPilot = oldGroup.removePilot(fromRow);
-                DatabaseRepository.updateGroup(oldGroup);
 
                 Group newGroup = groups.get(toColumn);
                 newGroup.addPilot(toRow, removedPilot);
-                DatabaseRepository.updateGroup(newGroup);
                 return;
             }
 
             if (fromRow != toRow) {
                 Group targetGroup = groups.get(fromColumn);
                 targetGroup.reorderPilots(fromRow, toRow);
-                DatabaseRepository.updateGroup(targetGroup);
             }
         }
 

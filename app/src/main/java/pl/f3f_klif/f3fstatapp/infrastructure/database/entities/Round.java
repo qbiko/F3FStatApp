@@ -23,11 +23,6 @@ public class Round {
         groups = new ToMany<>(this, Round_.groups);
     }
 
-
-    public Round(RoundState state) {
-        this.state = state;
-    }
-
     public long getId() {
         return id;
     }
@@ -38,7 +33,9 @@ public class Round {
         roundBox.put(this);
     }
 
-    public List<Group> getGroups() { return this.groups.subList(0, groups.size());}
+    public List<Group> getGroups() { return this.groups;}
+
+    public Group getGroup(long id) { return this.groups.getById(id);}
 
     public static class RoleConverter implements PropertyConverter<RoundState, Integer> {
         @Override

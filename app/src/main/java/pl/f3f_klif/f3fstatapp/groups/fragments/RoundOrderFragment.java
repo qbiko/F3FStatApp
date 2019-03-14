@@ -42,7 +42,7 @@ public class RoundOrderFragment extends Fragment {
     @SuppressLint("ValidFragment")
     public RoundOrderFragment(Round round){
         this.round = round;
-        _groups = DatabaseRepository.getGroups(round);
+        _groups = round.getGroups();
     }
 
     @SuppressLint("ValidFragment")
@@ -51,7 +51,7 @@ public class RoundOrderFragment extends Fragment {
         dragEnabled = false;
         this.flightNumber = flightNumber;
         this.flightTimeResult = flightTimeResult;
-        _groups = DatabaseRepository.getGroups(this.round);
+        _groups = round.getGroups();
     }
 
     public RoundOrderFragment(){}
@@ -97,7 +97,7 @@ public class RoundOrderFragment extends Fragment {
     }
 
     private void AddGroups(){
-        _groups = DatabaseRepository.getGroups(round);
+        _groups = round.getGroups();
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
              CreateGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(),

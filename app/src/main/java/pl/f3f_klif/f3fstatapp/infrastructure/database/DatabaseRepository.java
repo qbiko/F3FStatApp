@@ -1,10 +1,11 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database;
 
+import android.content.Context;
+
 import java.util.List;
 
 import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event_;
-import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
@@ -25,17 +26,15 @@ public class DatabaseRepository {
 
         roundBox = ObjectBox.get().boxFor(Round.class);
         List<Round> rounds = roundBox.getAll();
-        event.rounds.addAll(rounds);
+        event.fillRounds(rounds);
 
         return true;
     }
 
-    public static void initNew(int f3fId, int groupsCount, String[] lines) {
+    public static void initNew(int f3fId, int groupsCount, String[] lines, Context context) {
         DatabaseRepository.f3fId = f3fId;
+        ObjectBox.clear(context);
         eventBox = ObjectBox.get().boxFor(Event.class);
-        eventBox.removeAll();
-        roundBox = ObjectBox.get().boxFor(Round.class);
-        roundBox.removeAll();
         createEvent(f3fId, groupsCount, lines);
         event = eventBox.query().equal(Event_.f3fId, f3fId).build().findFirst();
     }
@@ -44,31 +43,8 @@ public class DatabaseRepository {
         return event;
     }
 
-    public static Group getGroup(long roundId, long groupId) {
-        List<Group> groups = event.getRound(roundId).getGroups();
-        for (Group group:groups) {
-            if(group.id == groupId)
-                return group;
-        }
-        return null;
-    }
-
-    public static List<Group> getGroups(long roundId) {
-        return event.getRound(roundId).getGroups();
-    }
-
-    public static List<Group> getGroups(Round round) {
-        return round.getGroups();
-    }
-
-    public static Long createEvent(int f3fId, int groupsCount, String[] lines){
+    private static Long createEvent(int f3fId, int groupsCount, String[] lines){
         return eventBox.put(new Event(f3fId, groupsCount, lines));
-    }
-
-    public static Group updateGroup(Group updatedGroup){
-        Box<Group> groupBox = ObjectBox.get().boxFor(Group.class);
-        groupBox.put(updatedGroup);
-        return updatedGroup;
     }
 
     public static Pilot updatePilot(Pilot updatedPilot){

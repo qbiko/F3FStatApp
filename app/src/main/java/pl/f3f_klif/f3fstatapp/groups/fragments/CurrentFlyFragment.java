@@ -85,7 +85,7 @@ public class CurrentFlyFragment extends Fragment {
     }
 
     @OnClick(R.id.assign_pilot_button)
-    void onAddRoundButtonClick() {
+    void onAssignPilotButtonClick() {
         showFragment(RoundOrderFragment.newInstance(round, flightNumber, flightTimeResult));
     }
 
