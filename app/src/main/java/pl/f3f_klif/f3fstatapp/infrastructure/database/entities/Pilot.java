@@ -12,7 +12,7 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 @Entity
 public class Pilot  implements Parcelable {
     @Id
-    long id;
+    public long id;
 
     public long f3fId;
     private int startNumber;

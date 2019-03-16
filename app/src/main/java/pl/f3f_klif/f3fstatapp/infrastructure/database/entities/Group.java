@@ -23,7 +23,6 @@ public class Group {
         this.pilots.addAll(pilots);
     }
 
-
     public List<Pilot> getPilots() {
         return pilots;
     }

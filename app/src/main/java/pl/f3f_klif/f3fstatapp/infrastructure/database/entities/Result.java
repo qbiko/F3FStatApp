@@ -27,34 +27,35 @@ public class Result {
     private int orderNumber;
     private int groupNumber;
     private long roundId;
-    private boolean didNotStart;
-    private boolean didNotFinish;
 
-    public Result() {}
+    public Result() {
+    }
+
     public Result(int flightNumber, long roundId) {
         this.flightNumber = flightNumber;
         this.roundId = roundId;
     }
 
-    public List<Float> getLapsTime(){
-        try{
+    public List<Float> getLapsTime() {
+        try {
             return new Gson()
                     .fromJson(
                             lapsTimeJson,
-                            new TypeToken<List<Float>>(){}.getType());
-        }
-        catch(Exception e){
+                            new TypeToken<List<Float>>() {
+                            }.getType());
+        } catch (Exception e) {
 
         }
 
         return new ArrayList<>();
     }
 
-    public void addLapTime(Float time){
+    public void addLapTime(Float time) {
         ArrayList<Float> laps = new Gson()
                 .fromJson(
                         lapsTimeJson,
-                        new TypeToken<List<Float>>(){}.getType());
+                        new TypeToken<List<Float>>() {
+                        }.getType());
         laps.add(time);
         lapsTimeJson = new Gson().toJson(laps);
     }
@@ -118,4 +119,9 @@ public class Result {
     public long getRoundId() {
         return roundId;
     }
+
+    public String getLapsTimeJson() {
+        return lapsTimeJson;
+    }
 }
+
