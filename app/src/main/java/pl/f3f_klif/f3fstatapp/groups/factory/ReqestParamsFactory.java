@@ -2,6 +2,8 @@ package pl.f3f_klif.f3fstatapp.groups.factory;
 
 import com.loopj.android.http.RequestParams;
 
+import java.util.ArrayList;
+
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Account;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
@@ -28,18 +30,12 @@ public class ReqestParamsFactory {
         params.put("group", groupId);
 
         if(eventType == "F3F Slope Race (Plus Scoring)"){
-            params.put("sub1", groupId);
-            params.put("sub2", groupId);
-            params.put("sub3", groupId);
-            params.put("sub4", groupId);
-            params.put("sub5", groupId);
-            params.put("sub6", groupId);
-            params.put("sub7", groupId);
-            params.put("sub8", groupId);
-            params.put("sub9", groupId);
-            params.put("sub10", groupId);
-            params.put("sub11", groupId);
-
+            ArrayList<Float> laps = (ArrayList<Float>) result.getLapsTime();
+            int index = 1;
+            for (Float time: laps) {
+                params.put(String.format("sub%s", index), time);
+                index++;
+            }
         }
 
         return params;
