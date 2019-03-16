@@ -14,19 +14,14 @@ public class Result {
     long id;
 
     private int flightNumber;
-
     //private Timestamp dateTimeOfFlight;
     private float windAvg;
     private float windDirAvg;
-
     private float totalFlightTime;
-
     private float climbOut;
-    //private List<Float> lapsTime;
-
+    private String lapsTimeJson;
     private boolean dns;
     private boolean dnf;
-
     private int orderNumber;
     private int groupNumber;
     private long roundId;
@@ -36,6 +31,10 @@ public class Result {
         this.flightNumber = flightNumber;
         this.roundId = roundId;
         //lapsTime = new ArrayList<>();
+    }
+
+    public List<Float> GetLapsTime(){
+        
     }
 
     public void setClimbOut(float climbOut) {
