@@ -6,6 +6,8 @@ import java.util.List;
 
 import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot_;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 
@@ -47,7 +49,4 @@ public class DatabaseRepository {
         pilotBox.put(updatedPilot);
         return updatedPilot;
     }
-
-
-
 }

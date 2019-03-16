@@ -1,5 +1,8 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,30 +15,49 @@ public class Result {
 
     @Id
     long id;
-
     private int flightNumber;
-
     //private Timestamp dateTimeOfFlight;
-    private float windAvg;
-    private float windDirAvg;
-
+    public float windAvg;
+    public float windDirAvg;
     private float totalFlightTime;
-
     private float climbOut;
-    //private List<Float> lapsTime;
-
+    private String lapsTimeJson;
     private boolean dns;
     private boolean dnf;
-
     private int orderNumber;
     private int groupNumber;
     private long roundId;
 
-    public Result() {}
+    public Result() {
+    }
+
     public Result(int flightNumber, long roundId) {
         this.flightNumber = flightNumber;
         this.roundId = roundId;
-        //lapsTime = new ArrayList<>();
+    }
+
+    public List<Float> getLapsTime() {
+        try {
+            return new Gson()
+                    .fromJson(
+                            lapsTimeJson,
+                            new TypeToken<List<Float>>() {
+                            }.getType());
+        } catch (Exception e) {
+
+        }
+
+        return new ArrayList<>();
+    }
+
+    public void addLapTime(Float time) {
+        ArrayList<Float> laps = new Gson()
+                .fromJson(
+                        lapsTimeJson,
+                        new TypeToken<List<Float>>() {
+                        }.getType());
+        laps.add(time);
+        lapsTimeJson = new Gson().toJson(laps);
     }
 
     public void setClimbOut(float climbOut) {
@@ -97,4 +119,9 @@ public class Result {
     public long getRoundId() {
         return roundId;
     }
+
+    public String getLapsTimeJson() {
+        return lapsTimeJson;
+    }
 }
+
