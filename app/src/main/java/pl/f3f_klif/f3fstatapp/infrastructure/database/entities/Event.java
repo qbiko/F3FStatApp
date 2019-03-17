@@ -105,6 +105,10 @@ public class Event {
         return pilots;
     }
 
+    public int getMinGroupAmount() {
+        return minGroupAmount;
+    }
+
     public Round createRound() {
         Round round = new Round();
 
