@@ -28,6 +28,7 @@ public class ReqestParamsFactory {
         params.put("seconds", result.getTotalFlightTime());
         params.put("round", roundId);
         params.put("group", groupId);
+        params.put("penalty", result.getPenalty());
 
         if(eventType == "F3F Slope Race (Plus Scoring)"){
             ArrayList<Float> laps = (ArrayList<Float>) result.getLapsTime();

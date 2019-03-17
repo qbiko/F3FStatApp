@@ -3,6 +3,8 @@ package pl.f3f_klif.f3fstatapp.groups.services.points;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import org.apache.commons.math3.util.Precision;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,7 +38,7 @@ public class PointCounter {
         {
             for (PilotWithResult pilot: pilots) {
                 if(pilot.time.isPresent())
-                    results.put(pilot.id, (pilotWithBestResult.getAsDouble()/pilot.time.get()) * 1000);
+                    results.put(pilot.id, (Precision.round(pilotWithBestResult.getAsDouble(),2)/Precision.round(pilot.time.get(),2)) * 1000);
                 else
                     results.put(pilot.id, 0D);
             }
