@@ -101,7 +101,7 @@ public class RoundOrderFragment extends Fragment {
         int groupIndex = 1;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group pilotsGroup: _groups) {
              createGroup(String.format("Grupa %s", groupIndex), pilotsGroup.getPilots(),
-                     round, groupIndex);
+                     round, pilotsGroup.id);
              groupIndex++;
         }
     }
