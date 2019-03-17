@@ -41,6 +41,9 @@ public class Result {
 
     public List<Float> getLapsTime() {
         try {
+            if(lapsTimeJson == null)
+                return new ArrayList<>();
+
             return new Gson()
                     .fromJson(
                             lapsTimeJson,

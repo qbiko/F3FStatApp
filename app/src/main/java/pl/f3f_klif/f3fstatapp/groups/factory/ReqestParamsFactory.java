@@ -30,7 +30,7 @@ public class ReqestParamsFactory {
         params.put("group", groupId);
         params.put("penalty", result.getPenalty());
 
-        if(eventType == "F3F Slope Race (Plus Scoring)"){
+        if(eventType.equals("F3F Slope Race (Plus Scoring)")){
             ArrayList<Float> laps = (ArrayList<Float>) result.getLapsTime();
             int index = 1;
             for (Float time: laps) {

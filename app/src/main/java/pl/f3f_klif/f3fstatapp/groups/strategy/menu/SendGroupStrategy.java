@@ -42,14 +42,14 @@ public class SendGroupStrategy implements Strategy {
                     RequestParams params = ReqestParamsFactory
                             .Create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId);
 
-                    sendSinglePilot(params, scope);
+                    sendSinglePilot(params, scope, pilot, event.getType());
                 }
 
             }
         }
     }
 
-    private void sendSinglePilot(RequestParams params, StrategyScope scope){
+    private void sendSinglePilot(RequestParams params, StrategyScope scope, Pilot pilot, String eventType){
 
         F3XVaultApiClient.post(params, new AsyncHttpResponseHandler() {
             @Override
@@ -59,10 +59,16 @@ public class SendGroupStrategy implements Strategy {
 
                 }
                 else {
+                    String message = String.format("Nie powiodło się wysyłanie pilota %s %s w grupie: %d", pilot.firstName, pilot.lastName, scope.groupId);
+                    if(eventType.equals("F3F Slope Race (Plus Scoring)")
+                            && responseText !=null
+                            && responseText.contains("mandatory")){
+                        message = String.format("Nie powiodło się wysyłanie pilota %s %s w grupie: %d. Brak czasów na wszystkich bazach", pilot.firstName, pilot.lastName, scope.groupId);
+                    }
                     Toast
                             .makeText(
                                     scope.context,
-                                    "Nie powiodło się wysyłanie jednego z zawodników w grupie: " + scope.groupId,
+                                    message,
                                     Toast.LENGTH_SHORT).show();
                 }
             }
