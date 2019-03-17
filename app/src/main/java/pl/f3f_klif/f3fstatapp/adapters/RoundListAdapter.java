@@ -11,27 +11,28 @@ import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 
 public class RoundListAdapter extends BaseAdapter {
 
-    private List<Round> rounds;
+    private Event event;
     private Context context;
 
-    public RoundListAdapter(List<Round> rounds, Context context) {
-        this.rounds = rounds;
+    public RoundListAdapter(Event event, Context context) {
+        this.event = event;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return rounds.size();
+        return event.getRounds().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return rounds.get(i);
+        return event.getRounds().get(i);
     }
 
     @Override
@@ -46,9 +47,9 @@ public class RoundListAdapter extends BaseAdapter {
 
         TextView nameTextView = view.findViewById(R.id.round_name_text_view);
         TextView statusTextView = view.findViewById(R.id.round_status_text_view);
-        nameTextView.setText("Runda " + String.valueOf(rounds.get(i).getId()));
+        nameTextView.setText("Runda " + String.valueOf(event.getRounds().get(i).getId()));
 
-        statusTextView.setText(getStatus(rounds.get(i).state));
+        statusTextView.setText(getStatus(event.getRounds().get(i).state));
         return view;
     }
 
