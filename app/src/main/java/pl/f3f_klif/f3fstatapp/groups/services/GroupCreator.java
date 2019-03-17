@@ -79,7 +79,7 @@ public class GroupCreator {
             String time = "-";
             Result pilotResult = pilot.getResult(round.getId());
             if(pilotResult != null) {
-                time = pilotResult.getTotalFlightTime() <=0
+                time = pilotResult.getTotalFlightTime() < 0
                             ? "-"
                             : String.valueOf(pilotResult.getTotalFlightTime());
             }
