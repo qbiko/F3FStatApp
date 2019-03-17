@@ -98,10 +98,6 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                         "Wynik został zapisany pilotowi: " + pilot.getFirstName() + " " + pilot.getLastName(),
                         Toast.LENGTH_SHORT).show();
                 pilot.addResult(result);
-                //wyciagnij grupe dla danej rundy
-                //mItemId to id pilota
-                //przypisz wynik pilotowi
-                //Toast.makeText(view.getContext(), "Item long clicked"+this.mText+this.mItemId+mLayoutId, Toast.LENGTH_SHORT).show();
                 showFragment(RoundFragment.newInstance(round), view);
             }
 

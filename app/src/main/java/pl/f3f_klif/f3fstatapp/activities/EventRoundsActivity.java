@@ -40,6 +40,12 @@ public class EventRoundsActivity extends AppCompatActivity {
     private Event event;
 
     @Override
+    protected void onResume() {
+        roundListAdapter.notifyDataSetChanged();
+        super.onResume();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_rounds);
@@ -50,7 +56,6 @@ public class EventRoundsActivity extends AppCompatActivity {
         eventLocationTextView.setText(event.getLocation());
         eventTypeTextView.setText(event.getType());
         eventStartDateTextView.setText(event.getStartDate().toString());
-
         rounds = event.getRounds();
 
         ListView listViewButton = findViewById(R.id.rounds_list_view);
@@ -66,11 +71,9 @@ public class EventRoundsActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Rundy");
 
-        roundListAdapter = new RoundListAdapter(rounds,EventRoundsActivity.this);
+        roundListAdapter = new RoundListAdapter(event,EventRoundsActivity.this);
         roundsListView.setAdapter(roundListAdapter);
     }
-
-
 
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {

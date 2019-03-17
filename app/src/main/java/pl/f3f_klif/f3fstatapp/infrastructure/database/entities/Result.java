@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
@@ -34,6 +35,7 @@ public class Result {
     public Result(int flightNumber, long roundId) {
         this.flightNumber = flightNumber;
         this.roundId = roundId;
+        this.totalFlightTime = ((float) new Random().nextDouble()); // Wyjebać
     }
 
     public List<Float> getLapsTime() {
