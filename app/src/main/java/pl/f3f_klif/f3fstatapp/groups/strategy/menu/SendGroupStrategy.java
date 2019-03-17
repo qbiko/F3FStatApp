@@ -23,10 +23,10 @@ import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.isSuccess;
 public class SendGroupStrategy implements Strategy {
 
     @Override
-    public void doStrategy(long groupId, long roundId) {
+    public void doStrategy(StrategyScope scope) {
         Event event = DatabaseRepository.getEvent();
-        Round round = event.getRound(roundId);
-        Group group = round.getGroup(groupId);
+        Round round = event.getRound(scope.roundId);
+        Group group = round.getGroup(scope.groupId);
         List<Pilot> pilots = group.getPilots();
 
         Box<Account> accountBox = ObjectBox.get().boxFor(Account.class);
@@ -34,11 +34,14 @@ public class SendGroupStrategy implements Strategy {
             Account account = accountBox.getAll().get(0);
 
             for (Pilot pilot:pilots) {
-                Result result = pilot.getResult(roundId);
-                RequestParams params = ReqestParamsFactory
-                        .Create(event.getType(),account, event,  pilot, result, groupId, roundId);
+                Result result = pilot.getResult(scope.roundId);
+                if(result != null){
+                    RequestParams params = ReqestParamsFactory
+                            .Create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId);
 
-                sendSinglePilot(params);
+                    sendSinglePilot(params);
+                }
+
             }
         }
     }

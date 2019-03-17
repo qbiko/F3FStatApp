@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -25,8 +27,11 @@ import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundOrderFragment;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendGroupStrategy;
+import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendRoundStrategy;
+import pl.f3f_klif.f3fstatapp.groups.strategy.menu.StrategyScope;
 import pl.f3f_klif.f3fstatapp.handlers.StartListHandler;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
@@ -42,7 +47,7 @@ public class EventGroupsActivity extends AppCompatActivity {
     private final int CANCEL_GROUP_ID = 100000;
     private final int SEND_GROUP_ID = 100001;
 
-
+    private Event event;
     private Round round;
     private long roundId;
     @Override
@@ -54,7 +59,7 @@ public class EventGroupsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         roundId = intent.getExtras().getLong("roundId");
         round = DatabaseRepository.getEvent().getRound(roundId);
-
+        event = DatabaseRepository.getEvent();
         if(savedInstanceState == null){
             if(round.state == null)
                 showFragment(RoundOrderFragment.newInstance(round));
@@ -163,6 +168,7 @@ public class EventGroupsActivity extends AppCompatActivity {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
@@ -171,7 +177,8 @@ public class EventGroupsActivity extends AppCompatActivity {
                 return true;
             case SEND_SUBMENU_ID:
                 if(round.getGroup(itemId) != null)
-                    new SendGroupStrategy().doStrategy(itemId, roundId);
+                    new SendGroupStrategy()
+                            .doStrategy(new StrategyScope(itemId, roundId));
                 return true;
             default:
                 switch (itemId){
@@ -182,13 +189,22 @@ public class EventGroupsActivity extends AppCompatActivity {
                         showFragment(RoundOrderFragment.newInstance(round));
                         return true;
                     case R.id.action_event_groups:
-                        showFragment(RoundFragment.newInstance(round));
+                        if(!event.getRounds().stream().anyMatch(i -> i.state == RoundState.STARTED)){
+                            showFragment(RoundFragment.newInstance(round));
+                            return true;
+                        }
+                        Toast
+                                .makeText(
+                                        getApplicationContext(),
+                                        "Nie można wystartować kolejnej rundy, gdy inna jest nie zakończona",
+                                        Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.action_cancel_round:
                         round.setState(RoundState.CANCELED);
                         return true;
                     case R.id.action_send_results_to_server:
-                        round.setState(RoundState.FINISHED);
+                        new SendRoundStrategy()
+                                .doStrategy(new StrategyScope(roundId));
                         return true;
                 }
         }
