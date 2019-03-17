@@ -5,5 +5,7 @@
         android:title="@string/start_event_text"/>
     <item android:id="@+id/settings"
         android:title="@string/settings_text"/>
+    <item android:id="@+id/synchronize_players"
+        android:title="@string/synchronize_players_text"/>
 
 </menu>

@@ -1,5 +1,7 @@
 package pl.f3f_klif.f3fstatapp.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -44,7 +46,9 @@ public class SettingsActivity extends AppCompatActivity {
     ImageView resultImageView;
 
     Box<Account> accountBox;
-    Box<Event> eventBox;
+
+    Event event;
+    Account account;
 
     public static String responseText;
 
@@ -55,20 +59,17 @@ public class SettingsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         accountBox = ObjectBox.get().boxFor(Account.class);
-        eventBox = ObjectBox.get().boxFor(Event.class);
 
-
-        if(!accountBox.isEmpty()) {
-            Account account = accountBox.getAll().get(0);
+        account = DatabaseRepository.getAccount();
+        if(account != null) {
             emailEditText.setText(account.getMail());
             passwordEditText.setText((account.getPassword()));
         }
 
-        if(!eventBox.isEmpty()) {
-            Event event = eventBox.getAll().get(0);
+        event = DatabaseRepository.getEvent();
+        if(event != null) {
             eventIdEditText.setText(String.valueOf(event.getF3fId()));
-
-            DatabaseRepository.init();
+            minGroupAmountEditText.setText(String.valueOf(event.getMinGroupAmount()));
         }
     }
 
@@ -82,39 +83,88 @@ public class SettingsActivity extends AppCompatActivity {
         int eventId = Integer.parseInt(eventIdEditText.getText().toString());
         String mail = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
+        int minGroupAmount = Integer.parseInt(minGroupAmountEditText.getText().toString());
 
-        RequestParams params = new RequestParams();
-        params.put("login", mail);
-        params.put("password", password);
-        params.put("function", "getEventInfo");
-        params.put("event_id", eventId);
-        F3XVaultApiClient.post(params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                responseText = new String(responseBody);
-                if (isSuccess(responseText)) {
-                    int minGroupAmount = Integer.parseInt(minGroupAmountEditText.getText().toString());
-
-                    String[] lines = responseText.split(System.getProperty("line.separator"));
-                    DatabaseRepository.initNew(eventId, minGroupAmount, lines, getApplicationContext());
-
-                    accountBox = ObjectBox.get().boxFor(Account.class);
-                    Account account = new Account(mail, password);
-                    accountBox.put(account);
+        if(event == null || (eventId != event.getF3fId() || minGroupAmount != event.getMinGroupAmount())) {
+            DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        RequestParams params = new RequestParams();
+                        params.put("login", mail);
+                        params.put("password", password);
+                        params.put("function", "getEventInfo");
+                        params.put("event_id", eventId);
+                        F3XVaultApiClient.post(params, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                responseText = new String(responseBody);
+                                if (isSuccess(responseText)) {
 
 
-                    responseTextView.setText(R.string.success_authorization_text);
-                    resultImageView.setImageResource(R.drawable.success);
-                } else {
-                    responseTextView.setText(R.string.failure_authorization_text);
-                    resultImageView.setImageResource(R.drawable.error);
+                                    String[] lines = responseText.split(System.getProperty("line.separator"));
+                                    DatabaseRepository.initNew(eventId, minGroupAmount, lines, getApplicationContext());
+
+                                    Account account = new Account(mail, password);
+                                    accountBox.put(account);
+
+
+                                    responseTextView.setText(R.string.success_authorization_text);
+                                    resultImageView.setImageResource(R.drawable.success);
+                                } else {
+                                    responseTextView.setText(R.string.failure_authorization_text);
+                                    resultImageView.setImageResource(R.drawable.error);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                            }
+                        });
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
                 }
-                //responseTextView.append(responseText);
-            }
+            };
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            }
-        });
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+            builder.setMessage(R.string.warning_create_event).setPositiveButton(R.string.yes, dialogClickListener)
+                    .setNegativeButton(R.string.no, dialogClickListener).show();
+
+        }
+        else if(account == null || (account.getMail().equals(mail) || account.getPassword().equals(password))) {
+            RequestParams params = new RequestParams();
+            params.put("login", mail);
+            params.put("password", password);
+            params.put("function", "showParameters");
+            params.put("function_name", "getEventInfo");
+            F3XVaultApiClient.post(params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    responseText = new String(responseBody);
+                    if (isSuccess(responseText)) {
+                        accountBox.removeAll();
+                        DatabaseRepository.createAccount(mail, password);
+
+                        responseTextView.setText(R.string.success_authorization_text);
+                        resultImageView.setImageResource(R.drawable.success);
+                    } else {
+                        //DatabaseRepository.cleanAccount();
+
+                        responseTextView.setText(R.string.failure_authorization_text);
+                        resultImageView.setImageResource(R.drawable.error);
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                }
+            });
+        }
+        else {
+            responseTextView.setText(R.string.not_necessary_authorization_text);
+            //resultImageView.setImageResource(R.drawable.error);
+        }
+
     }
 }

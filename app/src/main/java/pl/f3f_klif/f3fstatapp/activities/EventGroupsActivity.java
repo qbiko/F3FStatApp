@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.Toast;
 
+import com.annimon.stream.*;
+
 import java.util.List;
 import java.util.Set;
 
@@ -168,7 +170,6 @@ public class EventGroupsActivity extends AppCompatActivity {
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
@@ -189,7 +190,7 @@ public class EventGroupsActivity extends AppCompatActivity {
                         showFragment(RoundOrderFragment.newInstance(round));
                         return true;
                     case R.id.action_event_groups:
-                        if(!event.getRounds().stream().anyMatch(i -> i.state == RoundState.STARTED)){
+                        if(!Stream.of(event.getRounds()).anyMatch((i -> i.state == RoundState.STARTED))){
                             showFragment(RoundFragment.newInstance(round));
                             return true;
                         }
