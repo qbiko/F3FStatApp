@@ -5,6 +5,9 @@ import com.annimon.stream.Optional;
 import com.annimon.stream.OptionalDouble;
 import com.annimon.stream.Stream;
 
+import org.apache.commons.math3.util.Precision;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +34,7 @@ public class PointCounter {
         {
             for (PilotWithResult pilot: pilots) {
                 if(pilot.time.isPresent())
-                    results.put(pilot.id, (pilotWithBestResult.getAsDouble()/pilot.time.get()) * 1000);
+                    results.put(pilot.id, (Precision.round(pilotWithBestResult.getAsDouble(),2)/Precision.round(pilot.time.get(),2)) * 1000);
                 else
                     results.put(pilot.id, 0D);
             }

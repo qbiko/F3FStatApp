@@ -1,5 +1,8 @@
 package pl.f3f_klif.f3fstatapp.groups.strategy.menu;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -39,24 +42,34 @@ public class SendGroupStrategy implements Strategy {
                     RequestParams params = ReqestParamsFactory
                             .Create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId);
 
-                    sendSinglePilot(params);
+                    sendSinglePilot(params, scope, pilot, event.getType());
                 }
 
             }
         }
     }
 
-    private void sendSinglePilot(RequestParams params){
+    private void sendSinglePilot(RequestParams params, StrategyScope scope, Pilot pilot, String eventType){
 
         F3XVaultApiClient.post(params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String responseText = new String(responseBody);
                 if(isSuccess(responseText)) {
-                    //String.format("Pilot %s %s wysłany",pilot.FirstName, pilot.LastName); walnac jakiegos loga czy cos
+
                 }
                 else {
-                    //String.format("Pilot %s %s wysłany",pilot.FirstName, pilot.LastName); walnac jakiegos loga czy cos
+                    String message = String.format("Nie powiodło się wysyłanie pilota %s %s w grupie: %d", pilot.firstName, pilot.lastName, scope.groupId);
+                    if(eventType.equals("F3F Slope Race (Plus Scoring)")
+                            && responseText !=null
+                            && responseText.contains("mandatory")){
+                        message = String.format("Nie powiodło się wysyłanie pilota %s %s w grupie: %d. Brak czasów na wszystkich bazach", pilot.firstName, pilot.lastName, scope.groupId);
+                    }
+                    Toast
+                            .makeText(
+                                    scope.context,
+                                    message,
+                                    Toast.LENGTH_SHORT).show();
                 }
             }
 

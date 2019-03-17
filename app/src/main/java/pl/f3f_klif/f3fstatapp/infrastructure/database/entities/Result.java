@@ -28,6 +28,7 @@ public class Result {
     private int orderNumber;
     private int groupNumber;
     private long roundId;
+    private float penalty;
 
     public Result() {
     }
@@ -40,6 +41,9 @@ public class Result {
 
     public List<Float> getLapsTime() {
         try {
+            if(lapsTimeJson == null)
+                return new ArrayList<>();
+
             return new Gson()
                     .fromJson(
                             lapsTimeJson,
@@ -124,6 +128,14 @@ public class Result {
 
     public String getLapsTimeJson() {
         return lapsTimeJson;
+    }
+
+    public float getPenalty() {
+        return penalty;
+    }
+
+    public void setPenalty(float penalty) {
+        this.penalty = penalty;
     }
 }
 
