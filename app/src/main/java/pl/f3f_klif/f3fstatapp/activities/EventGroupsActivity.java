@@ -178,7 +178,7 @@ public class EventGroupsActivity extends AppCompatActivity {
             case SEND_SUBMENU_ID:
                 if(round.getGroup(itemId) != null)
                     new SendGroupStrategy()
-                            .doStrategy(new StrategyScope(itemId, roundId));
+                            .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext()));
                 return true;
             default:
                 switch (itemId){
@@ -204,7 +204,7 @@ public class EventGroupsActivity extends AppCompatActivity {
                         return true;
                     case R.id.action_send_results_to_server:
                         new SendRoundStrategy()
-                                .doStrategy(new StrategyScope(roundId));
+                                .doStrategy(new StrategyScope(roundId, getApplicationContext()));
                         return true;
                 }
         }
