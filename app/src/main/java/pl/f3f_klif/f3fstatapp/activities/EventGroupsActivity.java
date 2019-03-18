@@ -190,7 +190,11 @@ public class EventGroupsActivity extends AppCompatActivity {
                         showFragment(RoundOrderFragment.newInstance(round));
                         return true;
                     case R.id.action_event_groups:
-                        if(!Stream.of(event.getRounds()).anyMatch((i -> i.state == RoundState.STARTED))){
+                        Optional<Round> roundOptional = Stream.of(event.getRounds())
+                                .filter(i -> ( i.state == RoundState.NOT_STARTED
+                                        || i.state == RoundState.STARTED ) && i.id < round.id )
+                                .findFirst();
+                        if(roundOptional.isEmpty()){
                             showFragment(RoundFragment.newInstance(round));
                             return true;
                         }
