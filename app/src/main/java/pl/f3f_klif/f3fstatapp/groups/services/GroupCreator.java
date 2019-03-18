@@ -1,8 +1,6 @@
 package pl.f3f_klif.f3fstatapp.groups.services;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.TextView;
@@ -61,7 +59,6 @@ public class GroupCreator {
         return new Group(listAdapter, header, false);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Group createRoundGroup(
             Context context,
             String groupName,

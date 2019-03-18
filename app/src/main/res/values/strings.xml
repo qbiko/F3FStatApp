@@ -2,6 +2,7 @@
     <string name="app_name">F3FStatApp</string>
     <string name="start_event_text">Przejdź do zawodów</string>
     <string name="settings_text">Ustawienia zawodów</string>
+    <string name="synchronize_players_text">Pobierz listę zawodników</string>
     <string name="event_id_text">ID zawodów:</string>
     <string name="confirm_button">Zatwierdź</string>
     <string name="cancel_button">Anuluj</string>
@@ -11,8 +12,13 @@
         http://www.f3xvault.com, by administrować rozgrywką.</string>
     <string name="success_authorization_text">Autoryzacja przebiegła pomyślnie</string>
     <string name="failure_authorization_text">Wpisane dane są niepoprawne</string>
+    <string name="not_necessary_authorization_text">Wpisane dane nie zmieniły się</string>
     <string name="enter_to_start_event_with_incorrect_data">Najpierw przejdź do ustawień i
         wpisz poprawne dane</string>
+    <string name="player_list_was_updated">Lista zawodników została
+        zaktualizowana</string>
+    <string name="player_list_was_not_updated">Nie udało się pobrać listy zawodnikó. Sprawdź
+        czy dane w ustawieniach są poprawne.</string>
     <string name="start">Start</string>
     <string name="prepare_time">Czas przygotowania: %1$.1f s</string>
     <string name="start_time">Czas startowy: %1$.1f s</string>
@@ -20,6 +26,14 @@
     <string name="close_drawer_desc">Zamknij</string>
     <string name="min_group_amount_text">Min. liczba zawodników w grupie:</string>
     <string name="default_min_group_amount">12</string>
+    <string name="warning_synchronize_players">Są już zainicjalizowane zawody, jeśli
+        pobierzesz listę zawodników, stracisz wszystkie te dane. Czy aby na pewno chcesz to
+    zrobić?</string>
+    <string name="warning_create_event">Są już zainicjalizowane zawody, jeśli utworzysz nowe,
+        stracisz te dane. Czy aby na pewno chcesz to zrobić?</string>
+
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
 
     <!-- Headers for f3FEvent details list -->
     <string name="start_number">Lp.</string>
