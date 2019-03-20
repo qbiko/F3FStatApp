@@ -45,8 +45,6 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.result_image)
     ImageView resultImageView;
 
-    Box<Account> accountBox;
-
     Event event;
     Account account;
 
@@ -57,8 +55,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
-
-        accountBox = ObjectBox.get().boxFor(Account.class);
 
         account = DatabaseRepository.getAccount();
         if(account != null) {
@@ -104,8 +100,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     String[] lines = responseText.split(System.getProperty("line.separator"));
                                     DatabaseRepository.initNew(eventId, minGroupAmount, lines, getApplicationContext());
 
-                                    Account account = new Account(mail, password);
-                                    accountBox.put(account);
+                                    account = DatabaseRepository.createAccount(mail, password);
 
 
                                     responseTextView.setText(R.string.success_authorization_text);
@@ -143,8 +138,8 @@ public class SettingsActivity extends AppCompatActivity {
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     responseText = new String(responseBody);
                     if (isSuccess(responseText)) {
-                        accountBox.removeAll();
-                        DatabaseRepository.createAccount(mail, password);
+                        DatabaseRepository.cleanAccount();
+                        account = DatabaseRepository.createAccount(mail, password);
 
                         responseTextView.setText(R.string.success_authorization_text);
                         resultImageView.setImageResource(R.drawable.success);

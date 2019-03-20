@@ -115,7 +115,6 @@ public class RoundFragment extends Fragment {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void createGroup(String groupName, List<Pilot> pilots, Round round, long groupId){
         Group group = GroupCreator
                 .createRoundGroup(

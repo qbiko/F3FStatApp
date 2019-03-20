@@ -68,14 +68,11 @@ public class CurrentFlyHandler extends Handler {
                 mFragment.get().currentTimeTextView.setText(mFragment.get().getString(R.string
                         .flight_current_time, currentTime));
                 float prepareTime = 30 - currentTime;
-                mFragment.get().prepareTimeResultTextView.setText(mFragment.get().getString(R
-                        .string.prepare_time, prepareTime));
 
                 break;
             }
             case START_TIME: {
-                if(mFragment.get().prepareTimeResultTextView.getVisibility() != View.VISIBLE) {
-                    mFragment.get().prepareTimeResultTextView.setVisibility(View.VISIBLE);
+                if(mFragment.get().liveStatusTextView.getText().toString().equals(mFragment.get().getString(R.string.prepare_period))) {
                     mFragment.get().liveStatusTextView.setText(R.string.start_period);
                 }
 
@@ -102,7 +99,7 @@ public class CurrentFlyHandler extends Handler {
                     Float time = Float.parseFloat(message[3])/100;
                     Float partTime = time - mFragment.get().flightTimeResult;
 
-                    mFragment.get().result.addLap(partTime);
+                    mFragment.get().result.addLapTime(partTime);
 
                     mFragment.get().flightTimeResult = time;
                     if(baseNumber % 2 == 0) {
@@ -156,7 +153,7 @@ public class CurrentFlyHandler extends Handler {
 
                 Float time = Float.parseFloat(message[3])/100;
                 Float partTime = time - mFragment.get().flightTimeResult;
-                mFragment.get().result.addLap(partTime);
+                mFragment.get().result.addLapTime(partTime);
                 mFragment.get().flightTimeResult = time;
                 if(baseNumber % 2 == 0) {
                     TextView textView = mFragment.get().getActivity().findViewById
