@@ -17,6 +17,8 @@ public class ObjectBox {
         }
     }
 
+
+
     public static BoxStore get() {
         return boxStore;
     }
@@ -24,6 +26,7 @@ public class ObjectBox {
     static void clear(Context context) {
         boxStore.close();
         boxStore.deleteAllFiles();
+        boxStore = null;
 
         init(context);
     }

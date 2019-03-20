@@ -21,7 +21,7 @@
         czy dane w ustawieniach są poprawne.</string>
     <string name="start">Start</string>
     <string name="prepare_time">Czas przygotowania: %1$.1f s</string>
-    <string name="start_time">Czas startowy: %1$.1f s</string>
+    <string name="start_time">Czas wznoszenia: %1$.1f s</string>
     <string name="open_drawer_desc">Otwórz</string>
     <string name="close_drawer_desc">Zamknij</string>
     <string name="min_group_amount_text">Min. liczba zawodników w grupie:</string>
@@ -34,6 +34,9 @@
 
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
+
+    <string name="penalty_points">Punkty karne</string>
+    <string name="assign">Przypisz</string>
 
     <!-- Headers for f3FEvent details list -->
     <string name="start_number">Lp.</string>
@@ -75,7 +78,7 @@
     <string name="flight_current_wind">Wiatr: %1$d</string>
     <string name="results">Wyniki:</string>
     <string name="prepare_period">Okres przygotowawczy...</string>
-    <string name="start_period">Okres startowy...</string>
+    <string name="start_period">Okres wznoszenia...</string>
     <string name="player_started">Zawodnik wystartował</string>
     <string name="base_result">Baza %1$d: %2$.2f s</string>
     <string name="player_flight_by_base">Zawodnik przeleciał przez bazę %1$d</string>

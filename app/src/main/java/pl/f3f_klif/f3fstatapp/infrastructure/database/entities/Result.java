@@ -30,13 +30,15 @@ public class Result {
     private long roundId;
     private float penalty;
 
-    public Result() {
-    }
+    public Result() { }
 
     public Result(int flightNumber, long roundId) {
         this.flightNumber = flightNumber;
         this.roundId = roundId;
         this.totalFlightTime = ((float) new Random().nextDouble()); // Wyjebać
+        this.dnf = false;
+        this.penalty = 0f;
+        this.lapsTimeJson = new Gson().toJson(new ArrayList<Float>());
     }
 
     public List<Float> getLapsTime() {
@@ -68,10 +70,6 @@ public class Result {
 
     public void setClimbOut(float climbOut) {
         this.climbOut = climbOut;
-    }
-
-    public void addLap(float lapTime) {
-        //lapsTime.add(lapTime);
     }
 
     public void setTotalFlightTime(float totalFlightTime) {

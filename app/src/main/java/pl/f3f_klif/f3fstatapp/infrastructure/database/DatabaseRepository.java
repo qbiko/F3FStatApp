@@ -43,15 +43,10 @@ public class DatabaseRepository {
         return eventBox.put(event);
     }
 
-    public static Long createAccount(String mail, String password){
+    public static Account createAccount(String mail, String password){
         account = new Account(mail, password);
-        return accountBox.put(account);
-    }
-
-    public static Pilot updatePilot(Pilot updatedPilot){
-        Box<Pilot> pilotBox = ObjectBox.get().boxFor(Pilot.class);
-        pilotBox.put(updatedPilot);
-        return updatedPilot;
+        accountBox.put(account);
+        return account;
     }
 
     public static boolean restoreAndInit() {

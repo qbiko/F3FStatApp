@@ -75,21 +75,23 @@ public class GroupCreator {
         long index = 0;
         Map<Long, Double> points = PointCounter.GetPoints(round);
         for (Pilot pilot: pilots) {
-            String time = "-";
+            String resultMessage;
             Result pilotResult = pilot.getResult(round.getId());
-            if(pilotResult != null) {
-                time = pilotResult.getTotalFlightTime() < 0
-                            ? "-"
-                            : String.valueOf(Precision.round(pilotResult.getTotalFlightTime(),2));
+            if(pilotResult != null && pilotResult.getTotalFlightTime() >= 0) {
+                resultMessage = pilotResult.isDnf() ? String.format(
+                        "%s. %s %s\nDNF",index+1, pilot.firstName, pilot.lastName) :
+                        String.format("%s. %s %s\nCzas: %s\nPunkty: %.2f\nPkt. karne: %.2f", index+1,
+                                pilot.firstName, pilot.lastName, String.valueOf(Precision.round(pilotResult.getTotalFlightTime(),2)),
+                                (points.get(pilot.id).floatValue()), pilotResult.getPenalty());
             }
-            mItemArray
-                    .add(new Pair<>(
-                                    index,
+            else {
+                resultMessage =
+                        String.format("%s. %s %s\nCzas: -\nPunkty: -\nPkt. karne: -", index+1,
+                                pilot.firstName, pilot.lastName);
+            }
 
-                                    String.format("%s. %s %s\n Czas: %s\n Punkty: %.2f",index+1,
-                                            pilot.firstName, pilot.lastName, time, (points.get(pilot.id).floatValue()))
-                            )
-                    );
+
+            mItemArray.add(new Pair<>(index, resultMessage));
             index++;
         }
 
