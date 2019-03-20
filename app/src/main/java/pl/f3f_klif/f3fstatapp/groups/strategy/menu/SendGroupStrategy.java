@@ -35,14 +35,15 @@ public class SendGroupStrategy implements Strategy {
         Box<Account> accountBox = ObjectBox.get().boxFor(Account.class);
         if(!accountBox.isEmpty()) {
             Account account = accountBox.getAll().get(0);
-
+            int order = 1;
             for (Pilot pilot:pilots) {
                 Result result = pilot.getResult(scope.roundId);
                 if(result != null){
                     RequestParams params = ReqestParamsFactory
-                            .Create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId);
+                            .Create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId, order);
 
                     sendSinglePilot(params, scope, pilot, event.getType());
+                    order++;
                 }
 
             }

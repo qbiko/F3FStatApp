@@ -18,7 +18,8 @@ public class ReqestParamsFactory {
             Pilot pilot,
             Result result,
             long groupId,
-            long roundId){
+            long roundId,
+            int order){
         RequestParams params = new RequestParams();
         params.put("login", account.getMail());
         params.put("password", account.getPassword());
@@ -29,6 +30,7 @@ public class ReqestParamsFactory {
         params.put("round", roundId);
         params.put("group", groupId);
         params.put("penalty", result.getPenalty());
+        params.put("order", order);
 
         if(eventType.equals("F3F Slope Race (Plus Scoring)")){
             ArrayList<Float> laps = (ArrayList<Float>) result.getLapsTime();
