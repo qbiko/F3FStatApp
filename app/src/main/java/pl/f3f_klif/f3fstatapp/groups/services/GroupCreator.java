@@ -1,10 +1,11 @@
 package pl.f3f_klif.f3fstatapp.groups.services;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.TextView;
+
+import org.apache.commons.math3.util.Precision;
 
 import java.util.ArrayList;
 import java.util.List;
