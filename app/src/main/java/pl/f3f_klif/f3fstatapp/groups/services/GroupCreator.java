@@ -5,6 +5,8 @@ import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
+import org.apache.commons.math3.util.Precision;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +80,7 @@ public class GroupCreator {
             if(pilotResult != null) {
                 time = pilotResult.getTotalFlightTime() < 0
                             ? "-"
-                            : String.valueOf(pilotResult.getTotalFlightTime());
+                            : String.valueOf(Precision.round(pilotResult.getTotalFlightTime(),2));
             }
             mItemArray
                     .add(new Pair<>(
