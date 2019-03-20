@@ -28,6 +28,8 @@ import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundOrderFragment;
+import pl.f3f_klif.f3fstatapp.groups.strategy.menu.CancelGroupStrategy;
+import pl.f3f_klif.f3fstatapp.groups.strategy.menu.CancelRoundStrategy;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendGroupStrategy;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendRoundStrategy;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.StrategyScope;
@@ -175,6 +177,9 @@ public class EventGroupsActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         switch(item.getGroupId()){
             case CANCEL_SUBMENU_ID:
+                if(round.getGroup(itemId) != null)
+                    new CancelGroupStrategy()
+                            .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext()));
                 return true;
             case SEND_SUBMENU_ID:
                 if(round.getGroup(itemId) != null)
@@ -205,7 +210,9 @@ public class EventGroupsActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.action_cancel_round:
-                        round.setState(RoundState.CANCELED);
+                        if(round.getGroup(itemId) != null)
+                            new CancelRoundStrategy()
+                                    .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext()));
                         return true;
                     case R.id.action_send_results_to_server:
                         new SendRoundStrategy()
