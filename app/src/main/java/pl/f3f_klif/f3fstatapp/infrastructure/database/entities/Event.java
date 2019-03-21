@@ -1,9 +1,13 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.google.common.collect.Lists;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -116,9 +120,30 @@ public class Event {
             round.groups.add(new Group(pilots));
         }
         else {
-            List<List<Pilot>> pilotsGroups = Lists.partition(pilots, minGroupAmount);
-            for (List<Pilot> groupPilots : pilotsGroups) {
-                round.groups.add(new Group(groupPilots));
+            int numberOfPilots = pilots.size();
+            int groupsCount = numberOfPilots/minGroupAmount;
+            int groups[] = new int[groupsCount];
+            int numberOfPilotsOutsideGroup = numberOfPilots%minGroupAmount;
+            int numberOfPilotsToEveryGroup = numberOfPilotsOutsideGroup/groupsCount;
+            int numberOfPilotsToLastGroup = numberOfPilotsOutsideGroup%groupsCount;
+            int numberOfPilotsInGroup = minGroupAmount + numberOfPilotsToEveryGroup;
+            for (int i =0; i < groupsCount; i++){
+                groups[i] = numberOfPilotsInGroup;
+            }
+            if(numberOfPilotsToLastGroup < 2)
+                groups[0] = numberOfPilotsInGroup + numberOfPilotsToLastGroup;
+            else if(numberOfPilotsToLastGroup >= 2  && numberOfPilotsToLastGroup <= groupsCount){
+                for (int i =0; i<numberOfPilotsToLastGroup; i++){
+                    groups[i] = groups[i]+1;
+                }
+            }
+
+            int startIndex = 0;
+            int endIndex = 0;
+            for (int groupCount:groups ) {
+                endIndex = endIndex + groupCount;
+                round.groups.add(new Group(pilots.subList(startIndex, endIndex)));
+                startIndex = endIndex;
             }
         }
         rounds.add(round);
