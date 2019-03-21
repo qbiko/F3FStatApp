@@ -14,4 +14,5 @@ public class FramesDictionary {
     public static final String WIND_MEASUREMENT = "$RWSD";
     public static final String NON_STATUTORY_WEATHER_CONDITION = "$RWRB";
     public static final String TIMESTAMP_FOR_ANEMOMETER = "$GWSD";
+    public static final String BASE_A_EXCEEDED_CLIMB_TIME = "$RBAI";
 }
