@@ -174,6 +174,11 @@ public class UsbService extends Service {
         UsbService.SERVICE_CONNECTED = false;
     }
 
+    public void stopService() {
+        unregisterReceiver(usbReceiver);
+        UsbService.SERVICE_CONNECTED = false;
+    }
+
     /*
      * This function will be called from MainActivity to write data through Serial Port
      */

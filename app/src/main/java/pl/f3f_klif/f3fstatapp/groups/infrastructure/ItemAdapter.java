@@ -22,6 +22,8 @@ import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
+import pl.f3f_klif.f3fstatapp.sqlite.WindMeasure;
+import pl.f3f_klif.f3fstatapp.sqlite.WindSQLiteDbHandler;
 
 public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter.ViewHolder> {
 
@@ -33,6 +35,9 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     private Round round;
     private long groupId;
     private boolean assignMode;
+    private List<WindMeasure> windMeasures;
+
+    private WindSQLiteDbHandler db;
 
     public ItemAdapter(
             ArrayList<Pair<Long, String>> list,
@@ -43,7 +48,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
             Result result,
             Round round,
             long groupId,
-            boolean assignMode) {
+            boolean assignMode,
+            List<WindMeasure> windMeasures) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
@@ -52,6 +58,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         this.round = round;
         this.groupId = groupId;
         this.assignMode = assignMode;
+        this.windMeasures = windMeasures;
         setItemList(list);
     }
 
@@ -59,6 +66,9 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
+
+        db = new WindSQLiteDbHandler(view.getContext());
+
         return new ViewHolder(view);
     }
 
@@ -98,6 +108,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                         "Wynik został zapisany pilotowi: " + pilot.getFirstName() + " " + pilot.getLastName(),
                         Toast.LENGTH_SHORT).show();
                 pilot.addResult(result);
+                db.addWindMeasures(windMeasures, (int)pilot.getF3fId());
                 showFragment(RoundFragment.newInstance(round), view);
             }
 
@@ -113,4 +124,5 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                 .replace(R.id.container, fragment, "fragment")
                 .commit();
     }
+
 }

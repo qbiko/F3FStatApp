@@ -9,6 +9,7 @@ import java.lang.ref.WeakReference;
 import pl.f3f_klif.f3fstatapp.activities.EventGroupsActivity;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.NEW_FLIGHT;
@@ -45,7 +46,7 @@ public class StartListHandler extends Handler {
         String[] message = data.split(";");
         String typeOfMessage = data.split(";")[0];
 
-        if(NEW_FLIGHT.equals(typeOfMessage)) {
+        if(NEW_FLIGHT.equals(typeOfMessage) && round.state == RoundState.STARTED) {
             int flightNumber = Integer.parseInt(message[1]);
             mActivity.get().showFragment(CurrentFlyFragment.newInstance(round, flightNumber));
         }

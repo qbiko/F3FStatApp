@@ -13,4 +13,5 @@ public class FramesDictionary {
     public static final String COMPLETED_HORIZON = "$RHOR";
     public static final String WIND_MEASUREMENT = "$RWSD";
     public static final String NON_STATUTORY_WEATHER_CONDITION = "$RWRB";
+    public static final String TIMESTAMP_FOR_ANEMOMETER = "$GWSD";
 }
