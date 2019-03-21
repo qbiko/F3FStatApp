@@ -88,4 +88,7 @@
     <string name="current_wind_direction">Chwilowy kierunek:\n %1$d°</string>
     <string name="avg_wind_speed">Średnia prędkość:\n %1$.2f m/s</string>
     <string name="avg_wind_direction">Średni\n kierunek:\n %1$d°</string>
+    <string name="player_flight_first_time_by_a_base">Zawodnik pierwszy raz przeleciał przez
+        bazę A</string>
+    <string name="player_exceeded_start_time">Zawodnik przekroczył czas startowy</string>
 </resources>

@@ -40,6 +40,12 @@ public class ReqestParamsFactory {
                 params.put(String.format("sub%s", index), time);
                 index++;
             }
+
+            while(index<12) {
+                params.put(String.format("sub%s", index), 0f);
+                index++;
+            }
+            params.put("dnf", result.isDnf());
         }
 
         return params;

@@ -17,6 +17,8 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.sqlite.WindMeasure;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
+import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.BASE_A;
+import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.BASE_A_EXCEEDED_CLIMB_TIME;
 import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.COMPLETED_LAST_BASE;
 import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.COMPLETED_NEXT_BASE;
 import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.NEW_FLIGHT;
@@ -30,7 +32,9 @@ public class CurrentFlyHandler extends Handler {
 
     private final WeakReference<CurrentFlyFragment> mFragment;
 
-    float startTime;
+    long startClimbingTimestamp;
+
+    boolean wasBaseA = false;
 
     public CurrentFlyHandler(CurrentFlyFragment fragment) {
         mFragment = new WeakReference<>(fragment);
@@ -83,20 +87,32 @@ public class CurrentFlyHandler extends Handler {
                     }
 
                     float currentTime = Float.parseFloat(message[1]);
+                    if(currentTime == 30f) {
+                        startClimbingTimestamp = Long.parseLong(message[2]);
+                    }
                     mFragment.get().currentTimeTextView.setText(mFragment.get().getString(R.string
                             .flight_current_time, currentTime));
-                    startTime = 30 - currentTime;
+                    float climbTime = 30 - currentTime;
                     mFragment.get().startTimeResultTextView.setText(mFragment.get().getString(R
-                            .string.start_time, startTime));
+                            .string.start_time, climbTime));
 
                     break;
                 }
                 case COMPLETED_NEXT_BASE: {
                     int baseNumber = Integer.parseInt(message[2]);
+                    long currentTimestamp = Long.parseLong(message[6]);
+                    float climbTime = (currentTimestamp - startClimbingTimestamp)/100f;
                     if(baseNumber == 0) {
-                        mFragment.get().startTimeResultTextView.setVisibility(View.VISIBLE);
-                        mFragment.get().liveStatusTextView.setText(R.string.player_started);
-                        mFragment.get().result.addLapTime(startTime);
+                        if(wasBaseA && climbTime < 29.5f) {
+                            mFragment.get().startTimeResultTextView.setText(mFragment.get().getString(R
+                                    .string.start_time, climbTime));
+                            mFragment.get().startTimeResultTextView.setVisibility(View.VISIBLE);
+                            mFragment.get().liveStatusTextView.setText(R.string.player_started);
+                            mFragment.get().result.addLapTime(climbTime);
+                        }
+                        else {
+                            mFragment.get().liveStatusTextView.setText(R.string.player_exceeded_start_time);
+                        }
                     }
                     else {
                         mFragment.get().liveStatusTextView.setText(mFragment.get().getString(R
@@ -248,6 +264,21 @@ public class CurrentFlyHandler extends Handler {
 
                     mFragment.get().currentTimestamp = new Timestamp(timestamp);
 
+                    break;
+                }
+                case BASE_A: {
+                    mFragment.get().liveStatusTextView.setText(R.string.player_flight_first_time_by_a_base);
+                    wasBaseA = true;
+                    break;
+                }
+                case BASE_A_EXCEEDED_CLIMB_TIME: {
+                    long currentTimestamp = Long.parseLong(message[2]);
+                    float climbTime = (currentTimestamp - startClimbingTimestamp) / 100f;
+                    mFragment.get().startTimeResultTextView.setText(mFragment.get().getString(R
+                            .string.start_time, climbTime));
+                    mFragment.get().startTimeResultTextView.setVisibility(View.VISIBLE);
+                    mFragment.get().liveStatusTextView.setText(R.string.player_started);
+                    mFragment.get().result.addLapTime(climbTime);
                     break;
                 }
             }
