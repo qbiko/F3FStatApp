@@ -18,6 +18,7 @@ import pl.f3f_klif.f3fstatapp.groups.services.points.PointCounter;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
+import pl.f3f_klif.f3fstatapp.sqlite.WindMeasure;
 
 public class GroupCreator {
 
@@ -52,7 +53,8 @@ public class GroupCreator {
                 result,
                 round,
                 groupId,
-                assignMode);
+                assignMode,
+                new ArrayList<>());
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);
@@ -69,7 +71,8 @@ public class GroupCreator {
             Result result,
             Round round,
             long groupId,
-            boolean assignMode)
+            boolean assignMode,
+            List<WindMeasure> windMeasures)
     {
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
         long index = 0;
@@ -104,7 +107,8 @@ public class GroupCreator {
                 result,
                 round,
                 groupId,
-                assignMode);
+                assignMode,
+                windMeasures);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);

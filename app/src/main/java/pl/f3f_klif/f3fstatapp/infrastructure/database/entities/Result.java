@@ -21,7 +21,6 @@ public class Result {
     public float windAvg;
     public float windDirAvg;
     private float totalFlightTime;
-    private float climbOut;
     private String lapsTimeJson;
     private boolean dns;
     private boolean dnf;
@@ -68,10 +67,6 @@ public class Result {
         lapsTimeJson = new Gson().toJson(laps);
     }
 
-    public void setClimbOut(float climbOut) {
-        this.climbOut = climbOut;
-    }
-
     public void setTotalFlightTime(float totalFlightTime) {
         this.totalFlightTime = totalFlightTime;
     }
@@ -94,10 +89,6 @@ public class Result {
 
     public float getTotalFlightTime() {
         return totalFlightTime;
-    }
-
-    public float getClimbOut() {
-        return climbOut;
     }
 
     public boolean isDns() {
