@@ -2,6 +2,8 @@ package pl.f3f_klif.f3fstatapp.groups.factory;
 
 import com.loopj.android.http.RequestParams;
 
+import org.apache.commons.math3.util.Precision;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class ReqestParamsFactory {
             List<Float> laps = result.getLapsTime();
             int index = 1;
             for (Float time: laps) {
-                params.put(String.format("sub%s", index), time);
+                params.put(String.format("sub%s", index), Precision.round(time,2));
                 index++;
             }
 

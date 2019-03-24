@@ -185,6 +185,11 @@ public class EventGroupsActivity extends AppCompatActivity {
                 if(round.getGroup(itemId) != null)
                     new SendGroupStrategy()
                             .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext()));
+                Toast
+                        .makeText(
+                                getApplicationContext(),
+                                "Grupa wysłana na serwer",
+                                Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 switch (itemId){
@@ -217,6 +222,11 @@ public class EventGroupsActivity extends AppCompatActivity {
                     case R.id.action_send_results_to_server:
                         new SendRoundStrategy()
                                 .doStrategy(new StrategyScope(roundId, getApplicationContext()));
+                        Toast
+                                .makeText(
+                                        getApplicationContext(),
+                                        "Runda wysłana na serwer",
+                                        Toast.LENGTH_SHORT).show();
                         return true;
                 }
         }

@@ -100,9 +100,6 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
         @Override
         public void onItemClicked(View view) {
-            if(assignMode) {
-                Toast.makeText(view.getContext(), "Item clicked" + this.mText + this.mItemId, Toast.LENGTH_SHORT).show();
-            }
         }
 
         @Override
