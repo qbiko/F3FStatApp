@@ -159,6 +159,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@id/buttons_container"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="20">
+
+        <TextView
+            android:id="@+id/penalty_points_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/penalty_points"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+        <EditText
+            android:id="@+id/penalty_points_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:text="@string/default_penalty_points"
+            android:ems="10"
+            android:inputType="numberSigned" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:layout_marginBottom="20dp"

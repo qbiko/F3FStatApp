@@ -8,8 +8,8 @@
     <string name="cancel_button">Anuluj</string>
     <string name="email_text">E-mail:</string>
     <string name="password_text">Hasło:</string>
-    <string name="settings_information_text">Podaj swoje dane, do konta z portalu
-        http://www.f3xvault.com, by administrować rozgrywką.</string>
+    <string name="settings_information_text">Podaj dane konta z portalu
+        http://www.f3xvault.com.</string>
     <string name="success_authorization_text">Autoryzacja przebiegła pomyślnie</string>
     <string name="failure_authorization_text">Wpisane dane są niepoprawne</string>
     <string name="not_necessary_authorization_text">Wpisane dane nie zmieniły się</string>
@@ -17,11 +17,11 @@
         wpisz poprawne dane</string>
     <string name="player_list_was_updated">Lista zawodników została
         zaktualizowana</string>
-    <string name="player_list_was_not_updated">Nie udało się pobrać listy zawodnikó. Sprawdź
+    <string name="player_list_was_not_updated">Nie udało się pobrać listy zawodników. Sprawdź
         czy dane w ustawieniach są poprawne.</string>
     <string name="start">Start</string>
-    <string name="prepare_time">Czas przygotowania: %1$.1f s</string>
-    <string name="start_time">Czas wznoszenia: %1$.1f s</string>
+    <string name="prepare_time">Czas przygotowawczy: %1$.1f s</string>
+    <string name="start_time">Czas startowy: %1$.1f s</string>
     <string name="open_drawer_desc">Otwórz</string>
     <string name="close_drawer_desc">Zamknij</string>
     <string name="min_group_amount_text">Min. liczba zawodników w grupie:</string>
@@ -35,7 +35,6 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
 
-    <string name="penalty_points">Punkty karne</string>
     <string name="assign">Przypisz</string>
 
     <!-- Headers for f3FEvent details list -->
@@ -77,18 +76,19 @@
     <string name="flight_current_time">%1$.2f s</string>
     <string name="flight_current_wind">Wiatr: %1$d</string>
     <string name="results">Wyniki:</string>
-    <string name="prepare_period">Okres przygotowawczy...</string>
-    <string name="start_period">Okres wznoszenia...</string>
-    <string name="player_started">Zawodnik wystartował</string>
+    <string name="prepare_period">Czas przygotowawczy...</string>
+    <string name="start_period">Czas startowy...</string>
+    <string name="player_started">Model w strefie lotów</string>
     <string name="base_result">Baza %1$d: %2$.2f s</string>
-    <string name="player_flight_by_base">Zawodnik przeleciał przez bazę %1$d</string>
-    <string name="player_flight_by_last_base">Zawodnik przeleciał przez ostatnią bazę</string>
+    <string name="player_flight_by_base">Zaliczono bazę %1$d</string>
+    <string name="player_flight_by_last_base">Zawodnik zaliczył ostatnią bazę</string>
     <string name="non_statutory_weather_condition">Nieregulaminowe warunki pogodowe!</string>
     <string name="current_wind_speed">Chwilowa prędkość:\n %1$.2f m/s</string>
     <string name="current_wind_direction">Chwilowy kierunek:\n %1$d°</string>
     <string name="avg_wind_speed">Średnia prędkość:\n %1$.2f m/s</string>
     <string name="avg_wind_direction">Średni\n kierunek:\n %1$d°</string>
-    <string name="player_flight_first_time_by_a_base">Zawodnik pierwszy raz przeleciał przez
-        bazę A</string>
+    <string name="player_flight_first_time_by_a_base">Model za bazą A</string>
     <string name="player_exceeded_start_time">Zawodnik przekroczył czas startowy</string>
+    <string name="penalty_points">Punkty karne:</string>
+    <string name="default_penalty_points">0</string>
 </resources>

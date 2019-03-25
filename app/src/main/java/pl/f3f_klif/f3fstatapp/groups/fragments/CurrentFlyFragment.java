@@ -1,20 +1,10 @@
 package pl.f3f_klif.f3fstatapp.groups.fragments;
 
-import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +13,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +62,8 @@ public class CurrentFlyFragment extends UsbServiceBaseFragment {
     public TextView avgWindDirectionTextView;
     @BindView(R.id.statusImageView)
     public ImageView statusImageView;
+    @BindView(R.id.penalty_points_edit)
+    public EditText penaltyPointsInput;
 
     private int flightNumber;
     public float flightTimeResult = 0f;
@@ -105,21 +95,10 @@ public class CurrentFlyFragment extends UsbServiceBaseFragment {
 
     @OnClick(R.id.assign_pilot_button)
     void onAssignPilotButtonClick() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
-        builder.setTitle(R.string.penalty_points);
-
-        final EditText input = new EditText(this.getActivity());
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        builder.setView(input);
-
-        builder.setPositiveButton(R.string.assign, (dialog, which) -> {
-            String inputString = input.getText().toString();
+            String inputString = penaltyPointsInput.getText().toString();
             float penaltyPoints = inputString.isEmpty() ? 0f : Float.parseFloat(inputString);
             result.setPenalty(penaltyPoints);
             showFragment(RoundFragment.newInstance(round, flightNumber, result, windMeasures));
-
-        });
-        builder.show();
 
     }
 
