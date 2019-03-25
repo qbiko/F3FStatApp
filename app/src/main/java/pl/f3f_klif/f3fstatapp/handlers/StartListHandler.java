@@ -13,11 +13,14 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
 import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.NEW_FLIGHT;
+import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.PREPARE_TIME;
 
 public class StartListHandler extends Handler {
 
     private final WeakReference<EventGroupsActivity> mActivity;
     private Round round;
+
+    private static int lastFlightNumber = 0;
 
     public StartListHandler(EventGroupsActivity activity, Round round) {
         mActivity = new WeakReference<>(activity);
@@ -46,9 +49,17 @@ public class StartListHandler extends Handler {
         String[] message = data.split(";");
         String typeOfMessage = data.split(";")[0];
 
-        if(NEW_FLIGHT.equals(typeOfMessage) && round.state == RoundState.STARTED) {
-            int flightNumber = Integer.parseInt(message[1]);
-            mActivity.get().showFragment(CurrentFlyFragment.newInstance(round, flightNumber));
+        if(round.state == RoundState.STARTED) {
+            if(NEW_FLIGHT.equals(typeOfMessage)) {
+                int flightNumber = Integer.parseInt(message[1]);
+                lastFlightNumber = flightNumber;
+                mActivity.get().showFragment(CurrentFlyFragment.newInstance(round, flightNumber));
+            }
+            else if(PREPARE_TIME.equals(typeOfMessage)) {
+                int flightNumber = lastFlightNumber + 1;
+                lastFlightNumber = flightNumber;
+                mActivity.get().showFragment(CurrentFlyFragment.newInstance(round, flightNumber));
+            }
         }
 
     }
