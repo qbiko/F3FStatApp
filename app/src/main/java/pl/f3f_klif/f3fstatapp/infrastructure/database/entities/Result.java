@@ -34,7 +34,7 @@ public class Result {
     public Result(int flightNumber, long roundId) {
         this.flightNumber = flightNumber;
         this.roundId = roundId;
-        this.totalFlightTime = ((float) new Random().nextDouble());;
+        this.totalFlightTime = flightNumber;
         this.dnf = false;
         this.penalty = 0f;
         this.lapsTimeJson = new Gson().toJson(new ArrayList<Float>());
