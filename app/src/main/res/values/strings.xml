@@ -56,6 +56,7 @@
     <string name="action_event_groups">Aktualna runda</string>
     <string name="action_round_order">Ustawianie kolejności startowej</string>
     <string name="cancel_round">Anuluj rundę</string>
+    <string name="end_round">Zakończ rundę</string>
     <string name="send_results_to_server">Wyślij rezultaty rundy na serwer</string>
     <string name="cancel_groups">Anuluj grupy</string>
     <string name="send_groups">Wyślij grupy</string>

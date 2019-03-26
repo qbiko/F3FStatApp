@@ -1,5 +1,6 @@
 package pl.f3f_klif.f3fstatapp.groups.infrastructure;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +24,9 @@ import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.groups.infrastructure.models.PilotWithOrder;
 import pl.f3f_klif.f3fstatapp.groups.services.models.PilotWithResult;
+import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendGroupStrategy;
+import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendPilotStrategy;
+import pl.f3f_klif.f3fstatapp.groups.strategy.menu.StrategyScope;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
@@ -41,7 +45,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     private long groupId;
     private boolean assignMode;
     private List<WindMeasure> windMeasures;
-
+    private Context context;
     private WindSQLiteDbHandler db;
 
     public ItemAdapter(
@@ -54,7 +58,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
             Round round,
             long groupId,
             boolean assignMode,
-            List<WindMeasure> windMeasures) {
+            List<WindMeasure> windMeasures,
+            Context context) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
@@ -64,6 +69,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         this.groupId = groupId;
         this.assignMode = assignMode;
         this.windMeasures = windMeasures;
+        this.context = context;
         setItemList(list);
     }
 
@@ -129,6 +135,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                         Toast.LENGTH_SHORT).show();
                 pilot.addResult(result);
                 db.addWindMeasures(windMeasures, (int)pilot.getF3fId());
+
+                new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id, context), (int)this.mItemId);
                 showFragment(RoundFragment.newInstance(round), view);
             }
 

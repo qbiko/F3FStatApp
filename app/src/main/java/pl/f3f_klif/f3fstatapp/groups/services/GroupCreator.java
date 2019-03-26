@@ -54,7 +54,8 @@ public class GroupCreator {
                 round,
                 groupId,
                 assignMode,
-                new ArrayList<>());
+                new ArrayList<>(),
+                context);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);
@@ -108,7 +109,8 @@ public class GroupCreator {
                 round,
                 groupId,
                 assignMode,
-                windMeasures);
+                windMeasures,
+                context);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);

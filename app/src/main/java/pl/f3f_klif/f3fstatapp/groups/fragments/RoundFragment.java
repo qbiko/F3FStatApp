@@ -56,7 +56,8 @@ public class RoundFragment extends UsbServiceBaseFragment {
     public RoundFragment(Round round){
         this.round = round;
         _groups = this.round.getGroups();
-        this.round.setState(RoundState.STARTED);
+        if(this.round.state == RoundState.NOT_STARTED)
+            this.round.setState(RoundState.STARTED);
     }
 
     @SuppressLint("ValidFragment")

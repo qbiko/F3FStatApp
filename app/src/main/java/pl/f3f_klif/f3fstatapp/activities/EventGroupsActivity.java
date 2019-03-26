@@ -128,6 +128,7 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_groups).setVisible(true);
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(false);
+            menu.findItem(R.id.end_round).setVisible(false);
             menu.findItem(R.id.action_send_results_to_server).setVisible(false);
             menu.findItem(CANCEL_SUBMENU_ID).setVisible(false);
             menu.findItem(SEND_SUBMENU_ID).setVisible(false);
@@ -138,6 +139,7 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_groups).setVisible(false);
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(true);
+            menu.findItem(R.id.end_round).setVisible(true);
             menu.findItem(R.id.action_send_results_to_server).setVisible(true);
             menu.findItem(CANCEL_SUBMENU_ID).setVisible(true);
             menu.findItem(SEND_SUBMENU_ID).setVisible(true);
@@ -149,6 +151,7 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_groups).setVisible(true);
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(false);
+            menu.findItem(R.id.end_round).setVisible(false);
             menu.findItem(R.id.action_send_results_to_server).setVisible(false);
             menu.findItem(CANCEL_SUBMENU_ID).setVisible(false);
             menu.findItem(SEND_SUBMENU_ID).setVisible(false);
@@ -207,11 +210,9 @@ public class EventGroupsActivity extends AppCompatActivity {
                     case R.id.action_send_results_to_server:
                         new SendRoundStrategy()
                                 .doStrategy(new StrategyScope(roundId, getApplicationContext()));
-                        Toast
-                                .makeText(
-                                        getApplicationContext(),
-                                        "Runda wysłana na serwer",
-                                        Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.end_round:
+                        round.setState(RoundState.FINISHED);
                         return true;
                 }
         }
