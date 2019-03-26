@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,10 +37,12 @@ public class RoundFragment extends UsbServiceBaseFragment {
     private BoardView _boardView;
     private Round round;
     private List<pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group> _groups;
-    private boolean assignMode = false;
+    public boolean assignMode = false;
     private int flightNumber;
     private Result result;
     private List<WindMeasure> windMeasures;
+
+
     public static RoundFragment newInstance(Round round) {
         return new RoundFragment(round);
     }
@@ -75,7 +78,7 @@ public class RoundFragment extends UsbServiceBaseFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        handler = new StartListHandler((EventGroupsActivity)this.getActivity(), round);
+        handler = new StartListHandler(this, round);
     }
 
     @Nullable
@@ -139,6 +142,15 @@ public class RoundFragment extends UsbServiceBaseFragment {
                 group.header,
                 group.header,
                 group.hasFixedItemSize);
+    }
+
+    public void showFragment(Fragment fragment){
+        FragmentTransaction transaction = getFragmentManager()
+                .beginTransaction();
+
+        transaction
+                .replace(R.id.container, fragment, "fragment")
+                .commit();
     }
 
 }
