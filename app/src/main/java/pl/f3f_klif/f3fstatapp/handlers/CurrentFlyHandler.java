@@ -219,6 +219,7 @@ public class CurrentFlyHandler extends Handler {
 
                     mFragment.get().assignPilotButton.setClickable(true);
                     mFragment.get().assignPilotButton.setVisibility(View.VISIBLE);
+                    mFragment.get().dnfButton.setVisibility(View.INVISIBLE);
 
                     mFragment.get().currentTimeTextView.setText(mFragment.get().getString(R.string
                             .flight_current_time, time));
