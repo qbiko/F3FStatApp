@@ -14,7 +14,7 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
 
 public class ReqestParamsFactory {
 
-    public static RequestParams Create(
+    public static RequestParams create(
             String eventType,
             Account account,
             Event event,
