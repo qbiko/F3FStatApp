@@ -136,7 +136,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                 pilot.addResult(result);
                 db.addWindMeasures(windMeasures, (int)pilot.getF3fId());
 
-                new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id, context), (int)this.mItemId);
+                new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id, context), (int)this.mItemId+1);
                 showFragment(RoundFragment.newInstance(round), view);
             }
 
