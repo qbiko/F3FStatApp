@@ -92,4 +92,8 @@
     <string name="player_exceeded_start_time">Zawodnik przekroczył czas startowy</string>
     <string name="penalty_points">Punkty karne:</string>
     <string name="default_penalty_points">0</string>
+
+    <string name="update_round_status_success">Runda zakończona poprawnie.</string>
+    <string name="update_round_status_failure">Nie udało się zakończyć rundy. Spróbuj
+        ponownie</string>
 </resources>

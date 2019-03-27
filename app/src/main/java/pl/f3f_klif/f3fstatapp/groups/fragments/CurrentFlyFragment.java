@@ -95,11 +95,7 @@ public class CurrentFlyFragment extends UsbServiceBaseFragment {
 
     @OnClick(R.id.assign_pilot_button)
     void onAssignPilotButtonClick() {
-            String inputString = penaltyPointsInput.getText().toString();
-            float penaltyPoints = inputString.isEmpty() ? 0f : Float.parseFloat(inputString);
-            result.setPenalty(penaltyPoints);
-            showFragment(RoundFragment.newInstance(round, flightNumber, result, windMeasures));
-
+        updateResultAndGoToAssignPilot(false);
     }
 
     @OnClick(R.id.cancel_button)
@@ -109,8 +105,14 @@ public class CurrentFlyFragment extends UsbServiceBaseFragment {
 
     @OnClick(R.id.dnf_button)
     void onDNFButtonClick() {
-        result.setDnf(true);
-        result.setTotalFlightTime(0f);
+        updateResultAndGoToAssignPilot(true);
+    }
+
+    void updateResultAndGoToAssignPilot(boolean dnf) {
+        String inputString = penaltyPointsInput.getText().toString();
+        float penaltyPoints = inputString.isEmpty() ? 0f : Float.parseFloat(inputString);
+        result.setPenalty(penaltyPoints);
+        result.setDnf(dnf);
         showFragment(RoundFragment.newInstance(round, flightNumber, result, windMeasures));
     }
 

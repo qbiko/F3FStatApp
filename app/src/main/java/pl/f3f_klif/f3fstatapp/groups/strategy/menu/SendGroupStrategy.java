@@ -1,6 +1,5 @@
 package pl.f3f_klif.f3fstatapp.groups.strategy.menu;
 
-import android.content.Context;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -10,7 +9,6 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import io.objectbox.Box;
-import io.objectbox.BoxStore;
 import pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient;
 import pl.f3f_klif.f3fstatapp.groups.factory.ReqestParamsFactory;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
@@ -40,7 +38,7 @@ public class SendGroupStrategy implements Strategy {
                 Result result = pilot.getResult(scope.roundId);
                 if(result != null){
                     RequestParams params = ReqestParamsFactory
-                            .Create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId, order);
+                            .create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId, order);
 
                     sendSinglePilot(params, scope, pilot, event.getType());
                     order++;

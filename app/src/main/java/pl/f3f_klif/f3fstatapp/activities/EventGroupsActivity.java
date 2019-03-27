@@ -24,6 +24,7 @@ import pl.f3f_klif.f3fstatapp.groups.strategy.menu.CancelRoundStrategy;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendGroupStrategy;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendRoundStrategy;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.StrategyScope;
+import pl.f3f_klif.f3fstatapp.groups.strategy.menu.UpdateEventRoundStrategy;
 import pl.f3f_klif.f3fstatapp.handlers.StartListHandler;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
@@ -212,6 +213,8 @@ public class EventGroupsActivity extends AppCompatActivity {
                                 .doStrategy(new StrategyScope(roundId, getApplicationContext()));
                         return true;
                     case R.id.end_round:
+                        new UpdateEventRoundStrategy().doStrategy(new StrategyScope(roundId,
+                                getApplicationContext()));
                         round.setState(RoundState.FINISHED);
                         return true;
                 }
