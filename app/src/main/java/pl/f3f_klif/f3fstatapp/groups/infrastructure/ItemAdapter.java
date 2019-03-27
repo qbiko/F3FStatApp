@@ -18,13 +18,10 @@ import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.groups.infrastructure.models.PilotWithOrder;
-import pl.f3f_klif.f3fstatapp.groups.services.models.PilotWithResult;
-import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendGroupStrategy;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendPilotStrategy;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.StrategyScope;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Group;
@@ -113,15 +110,19 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
             if(assignMode) {
 
                 Group targetGroup = round.getGroup(groupId);
-                List<PilotWithOrder> pilotsWitOrder = GetPilots(targetGroup);
+                List<PilotWithOrder> pilotsWitOrder = getPilots(targetGroup);
                 Optional<PilotWithOrder> firstPilotWithoutResult =
                         com.annimon.stream.Stream.of(pilotsWitOrder)
                         .filter(i -> i.time.isEmpty())
                         .findFirst();
 
+                int order = (int)this.mItemId + 1;
+
                 Pilot pilot = round.getGroup(groupId).getPilots().get((int)this.mItemId);
 
                 if(firstPilotWithoutResult.isPresent() && firstPilotWithoutResult.get().id != pilot.id){
+                    order = firstPilotWithoutResult.get().order + 1;
+
                     Optional<PilotWithOrder> currentPilot =
                             com.annimon.stream.Stream.of(pilotsWitOrder)
                                     .filter(i -> i.time.isEmpty() && i.id == pilot.id)
@@ -136,23 +137,24 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                 pilot.addResult(result);
                 db.addWindMeasures(windMeasures, (int)pilot.getF3fId());
 
-                new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id, context), (int)this.mItemId+1);
+                new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id,
+                        context), order);
                 showFragment(RoundFragment.newInstance(round), view);
             }
 
             return true;
         }
 
-        private List<PilotWithOrder> GetPilots(Group group){
+        private List<PilotWithOrder> getPilots(Group group){
             List<PilotWithOrder> pilots = new ArrayList<>();
             int order = 0;
             for (Pilot pilot: group.getPilots()) {
                 Result result = pilot.getResult(round.id);
                 Optional<Float> time = Optional.empty();
+
                 if(result != null)
-                    time = result.getTotalFlightTime() <= 0F
-                            ? time
-                            : Optional.of(result.getTotalFlightTime());
+                    time = Optional.of(result.getTotalFlightTime());
+
 
                 pilots.add(new PilotWithOrder(pilot.id, time, order));
                 order++;
