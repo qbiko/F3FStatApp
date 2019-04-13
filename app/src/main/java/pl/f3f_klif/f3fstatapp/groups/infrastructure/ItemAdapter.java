@@ -1,6 +1,7 @@
 package pl.f3f_klif.f3fstatapp.groups.infrastructure;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -74,7 +75,6 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
-
         db = new WindSQLiteDbHandler(view.getContext());
 
         return new ViewHolder(view);
@@ -86,6 +86,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         String text = mItemList.get(position).second;
         holder.mText.setText(text);
         holder.itemView.setTag(mItemList.get(position));
+        if(( text.contains("Czas") || text.contains("DNF") ) && !text.contains("Czas: -"))
+            holder.itemView.setBackgroundColor(Color.rgb(0, 255,0));
     }
 
     @Override
