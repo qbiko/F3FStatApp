@@ -55,7 +55,9 @@ public class GroupCreator {
                 groupId,
                 assignMode,
                 new ArrayList<>(),
-                context);
+                context,
+                View.INVISIBLE,
+                View.INVISIBLE);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);
@@ -101,8 +103,8 @@ public class GroupCreator {
 
         ItemAdapter listAdapter = new ItemAdapter(
                 mItemArray,
-                R.layout.group_pilot_item,
-                R.id.item_layout,
+                assignMode ? R.layout.group_pilot_item_assign : R.layout.group_pilot_item,
+                assignMode ? R.id.item_layout_assign : R.id.item_layout,
                 true,
                 flightNumber,
                 result,
@@ -110,7 +112,9 @@ public class GroupCreator {
                 groupId,
                 assignMode,
                 windMeasures,
-                context);
+                context,
+                assignMode ? View.INVISIBLE : View.VISIBLE,
+                assignMode ? View.VISIBLE : View.INVISIBLE);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);

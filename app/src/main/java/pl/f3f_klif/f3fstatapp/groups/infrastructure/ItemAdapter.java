@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +46,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     private List<WindMeasure> windMeasures;
     private Context context;
     private WindSQLiteDbHandler db;
-
+    private int editButtonsVisibility;
+    private int assignAndSendButtonVisibility;
     public ItemAdapter(
             ArrayList<Pair<Long, String>> list,
             int layoutId,
@@ -57,7 +59,9 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
             long groupId,
             boolean assignMode,
             List<WindMeasure> windMeasures,
-            Context context) {
+            Context context,
+            int buttonsVisible,
+            int assignAndSendButton) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
@@ -68,6 +72,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         this.assignMode = assignMode;
         this.windMeasures = windMeasures;
         this.context = context;
+        this.editButtonsVisibility = buttonsVisible;
+        this.assignAndSendButtonVisibility = assignAndSendButton;
         setItemList(list);
     }
 
@@ -86,6 +92,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         String text = mItemList.get(position).second;
         holder.mText.setText(text);
         holder.mText.setTextSize(20);
+
         holder.itemView.setTag(mItemList.get(position));
         if(( text.contains("Czas") || text.contains("DNF") ) && !text.contains("Czas: -"))
             holder.itemView.setBackgroundColor(Color.rgb(0, 255,0));
@@ -98,10 +105,24 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
     class ViewHolder extends DragItemAdapter.ViewHolder {
         TextView mText;
-
+        Button dnsButton;
+        Button assignAndSendButton;
+        Button editButton;
         ViewHolder(final View itemView) {
             super(itemView, mGrabHandleId, mDragOnLongPress);
             mText = (TextView) itemView.findViewById(R.id.text);
+
+            if(editButtonsVisibility == View.VISIBLE){
+                dnsButton = (Button) itemView.findViewById(R.id.dnsButton);
+                editButton = (Button) itemView.findViewById(R.id.editButton);
+
+                dnsButton.setVisibility(editButtonsVisibility);
+                editButton.setVisibility(editButtonsVisibility);
+            }
+            if(assignAndSendButtonVisibility == View.VISIBLE){
+                assignAndSendButton = (Button) itemView.findViewById(R.id.assignAndSendButton);
+                assignAndSendButton.setVisibility(assignAndSendButtonVisibility);
+            }
         }
 
         @Override
