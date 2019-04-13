@@ -85,6 +85,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         super.onBindViewHolder(holder, position);
         String text = mItemList.get(position).second;
         holder.mText.setText(text);
+        holder.mText.setTextSize(20);
         holder.itemView.setTag(mItemList.get(position));
         if(( text.contains("Czas") || text.contains("DNF") ) && !text.contains("Czas: -"))
             holder.itemView.setBackgroundColor(Color.rgb(0, 255,0));
