@@ -112,16 +112,6 @@ public class EventGroupsActivity extends AppCompatActivity {
                 index++;
             }
         }
-        index = 1;
-        if(menu.findItem(SEND_SUBMENU_ID) == null)
-        {
-            sendSubMenu = menu.addSubMenu(SEND_GROUP_ID, SEND_SUBMENU_ID, 0, R.string.send_groups);
-            for (Group group: groups) {
-                sendSubMenu.add(SEND_GROUP_ID,(int)group.id, 0,
-                        getString(R.string.send_group, index));
-                index++;
-            }
-        }
 
         if(isCurrentFlyFragment){
             menu.findItem(R.id.action_event_groups).setTitle(getString(R.string.back_to_round_view, roundId));
@@ -130,9 +120,7 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(false);
             menu.findItem(R.id.end_round).setVisible(false);
-            menu.findItem(R.id.action_send_results_to_server).setVisible(false);
             menu.findItem(CANCEL_SUBMENU_ID).setVisible(false);
-            menu.findItem(SEND_SUBMENU_ID).setVisible(false);
         }
 
         if(isRoundFragment){
@@ -141,9 +129,7 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(true);
             menu.findItem(R.id.end_round).setVisible(true);
-            menu.findItem(R.id.action_send_results_to_server).setVisible(true);
             menu.findItem(CANCEL_SUBMENU_ID).setVisible(true);
-            menu.findItem(SEND_SUBMENU_ID).setVisible(true);
         }
 
         if(isRoundOrderFragment){
@@ -153,9 +139,7 @@ public class EventGroupsActivity extends AppCompatActivity {
             menu.findItem(R.id.action_event_pilots_order).setVisible(false);
             menu.findItem(R.id.action_cancel_round).setVisible(false);
             menu.findItem(R.id.end_round).setVisible(false);
-            menu.findItem(R.id.action_send_results_to_server).setVisible(false);
             menu.findItem(CANCEL_SUBMENU_ID).setVisible(false);
-            menu.findItem(SEND_SUBMENU_ID).setVisible(false);
         }
 
         return true;
@@ -207,10 +191,6 @@ public class EventGroupsActivity extends AppCompatActivity {
                         if(round.getGroup(itemId) != null)
                             new CancelRoundStrategy()
                                     .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext()));
-                        return true;
-                    case R.id.action_send_results_to_server:
-                        new SendRoundStrategy()
-                                .doStrategy(new StrategyScope(roundId, getApplicationContext()));
                         return true;
                     case R.id.end_round:
                         new UpdateEventRoundStrategy().doStrategy(new StrategyScope(roundId,
