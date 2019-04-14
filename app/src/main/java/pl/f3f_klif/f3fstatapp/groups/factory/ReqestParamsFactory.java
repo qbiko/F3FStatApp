@@ -48,6 +48,7 @@ public class ReqestParamsFactory {
                 index++;
             }
             params.put("dnf", result.isDnf());
+            params.put("dns", result.isDns());
         }
 
         return params;

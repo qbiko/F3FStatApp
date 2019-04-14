@@ -24,11 +24,6 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_send_results_to_server"
-        android:title="@string/send_results_to_server"
-        app:showAsAction="never"/>
-
-    <item
         android:id="@+id/end_round"
         android:title="@string/end_round"
         app:showAsAction="never"/>

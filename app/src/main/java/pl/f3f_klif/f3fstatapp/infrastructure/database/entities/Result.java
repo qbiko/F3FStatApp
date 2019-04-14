@@ -30,12 +30,17 @@ public class Result {
     private float penalty;
 
     public Result() { }
+    public Result(boolean dns, long roundId) {
+        this.dns = dns;
+        this.roundId = roundId;
+    }
 
     public Result(int flightNumber, long roundId) {
         this.flightNumber = flightNumber;
         this.roundId = roundId;
         this.totalFlightTime = 0f;
         this.dnf = false;
+        this.dns = false;
         this.penalty = 0f;
         this.lapsTimeJson = new Gson().toJson(new ArrayList<Float>());
     }
@@ -98,7 +103,6 @@ public class Result {
     public boolean isDnf() {
         return dnf;
     }
-
     public void setDnf(boolean dnf) {
         this.dnf = dnf;
     }
@@ -126,5 +130,7 @@ public class Result {
     public void setPenalty(float penalty) {
         this.penalty = penalty;
     }
+
+    public void setDNS (boolean dns) { this.dns = dns; }
 }
 
