@@ -96,4 +96,7 @@
     <string name="update_round_status_success">Runda zakończona poprawnie.</string>
     <string name="update_round_status_failure">Nie udało się zakończyć rundy. Spróbuj
         ponownie</string>
+
+    <string name="send_wind_dir_text">Wysyłanie kierunku wiatru</string>
+    <string name="send_wind_speed_text">Wysyłanie prędkości wiatru</string>
 </resources>

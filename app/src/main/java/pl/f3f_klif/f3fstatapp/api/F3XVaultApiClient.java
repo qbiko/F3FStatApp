@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 
 public class F3XVaultApiClient {
     private static final String BASE_URL = "http://www.f3xvault.com/api.php?";
-    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String DATE_FORMAT = "MM/dd/yy";
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT);
 
     private static AsyncHttpClient client = new AsyncHttpClient();

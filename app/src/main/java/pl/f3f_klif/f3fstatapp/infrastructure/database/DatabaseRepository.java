@@ -22,11 +22,12 @@ public class DatabaseRepository {
         event.fillRounds(rounds);
     }
 
-    public static void initNew(int f3fId, int minGroupAmount, String[] lines, Context context) {
+    public static void initNew(int f3fId, int minGroupAmount, String[] lines, Context context, boolean windDir,
+                               boolean windSpeed) {
         ObjectBox.clear(context);
         eventBox = ObjectBox.get().boxFor(Event.class);
         accountBox = ObjectBox.get().boxFor(Account.class);
-        createEvent(f3fId, minGroupAmount, lines);
+        createEvent(f3fId, minGroupAmount, lines, windDir, windSpeed);
         event = eventBox.query().build().findFirst();
     }
 
@@ -38,8 +39,8 @@ public class DatabaseRepository {
         return account;
     }
 
-    private static Long createEvent(int f3fId, int minGroupAmount, String[] lines){
-        event = new Event(f3fId, minGroupAmount, lines);
+    private static Long createEvent(int f3fId, int minGroupAmount, String[] lines, boolean windDir, boolean windSpeed){
+        event = new Event(f3fId, minGroupAmount, lines, windDir, windSpeed);
         return eventBox.put(event);
     }
 

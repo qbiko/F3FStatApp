@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.sqlite.WindMeasure;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
@@ -31,13 +32,16 @@ import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.WIND_MEASUREMENT;
 public class CurrentFlyHandler extends Handler {
 
     private final WeakReference<CurrentFlyFragment> mFragment;
+    private Event event;
 
     long startClimbingTimestamp;
 
     boolean wasBaseA = false;
+    boolean startCollectWind = false;
 
     public CurrentFlyHandler(CurrentFlyFragment fragment) {
         mFragment = new WeakReference<>(fragment);
+        event = DatabaseRepository.getEvent();
     }
 
     @Override
@@ -84,6 +88,7 @@ public class CurrentFlyHandler extends Handler {
                 case START_TIME: {
                     if(mFragment.get().liveStatusTextView.getText().toString().equals(mFragment.get().getString(R.string.prepare_period))) {
                         mFragment.get().liveStatusTextView.setText(R.string.start_period);
+                        startCollectWind = true;
                     }
 
                     float currentTime = Float.parseFloat(message[1]);
@@ -217,9 +222,8 @@ public class CurrentFlyHandler extends Handler {
                         container.addView(baseResult2);
                     }
 
-                    mFragment.get().assignPilotButton.setClickable(true);
-                    mFragment.get().assignPilotButton.setVisibility(View.VISIBLE);
-                    mFragment.get().dnfButton.setVisibility(View.INVISIBLE);
+                    mFragment.get().assignPilotButton.setEnabled(true);
+                    mFragment.get().dnfButton.setEnabled(false);
 
                     mFragment.get().currentTimeTextView.setText(mFragment.get().getString(R.string
                             .flight_current_time, time));
@@ -227,6 +231,21 @@ public class CurrentFlyHandler extends Handler {
                     mFragment.get().statusImageView.setImageResource(R.drawable.finish);
 
                     mFragment.get().result.setTotalFlightTime(time);
+
+                    float windSpeedSum = 0f;
+                    int windDirSum = 0;
+
+                    for (WindMeasure windMeasure : mFragment.get().windMeasures) {
+                        windSpeedSum+=windMeasure.getWindSpeed();
+                        windDirSum+=windMeasure.getWindDirection();
+                    }
+
+                    int windMeasuresSize = mFragment.get().windMeasures.size();
+                    float avgSpeed = windSpeedSum / windMeasuresSize;
+                    float avgDir = windDirSum / windMeasuresSize;
+                    mFragment.get().result.setWindAvg(avgSpeed);
+                    mFragment.get().result.setWindDirAvg(avgDir);
+
 
                     mFragment.get().stopService();
 
@@ -237,10 +256,21 @@ public class CurrentFlyHandler extends Handler {
                     break;
                 }
                 case WIND_MEASUREMENT: {
-                    float currentSpeed = Float.parseFloat(message[1])/10;
-                    float avgSpeed = Float.parseFloat(message[3])/10;
-                    int currentDirection = Integer.parseInt(message[2]);
-                    int avgDirection = Integer.parseInt(message[4]);
+                    float currentSpeed = 0f;
+                    float avgSpeed = 0f;
+                    int currentDirection = 0;
+                    int avgDirection = 0;
+
+                    if(event.isWindDir()) {
+                        currentDirection = Integer.parseInt(message[2]);
+                        avgDirection = Integer.parseInt(message[4]);
+                    }
+
+                    if(event.isWindSpeed()) {
+                        currentSpeed = Float.parseFloat(message[1])/10;
+                        avgSpeed = Float.parseFloat(message[3])/10;
+                    }
+
 
                     mFragment.get().currentWindSpeedTextView.setText(mFragment.get().getString(R
                             .string.current_wind_speed, currentSpeed));
@@ -251,10 +281,10 @@ public class CurrentFlyHandler extends Handler {
                     mFragment.get().avgWindDirectionTextView.setText(mFragment.get().getString(R
                             .string.avg_wind_direction, avgDirection));
 
-                    int eventId = (int)DatabaseRepository.getEvent().getF3fId();
+                    int eventId = (int)event.getF3fId();
                     int roundId = (int)mFragment.get().result.getRoundId();
 
-                    if(mFragment.get().currentTimestamp != null) {
+                    if(mFragment.get().currentTimestamp != null && startCollectWind) {
                         mFragment.get().windMeasures.add(new WindMeasure(mFragment.get().currentTimestamp, currentSpeed,
                                 currentDirection, eventId, roundId));
                     }

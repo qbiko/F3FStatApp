@@ -126,5 +126,13 @@ public class Result {
     public void setPenalty(float penalty) {
         this.penalty = penalty;
     }
+
+    public void setWindAvg(float windAvg) {
+        this.windAvg = windAvg;
+    }
+
+    public void setWindDirAvg(float windDirAvg) {
+        this.windDirAvg = windDirAvg;
+    }
 }
 

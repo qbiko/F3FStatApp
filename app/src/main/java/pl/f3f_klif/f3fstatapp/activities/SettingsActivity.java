@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -44,6 +45,10 @@ public class SettingsActivity extends AppCompatActivity {
     EditText minGroupAmountEditText;
     @BindView(R.id.result_image)
     ImageView resultImageView;
+    @BindView(R.id.wind_dir_switch)
+    Switch windDirSwitch;
+    @BindView(R.id.wind_speed_switch)
+    Switch windSpeedSwitch;
 
     Event event;
     Account account;
@@ -80,6 +85,8 @@ public class SettingsActivity extends AppCompatActivity {
         String mail = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         int minGroupAmount = Integer.parseInt(minGroupAmountEditText.getText().toString());
+        boolean windDir = windDirSwitch.isChecked();
+        boolean windSpeed = windSpeedSwitch.isChecked();
 
         if(event == null || (eventId != event.getF3fId() || minGroupAmount != event.getMinGroupAmount())) {
             DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
@@ -98,7 +105,8 @@ public class SettingsActivity extends AppCompatActivity {
 
 
                                     String[] lines = responseText.split(System.getProperty("line.separator"));
-                                    DatabaseRepository.initNew(eventId, minGroupAmount, lines, getApplicationContext());
+                                    DatabaseRepository.initNew(eventId, minGroupAmount, lines, getApplicationContext(),
+                                            windDir, windSpeed);
 
                                     account = DatabaseRepository.createAccount(mail, password);
 
@@ -160,6 +168,9 @@ public class SettingsActivity extends AppCompatActivity {
             responseTextView.setText(R.string.not_necessary_authorization_text);
             //resultImageView.setImageResource(R.drawable.error);
         }
+
+        event.setWindDir(windDir);
+        event.setWindSpeed(windSpeed);
 
     }
 }
