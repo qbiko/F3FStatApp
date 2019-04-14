@@ -84,11 +84,18 @@ public class GroupCreator {
             String resultMessage;
             Result pilotResult = pilot.getResult(round.getId());
             if(pilotResult != null && pilotResult.getTotalFlightTime() >= 0) {
-                resultMessage = pilotResult.isDnf() ? String.format(
-                        "%s. %s %s\nDNF",index+1, pilot.firstName, pilot.lastName) :
-                        String.format("%s. %s %s\nCzas: %s\nPunkty: %.2f\nPkt. karne: %.2f", index+1,
-                                pilot.firstName, pilot.lastName, String.valueOf(Precision.round(pilotResult.getTotalFlightTime(),2)),
-                                (points.get(pilot.id).floatValue()), pilotResult.getPenalty());
+                if(pilotResult.isDnf()){
+                    resultMessage = String.format(
+                            "%s. %s %s\nDNF",index+1, pilot.firstName, pilot.lastName);
+                }
+                else if(pilotResult.isDns())
+                    resultMessage = String.format(
+                            "%s. %s %s\nDNS",index+1, pilot.firstName, pilot.lastName);
+                else{
+                    resultMessage = String.format("%s. %s %s\nCzas: %s\nPunkty: %.2f\nPkt. karne: %.2f", index+1,
+                            pilot.firstName, pilot.lastName, String.valueOf(Precision.round(pilotResult.getTotalFlightTime(),2)),
+                            (points.get(pilot.id).floatValue()), pilotResult.getPenalty());
+                }
             }
             else {
                 resultMessage =

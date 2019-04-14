@@ -22,7 +22,6 @@ import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.isSuccess;
 public class SendPilotStrategy{
     public void doStrategy(Pilot pilot, Result result, StrategyScope scope, int order) {
         Event event = DatabaseRepository.getEvent();
-        Round round = event.getRound(scope.roundId);
 
         Box<Account> accountBox = ObjectBox.get().boxFor(Account.class);
         if(!accountBox.isEmpty()) {
