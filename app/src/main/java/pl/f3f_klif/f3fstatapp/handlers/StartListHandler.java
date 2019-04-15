@@ -13,6 +13,7 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Round;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.RoundState;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
 
+import static pl.f3f_klif.f3fstatapp.activities.EventGroupsActivity.active;
 import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.NEW_FLIGHT;
 import static pl.f3f_klif.f3fstatapp.utils.FramesDictionary.PREPARE_TIME;
 
@@ -30,18 +31,20 @@ public class StartListHandler extends Handler {
 
     @Override
     public void handleMessage(Message msg) {
-        switch (msg.what) {
-            case UsbService.MESSAGE_FROM_SERIAL_PORT:
-                String data = (String) msg.obj;
-                readMessage(data);
-                //mFragment.get().terminal.append(data);
-                break;
-            case UsbService.CTS_CHANGE:
-                Toast.makeText(mFragment.get().getContext(), "CTS_CHANGE",Toast.LENGTH_LONG).show();
-                break;
-            case UsbService.DSR_CHANGE:
-                Toast.makeText(mFragment.get().getContext(), "DSR_CHANGE",Toast.LENGTH_LONG).show();
-                break;
+        if(active) {
+            switch (msg.what) {
+                case UsbService.MESSAGE_FROM_SERIAL_PORT:
+                    String data = (String) msg.obj;
+                    readMessage(data);
+                    //mFragment.get().terminal.append(data);
+                    break;
+                case UsbService.CTS_CHANGE:
+                    Toast.makeText(mFragment.get().getContext(), "CTS_CHANGE",Toast.LENGTH_LONG).show();
+                    break;
+                case UsbService.DSR_CHANGE:
+                    Toast.makeText(mFragment.get().getContext(), "DSR_CHANGE",Toast.LENGTH_LONG).show();
+                    break;
+            }
         }
     }
 

@@ -42,6 +42,9 @@ public class EventGroupsActivity extends AppCompatActivity {
     private Event event;
     private Round round;
     private long roundId;
+
+    public static boolean active = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,18 @@ public class EventGroupsActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
     }
 
     public void showFragment(Fragment fragment){
