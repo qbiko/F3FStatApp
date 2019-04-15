@@ -134,6 +134,11 @@ public class Pilot  implements Parcelable {
         update();
     }
 
+    public void putResult(Result result) {
+        Box<Result> resultBox = ObjectBox.get().boxFor(Result.class);
+        resultBox.put(result);
+    }
+
     private void update() {
         Box<Pilot> pilotBox = ObjectBox.get().boxFor(Pilot.class);
         pilotBox.put(this);

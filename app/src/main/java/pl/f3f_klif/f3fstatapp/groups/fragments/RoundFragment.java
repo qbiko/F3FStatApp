@@ -136,7 +136,9 @@ public class RoundFragment extends UsbServiceBaseFragment {
                         round,
                         groupId,
                         assignMode,
-                        windMeasures);
+                        windMeasures,
+                        getFragmentManager()
+                                .beginTransaction());
 
         _boardView.addColumn(
                 group.itemAdapter,

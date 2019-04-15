@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.f3f_klif.f3fstatapp.R;
+import pl.f3f_klif.f3fstatapp.groups.fragments.EditPilotFragment;
 import pl.f3f_klif.f3fstatapp.groups.fragments.RoundFragment;
 import pl.f3f_klif.f3fstatapp.groups.infrastructure.models.PilotWithOrder;
 import pl.f3f_klif.f3fstatapp.groups.strategy.menu.SendPilotStrategy;
@@ -48,6 +49,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
     private WindSQLiteDbHandler db;
     private int editButtonsVisibility;
     private int assignAndSendButtonVisibility;
+    private FragmentTransaction transaction;
     public ItemAdapter(
             ArrayList<Pair<Long, String>> list,
             int layoutId,
@@ -61,7 +63,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
             List<WindMeasure> windMeasures,
             Context context,
             int buttonsVisible,
-            int assignAndSendButton) {
+            int assignAndSendButton,
+            FragmentTransaction transaction) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
@@ -74,6 +77,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         this.context = context;
         this.editButtonsVisibility = buttonsVisible;
         this.assignAndSendButtonVisibility = assignAndSendButton;
+        this.transaction = transaction;
         setItemList(list);
     }
 
@@ -164,6 +168,16 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
             if(editButton != null ){
                 editButton.setVisibility(editButtonsVisibility);
+                editButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int order = (int)mItemId + 1;
+                        Pilot pilot = round.getGroup(groupId).getPilots().get((int)mItemId);
+                        transaction
+                                .replace(R.id.container, new EditPilotFragment(pilot, result, round, context), "fragment")
+                                .commit();
+                    }
+                });
             }
 
             if(assignAndSendButton != null){
