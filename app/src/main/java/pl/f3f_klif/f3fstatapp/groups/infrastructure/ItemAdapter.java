@@ -102,6 +102,10 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
             holder.dnsButton.setEnabled(result == null);
         }
 
+        if(holder.editButton!=null && editButtonsVisibility == View.VISIBLE){
+            holder.editButton.setEnabled(result != null);
+        }
+
         if(holder.assignAndSendButton!=null && assignAndSendButtonVisibility == View.VISIBLE ){
             holder.assignAndSendButton.setEnabled(result == null);
         }
@@ -174,7 +178,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                         int order = (int)mItemId + 1;
                         Pilot pilot = round.getGroup(groupId).getPilots().get((int)mItemId);
                         transaction
-                                .replace(R.id.container, new EditPilotFragment(pilot, result, round, context), "fragment")
+                                .replace(R.id.container, new EditPilotFragment(pilot, round, context, order), "fragment")
                                 .commit();
                     }
                 });

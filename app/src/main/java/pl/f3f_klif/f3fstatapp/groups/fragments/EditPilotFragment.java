@@ -32,19 +32,19 @@ public class EditPilotFragment extends Fragment {
     EditText editSeconds;
     Button saveButton;
     Pilot pilot;
-    Result result;
     Round round;
     Context context;
+    int order;
     @SuppressLint("ValidFragment")
     public EditPilotFragment(
             Pilot pilot,
-            Result result,
             Round round,
-            Context context){
+            Context context,
+            int order){
         this.pilot = pilot;
-        this.result = result;
         this.round = round;
         this.context = context;
+        this.order = order;
     }
 
     @Override
@@ -61,29 +61,24 @@ public class EditPilotFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pilot_edit, container,false);
-        editPenalty = (EditText) view.findViewById(R.id.edit_penalty_editText);
         editSeconds = (EditText) view.findViewById(R.id.edit_seconds_editText);
         saveButton = (Button) view.findViewById(R.id.edit_confirm_button);
+        Result pilotResult = pilot.getResult(round.getId());
 
-
+        editSeconds.setText(String.valueOf(pilotResult.totalFlightTime));
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int order = 1;
-                if(result == null){
-                    result = new Result();
-                    result.roundId = round.id;
-                    result.dns = false;
-                    result.dnf = false;
-                    pilot.addResult(result);
-                }
-                if(editPenalty.getText().toString() != null)
-                    result.penalty = Integer.valueOf(editPenalty.getText().toString());
-                if(editSeconds.getText().toString() != null)
-                    result.penalty = Precision.round(Float.valueOf(editSeconds.getText().toString()),2);
+                String seconds = editSeconds.getText().toString();
+                if(seconds != null){
 
-                pilot.putResult(result);
-                new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id, context), order);
+                    pilotResult.setTotalFlightTime(Precision.round(Float.valueOf(seconds),2));
+                    pilotResult.dnf = false;
+                    pilotResult.dns = false;
+                }
+
+                pilot.putResult(pilotResult);
+                new SendPilotStrategy().doStrategy(pilot, pilotResult, new StrategyScope(round.id, context), order);
                 showFragment(RoundFragment.newInstance(round));
             }
         });

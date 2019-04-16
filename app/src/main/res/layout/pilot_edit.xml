@@ -9,36 +9,16 @@
         android:id="@+id/relativeLayoutContainer"
         android:layout_width="200dp"
         android:layout_height="400dp"
-        android:layout_centerInParent="true">
-
-        <TextView
-            android:id="@+id/edit_penalty_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="75dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/edit_penalty" />
-
-        <EditText
-            android:id="@+id/edit_penalty_editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/edit_penalty_textView"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="15dp"
-            android:ems="10"
-            android:inputType="number" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="91dp"
+        android:layout_marginRight="91dp">
 
         <TextView
             android:id="@+id/edit_seconds_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edit_penalty_textView"
             android:layout_alignStart="@+id/relativeLayoutContainer"
             android:layout_alignParentTop="true"
             android:layout_marginStart="1dp"
@@ -53,8 +33,7 @@
             android:layout_below="@+id/edit_seconds_textView"
             android:layout_alignParentStart="true"
             android:ems="10"
-            android:inputType="number" />
-
+            android:inputType="numberDecimal" />
 
         <RelativeLayout
             android:layout_width="200dp"
@@ -67,8 +46,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="@string/edit_confirm_button"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="31dp"
+                android:layout_marginBottom="0dp"
+                android:text="@string/edit_confirm_button" />
         </RelativeLayout>
 
     </RelativeLayout>
