@@ -16,18 +16,18 @@ public class Result {
 
     @Id
     long id;
-    private int flightNumber;
+    public int flightNumber;
     //private Timestamp dateTimeOfFlight;
     public float windAvg;
     public float windDirAvg;
-    private float totalFlightTime;
-    private String lapsTimeJson;
-    private boolean dns;
-    private boolean dnf;
-    private int orderNumber;
-    private int groupNumber;
-    private long roundId;
-    private float penalty;
+    public float totalFlightTime;
+    public String lapsTimeJson;
+    public boolean dns;
+    public boolean dnf;
+    public int orderNumber;
+    public int groupNumber;
+    public long roundId;
+    public float penalty;
 
     public Result() { }
     public Result(boolean dns, long roundId) {

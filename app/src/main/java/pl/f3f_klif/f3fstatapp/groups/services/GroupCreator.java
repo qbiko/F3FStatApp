@@ -1,6 +1,7 @@
 package pl.f3f_klif.f3fstatapp.groups.services;
 
 import android.content.Context;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.TextView;
@@ -30,7 +31,8 @@ public class GroupCreator {
             Result result,
             Round round,
             long groupId,
-            boolean assignMode)
+            boolean assignMode,
+            FragmentTransaction transaction)
     {
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
         long index = 0;
@@ -57,7 +59,8 @@ public class GroupCreator {
                 new ArrayList<>(),
                 context,
                 View.INVISIBLE,
-                View.INVISIBLE);
+                View.INVISIBLE,
+                transaction);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);
@@ -75,7 +78,8 @@ public class GroupCreator {
             Round round,
             long groupId,
             boolean assignMode,
-            List<WindMeasure> windMeasures)
+            List<WindMeasure> windMeasures,
+            FragmentTransaction transaction)
     {
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
         long index = 0;
@@ -121,7 +125,8 @@ public class GroupCreator {
                 windMeasures,
                 context,
                 assignMode ? View.INVISIBLE : View.VISIBLE,
-                assignMode ? View.VISIBLE : View.INVISIBLE);
+                assignMode ? View.VISIBLE : View.INVISIBLE,
+                transaction);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);

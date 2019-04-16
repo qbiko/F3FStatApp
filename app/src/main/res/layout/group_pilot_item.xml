@@ -38,24 +38,24 @@
 
             <Button
                 android:id="@+id/dnsButton"
-                android:layout_width="61dp"
+                android:layout_width="62dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="284dp"
-                android:layout_marginLeft="284dp"
+                android:layout_marginStart="267dp"
+                android:layout_marginLeft="267dp"
                 android:text="@string/dnsButton" />
 
             <Button
                 android:id="@+id/editButton"
-                android:layout_width="78dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="157dp"
-                android:layout_marginRight="157dp"
+                android:layout_marginEnd="150dp"
+                android:layout_marginRight="150dp"
                 android:text="@string/editButton" />
 
         </RelativeLayout>

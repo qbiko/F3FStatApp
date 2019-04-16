@@ -3,6 +3,8 @@ package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.objectbox.Box;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
@@ -23,7 +25,6 @@ public class Pilot  implements Parcelable {
     private String fai;
     private String faiLicense;
     private String teamName;
-
     ToMany<Result> results;
 
     public Pilot(){ }
@@ -62,6 +63,9 @@ public class Pilot  implements Parcelable {
 
     public long getF3fId() {
         return f3fId;
+    }
+    public long getId() {
+        return id;
     }
 
     public int getStartNumber() {
@@ -132,6 +136,11 @@ public class Pilot  implements Parcelable {
         resultBox.put(result);*/
         results.add(result);
         update();
+    }
+
+    public void putResult(Result result) {
+        Box<Result> resultBox = ObjectBox.get().boxFor(Result.class);
+        resultBox.put(result);
     }
 
     private void update() {
