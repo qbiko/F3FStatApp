@@ -10,7 +10,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient;
-import pl.f3f_klif.f3fstatapp.groups.factory.ReqestParamsFactory;
+import pl.f3f_klif.f3fstatapp.groups.factory.RequestParamsFactory;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Account;
@@ -37,7 +37,7 @@ public class SendGroupStrategy implements Strategy {
             for (Pilot pilot:pilots) {
                 Result result = pilot.getResult(scope.roundId);
                 if(result != null){
-                    RequestParams params = ReqestParamsFactory
+                    RequestParams params = RequestParamsFactory
                             .create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId, order);
 
                     sendSinglePilot(params, scope, pilot, event.getType());

@@ -1,5 +1,6 @@
 package pl.f3f_klif.f3fstatapp.groups.infrastructure;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -164,7 +165,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
                         new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id,
                                 context), order);
-                        showFragment(RoundFragment.newInstance(round), view);
+                        showFragment(RoundFragment.newInstance(round));
                     }
                 });
                 dnsButton.setVisibility(editButtonsVisibility);
@@ -220,7 +221,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
                             new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id,
                                     context), order);
-                            showFragment(RoundFragment.newInstance(round), view);
+                            showFragment(RoundFragment.newInstance(round));
                         }
                     }
                 });
@@ -254,8 +255,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         }
     }
 
-    public void showFragment(Fragment fragment, View view){
-        FragmentManager manager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
+    public void showFragment(Fragment fragment){
+        FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
         transaction

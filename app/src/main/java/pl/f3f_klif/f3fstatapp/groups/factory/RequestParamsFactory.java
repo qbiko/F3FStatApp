@@ -12,7 +12,7 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Result;
 
-public class ReqestParamsFactory {
+public class RequestParamsFactory {
 
     public static RequestParams create(
             String eventType,
@@ -34,6 +34,11 @@ public class ReqestParamsFactory {
         params.put("group", groupId);
         params.put("penalty", result.getPenalty());
         params.put("order", order);
+        if(event.isWindDir())
+            params.put("dir_avg", result.getWindDirAvg());
+        if(event.isWindSpeed())
+            params.put("wind_avg", result.getWindAvg());
+
 
         if(eventType.equals("F3F Slope Race (Plus Scoring)")){
             List<Float> laps = result.getLapsTime();

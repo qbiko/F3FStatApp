@@ -1,14 +1,11 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import io.objectbox.Box;
 import io.objectbox.annotation.Entity;
@@ -32,7 +29,6 @@ public class Group {
         PilotsListJson = new Gson().toJson(GetIds(pilots));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Pilot> getPilots() {
 
         try{

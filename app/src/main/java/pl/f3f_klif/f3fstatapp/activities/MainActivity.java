@@ -138,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
                     String[] lines = responseText.split(System.getProperty("line.separator"));
                     DatabaseRepository.initNew((int)event.getF3fId(),
                             event.getMinGroupAmount(), lines,
-                            getApplicationContext());
+                            getApplicationContext(), event.isWindDir(),
+                            event.isWindSpeed());
 
                     DatabaseRepository.createAccount(mail, password);
 

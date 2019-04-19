@@ -21,7 +21,7 @@
         czy dane w ustawieniach są poprawne.</string>
     <string name="start">Start</string>
     <string name="prepare_time">Czas przygotowawczy: %1$.1f s</string>
-    <string name="start_time">Czas startowy: %1$.1f s</string>
+    <string name="start_time">Czas wznoszenia: %1$.1f s</string>
     <string name="open_drawer_desc">Otwórz</string>
     <string name="close_drawer_desc">Zamknij</string>
     <string name="min_group_amount_text">Min. liczba zawodników w grupie:</string>
@@ -97,7 +97,7 @@
     <string name="update_round_status_failure">Nie udało się zakończyć rundy. Spróbuj
         ponownie</string>
     <string name="dnsButton">DNS</string>
-    <string name="assignAndSendButton">Wyślij</string>
+    <string name="assignAndSendButton">Przypisz</string>
     <string name="editButton">Edytuj</string>
 
     //edit button
@@ -106,4 +106,7 @@
     <string name="edit_penalty">Punkty karne (penalty)</string>
     <string name="edit_seconds">Końcowy czas (seconds)</string>
     <string name="edit_confirm_button">Zapisz i wyślij</string>
+
+    <string name="send_wind_dir_text">Wysyłanie kierunku wiatru</string>
+    <string name="send_wind_speed_text">Wysyłanie prędkości wiatru</string>
 </resources>

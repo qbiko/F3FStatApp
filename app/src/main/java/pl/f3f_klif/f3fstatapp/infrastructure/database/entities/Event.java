@@ -1,11 +1,6 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
 
-import android.content.Context;
-import android.widget.Toast;
-
-import com.google.common.collect.Lists;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +25,8 @@ public class Event {
     Date endDate;
     String type;
     int minGroupAmount;
+    boolean windDir;
+    boolean windSpeed;
 
     private ToMany<Round> rounds;
     ToMany<Pilot> pilots;
@@ -39,7 +36,7 @@ public class Event {
         pilots = new ToMany<>(this, Event_.pilots);
     }
 
-    public Event(int f3fId, int minGroupAmount, String[] lines){
+    public Event(int f3fId, int minGroupAmount, String[] lines, boolean windDir, boolean windSpeed){
         this.f3fId = f3fId;
         this.minGroupAmount = minGroupAmount;
         rounds = new ToMany<>(this, Event_.rounds);
@@ -63,6 +60,9 @@ public class Event {
                 pilots.add(new Pilot(lines[i]));
             }
         }
+
+        this.windDir = windDir;
+        this.windSpeed = windSpeed;
     }
 
     public List<Round> getRounds() { return this.rounds;}
@@ -113,6 +113,21 @@ public class Event {
         return minGroupAmount;
     }
 
+    public boolean isWindDir() {
+        return windDir;
+    }
+
+    public boolean isWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindDir(boolean windDir) {
+        this.windDir = windDir;
+    }
+
+    public void setWindSpeed(boolean windSpeed) {
+        this.windSpeed = windSpeed;
+    }
 
     public Round createRound() {
         Round round = new Round();

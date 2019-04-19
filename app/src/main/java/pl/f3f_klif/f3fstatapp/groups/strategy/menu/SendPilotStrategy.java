@@ -8,7 +8,7 @@ import com.loopj.android.http.RequestParams;
 import cz.msebera.android.httpclient.Header;
 import io.objectbox.Box;
 import pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient;
-import pl.f3f_klif.f3fstatapp.groups.factory.ReqestParamsFactory;
+import pl.f3f_klif.f3fstatapp.groups.factory.RequestParamsFactory;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Account;
@@ -26,7 +26,7 @@ public class SendPilotStrategy{
         Box<Account> accountBox = ObjectBox.get().boxFor(Account.class);
         if(!accountBox.isEmpty()) {
             Account account = accountBox.getAll().get(0);
-            RequestParams params = ReqestParamsFactory
+            RequestParams params = RequestParamsFactory
                     .create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId, order);
 
             sendSinglePilot(params, scope, pilot, event.getType(), result);

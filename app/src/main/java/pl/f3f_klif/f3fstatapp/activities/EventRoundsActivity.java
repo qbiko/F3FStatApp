@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,7 +56,7 @@ public class EventRoundsActivity extends AppCompatActivity {
         eventNameTextView.setText(event.getName());
         eventLocationTextView.setText(event.getLocation());
         eventTypeTextView.setText(event.getType());
-        eventStartDateTextView.setText(event.getStartDate().toString());
+        eventStartDateTextView.setText(new SimpleDateFormat("dd.MM.yyyy").format(event.getStartDate()));
         rounds = event.getRounds();
 
         ListView listViewButton = findViewById(R.id.rounds_list_view);
