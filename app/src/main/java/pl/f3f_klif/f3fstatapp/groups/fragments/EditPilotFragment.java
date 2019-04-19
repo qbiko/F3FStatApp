@@ -65,7 +65,7 @@ public class EditPilotFragment extends Fragment {
         saveButton = (Button) view.findViewById(R.id.edit_confirm_button);
         Result pilotResult = pilot.getResult(round.getId());
 
-        editSeconds.setText(String.valueOf(pilotResult.totalFlightTime));
+        editSeconds.setText(String.valueOf(pilotResult.getTotalFlightTime()));
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,8 +73,8 @@ public class EditPilotFragment extends Fragment {
                 if(seconds != null){
 
                     pilotResult.setTotalFlightTime(Precision.round(Float.valueOf(seconds),2));
-                    pilotResult.dnf = false;
-                    pilotResult.dns = false;
+                    pilotResult.setDnf(false);
+                    pilotResult.setDNS(false);
                 }
 
                 pilot.putResult(pilotResult);

@@ -1,6 +1,7 @@
 package pl.f3f_klif.f3fstatapp.groups.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -159,5 +160,33 @@ public class CurrentFlyFragment extends UsbServiceBaseFragment {
     public void stopService() {
         isActiveListening = false;
         //usbService.stopService();
+    }
+
+
+    long startTime = 0;
+
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            long millis = System.currentTimeMillis() - startTime;
+            float seconds = millis/1000f;
+
+            currentTimeTextView.setText(getString(R.string
+                    .flight_current_time, seconds));
+
+            timerHandler.postDelayed(this, 1);
+        }
+    };
+
+
+    public void startTimer() {
+        startTime = System.currentTimeMillis();
+        timerHandler.postDelayed(timerRunnable, 0);
+    }
+
+    public void stopTimer() {
+        timerHandler.removeCallbacks(timerRunnable);
     }
 }

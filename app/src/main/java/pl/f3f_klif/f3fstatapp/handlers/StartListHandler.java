@@ -2,9 +2,11 @@ package pl.f3f_klif.f3fstatapp.handlers;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.util.Date;
 
 import pl.f3f_klif.f3fstatapp.activities.EventGroupsActivity;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
@@ -36,6 +38,7 @@ public class StartListHandler extends Handler {
                 case UsbService.MESSAGE_FROM_SERIAL_PORT:
                     String data = (String) msg.obj;
                     readMessage(data);
+                    Log.v("FRAME_FROM_TIMER", data);
                     //mFragment.get().terminal.append(data);
                     break;
                 case UsbService.CTS_CHANGE:
@@ -52,19 +55,24 @@ public class StartListHandler extends Handler {
 
         String[] message = data.split(";");
         String typeOfMessage = data.split(";")[0];
-
-        if(round.state == RoundState.STARTED && !mFragment.get().assignMode) {
-            if(NEW_FLIGHT.equals(typeOfMessage)) {
-                int flightNumber = Integer.parseInt(message[1]);
-                lastFlightNumber = flightNumber;
-                mFragment.get().showFragment(CurrentFlyFragment.newInstance(round, flightNumber));
-            }
-            else if(PREPARE_TIME.equals(typeOfMessage)) {
-                int flightNumber = lastFlightNumber + 1;
-                lastFlightNumber = flightNumber;
-                mFragment.get().showFragment(CurrentFlyFragment.newInstance(round, flightNumber));
+        try {
+            if(round.state == RoundState.STARTED && !mFragment.get().assignMode) {
+                if(NEW_FLIGHT.equals(typeOfMessage)) {
+                    int flightNumber = Integer.parseInt(message[1]);
+                    lastFlightNumber = flightNumber;
+                    mFragment.get().showFragment(CurrentFlyFragment.newInstance(round, flightNumber));
+                }
+                else if(PREPARE_TIME.equals(typeOfMessage)) {
+                    int flightNumber = lastFlightNumber + 1;
+                    lastFlightNumber = flightNumber;
+                    mFragment.get().showFragment(CurrentFlyFragment.newInstance(round, flightNumber));
+                }
             }
         }
+        catch (Exception ex) {
+            Log.e("START_LIST_HANDLER", "Poleciał wyjątek: ", ex);
+        }
+
 
     }
 }
