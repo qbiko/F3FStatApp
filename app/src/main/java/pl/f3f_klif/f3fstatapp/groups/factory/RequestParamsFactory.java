@@ -34,9 +34,9 @@ public class RequestParamsFactory {
         params.put("group", groupId);
         params.put("penalty", result.getPenalty());
         params.put("order", order);
-        if(event.isWindDir())
+        if(account.isWindDir())
             params.put("dir_avg", result.getWindDirAvg());
-        if(event.isWindSpeed())
+        if(account.isWindSpeed())
             params.put("wind_avg", result.getWindAvg());
 
 

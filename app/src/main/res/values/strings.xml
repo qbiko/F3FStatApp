@@ -109,4 +109,6 @@
 
     <string name="send_wind_dir_text">Wysyłanie kierunku wiatru</string>
     <string name="send_wind_speed_text">Wysyłanie prędkości wiatru</string>
+
+    <string name="correctly_update_wind_settings">Poprawnie zaaktualizowano ustawienia dot. wiatru</string>
 </resources>
