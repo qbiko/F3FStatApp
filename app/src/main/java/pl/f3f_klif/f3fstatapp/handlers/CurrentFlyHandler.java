@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 import pl.f3f_klif.f3fstatapp.R;
 import pl.f3f_klif.f3fstatapp.groups.fragments.CurrentFlyFragment;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.DatabaseRepository;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Account;
 import pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Event;
 import pl.f3f_klif.f3fstatapp.sqlite.WindMeasure;
 import pl.f3f_klif.f3fstatapp.utils.UsbService;
@@ -34,6 +35,7 @@ public class CurrentFlyHandler extends Handler {
 
     private final WeakReference<CurrentFlyFragment> mFragment;
     private Event event;
+    private Account account;
 
     long startClimbingTimestamp;
 
@@ -43,6 +45,7 @@ public class CurrentFlyHandler extends Handler {
     public CurrentFlyHandler(CurrentFlyFragment fragment) {
         mFragment = new WeakReference<>(fragment);
         event = DatabaseRepository.getEvent();
+        account = DatabaseRepository.getAccount();
     }
 
     @Override
@@ -267,12 +270,12 @@ public class CurrentFlyHandler extends Handler {
                         int currentDirection = 0;
                         int avgDirection = 0;
 
-                        if(event.isWindDir()) {
+                        if(account.isWindDir()) {
                             currentDirection = Integer.parseInt(message[2]);
                             avgDirection = Integer.parseInt(message[4]);
                         }
 
-                        if(event.isWindSpeed()) {
+                        if(account.isWindSpeed()) {
                             currentSpeed = Float.parseFloat(message[1])/10;
                             avgSpeed = Float.parseFloat(message[3])/10;
                         }
@@ -326,8 +329,6 @@ public class CurrentFlyHandler extends Handler {
         catch (Exception ex) {
             Log.e("CURRENT_FLY_HANDLER", "Poleciał wyjątek: ", ex);
         }
-
-
 
     }
 }
