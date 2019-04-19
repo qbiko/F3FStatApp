@@ -116,7 +116,9 @@ public class RoundOrderFragment extends Fragment {
                         result,
                         round,
                         groupId,
-                        false);
+                        false,
+                        getFragmentManager()
+                                .beginTransaction());
 
         _boardView.addColumn(
                 group.itemAdapter,

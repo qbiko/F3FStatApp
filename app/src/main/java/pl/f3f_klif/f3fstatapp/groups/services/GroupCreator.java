@@ -1,6 +1,7 @@
 package pl.f3f_klif.f3fstatapp.groups.services;
 
 import android.content.Context;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.TextView;
@@ -30,7 +31,8 @@ public class GroupCreator {
             Result result,
             Round round,
             long groupId,
-            boolean assignMode)
+            boolean assignMode,
+            FragmentTransaction transaction)
     {
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
         long index = 0;
@@ -55,7 +57,10 @@ public class GroupCreator {
                 groupId,
                 assignMode,
                 new ArrayList<>(),
-                context);
+                context,
+                View.INVISIBLE,
+                View.INVISIBLE,
+                transaction);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);
@@ -73,7 +78,8 @@ public class GroupCreator {
             Round round,
             long groupId,
             boolean assignMode,
-            List<WindMeasure> windMeasures)
+            List<WindMeasure> windMeasures,
+            FragmentTransaction transaction)
     {
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
         long index = 0;
@@ -82,11 +88,18 @@ public class GroupCreator {
             String resultMessage;
             Result pilotResult = pilot.getResult(round.getId());
             if(pilotResult != null && pilotResult.getTotalFlightTime() >= 0) {
-                resultMessage = pilotResult.isDnf() ? String.format(
-                        "%s. %s %s\nDNF",index+1, pilot.firstName, pilot.lastName) :
-                        String.format("%s. %s %s\nCzas: %s\nPunkty: %.2f\nPkt. karne: %.2f", index+1,
-                                pilot.firstName, pilot.lastName, String.valueOf(Precision.round(pilotResult.getTotalFlightTime(),2)),
-                                (points.get(pilot.id).floatValue()), pilotResult.getPenalty());
+                if(pilotResult.isDnf()){
+                    resultMessage = String.format(
+                            "%s. %s %s\nDNF",index+1, pilot.firstName, pilot.lastName);
+                }
+                else if(pilotResult.isDns())
+                    resultMessage = String.format(
+                            "%s. %s %s\nDNS",index+1, pilot.firstName, pilot.lastName);
+                else{
+                    resultMessage = String.format("%s. %s %s\nCzas: %s\nPunkty: %.2f\nPkt. karne: %.2f", index+1,
+                            pilot.firstName, pilot.lastName, String.valueOf(Precision.round(pilotResult.getTotalFlightTime(),2)),
+                            (points.get(pilot.id).floatValue()), pilotResult.getPenalty());
+                }
             }
             else {
                 resultMessage =
@@ -101,8 +114,8 @@ public class GroupCreator {
 
         ItemAdapter listAdapter = new ItemAdapter(
                 mItemArray,
-                R.layout.group_pilot_item,
-                R.id.item_layout,
+                assignMode ? R.layout.group_pilot_item_assign : R.layout.group_pilot_item,
+                assignMode ? R.id.item_layout_assign : R.id.item_layout,
                 true,
                 flightNumber,
                 result,
@@ -110,7 +123,10 @@ public class GroupCreator {
                 groupId,
                 assignMode,
                 windMeasures,
-                context);
+                context,
+                assignMode ? View.INVISIBLE : View.VISIBLE,
+                assignMode ? View.VISIBLE : View.INVISIBLE,
+                transaction);
 
         final View header = View.inflate(context, R.layout.group_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(groupName);
