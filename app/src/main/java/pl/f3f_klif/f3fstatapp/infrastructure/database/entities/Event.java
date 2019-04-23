@@ -1,19 +1,14 @@
 package pl.f3f_klif.f3fstatapp.infrastructure.database.entities;
 
 
-import android.content.Context;
-import android.widget.Toast;
-
-import com.google.common.collect.Lists;
-
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToMany;
+import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 
 import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.SIMPLE_DATE_FORMAT;
 
@@ -112,7 +107,6 @@ public class Event {
     public int getMinGroupAmount() {
         return minGroupAmount;
     }
-
 
     public Round createRound() {
         Round round = new Round();

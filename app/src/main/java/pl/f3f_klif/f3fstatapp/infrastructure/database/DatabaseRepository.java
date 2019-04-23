@@ -43,8 +43,8 @@ public class DatabaseRepository {
         return eventBox.put(event);
     }
 
-    public static Account createAccount(String mail, String password){
-        account = new Account(mail, password);
+    public static Account createAccount(String mail, String password, boolean windDir, boolean windSpeed){
+        account = new Account(mail, password, windDir, windSpeed);
         accountBox.put(account);
         return account;
     }

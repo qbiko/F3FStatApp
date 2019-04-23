@@ -16,18 +16,18 @@ public class Result {
 
     @Id
     long id;
-    public int flightNumber;
+    private int flightNumber;
     //private Timestamp dateTimeOfFlight;
     public float windAvg;
     public float windDirAvg;
-    public float totalFlightTime;
-    public String lapsTimeJson;
-    public boolean dns;
-    public boolean dnf;
-    public int orderNumber;
-    public int groupNumber;
-    public long roundId;
-    public float penalty;
+    private float totalFlightTime;
+    private String lapsTimeJson;
+    private boolean dns;
+    private boolean dnf;
+    private int orderNumber;
+    private int groupNumber;
+    private long roundId;
+    private float penalty;
 
     public Result() { }
     public Result(boolean dns, long roundId) {
@@ -103,6 +103,7 @@ public class Result {
     public boolean isDnf() {
         return dnf;
     }
+
     public void setDnf(boolean dnf) {
         this.dnf = dnf;
     }
@@ -132,5 +133,13 @@ public class Result {
     }
 
     public void setDNS (boolean dns) { this.dns = dns; }
+
+    public void setWindAvg(float windAvg) {
+        this.windAvg = windAvg;
+    }
+
+    public void setWindDirAvg(float windDirAvg) {
+        this.windDirAvg = windDirAvg;
+    }
 }
 

@@ -1,5 +1,6 @@
 package pl.f3f_klif.f3fstatapp.groups.infrastructure;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -102,6 +103,10 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
             holder.dnsButton.setEnabled(result == null);
         }
 
+        if(holder.editButton!=null && editButtonsVisibility == View.VISIBLE){
+            holder.editButton.setEnabled(result != null);
+        }
+
         if(holder.assignAndSendButton!=null && assignAndSendButtonVisibility == View.VISIBLE ){
             holder.assignAndSendButton.setEnabled(result == null);
         }
@@ -160,7 +165,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
                         new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id,
                                 context), order);
-                        showFragment(RoundFragment.newInstance(round), view);
+                        showFragment(RoundFragment.newInstance(round));
                     }
                 });
                 dnsButton.setVisibility(editButtonsVisibility);
@@ -174,7 +179,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                         int order = (int)mItemId + 1;
                         Pilot pilot = round.getGroup(groupId).getPilots().get((int)mItemId);
                         transaction
-                                .replace(R.id.container, new EditPilotFragment(pilot, result, round, context), "fragment")
+                                .replace(R.id.container, new EditPilotFragment(pilot, round, context, order), "fragment")
                                 .commit();
                     }
                 });
@@ -216,7 +221,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
                             new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id,
                                     context), order);
-                            showFragment(RoundFragment.newInstance(round), view);
+                            showFragment(RoundFragment.newInstance(round));
                         }
                     }
                 });
@@ -250,8 +255,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         }
     }
 
-    public void showFragment(Fragment fragment, View view){
-        FragmentManager manager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
+    public void showFragment(Fragment fragment){
+        FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
         transaction

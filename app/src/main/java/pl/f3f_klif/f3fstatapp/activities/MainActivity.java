@@ -2,6 +2,7 @@ package pl.f3f_klif.f3fstatapp.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ObjectBox.init(this);
+
+        try {
+            String filePath = Environment.getExternalStorageDirectory() + "/f3fStatApp_logs.txt";
+            Runtime.getRuntime().exec("logcat -f " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         isActiveEvent = DatabaseRepository.restoreAndInit();
 
@@ -124,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         String mail = currentAccount.getMail();
         String password = currentAccount.getPassword();
+        boolean windDir = currentAccount.isWindDir();
+        boolean windSpeed = currentAccount.isWindSpeed();
         params.put("login", mail);
         params.put("password", password);
         params.put("function", "getEventInfo");
@@ -140,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                             event.getMinGroupAmount(), lines,
                             getApplicationContext());
 
-                    DatabaseRepository.createAccount(mail, password);
+                    DatabaseRepository.createAccount(mail, password, windDir, windSpeed);
 
                     Toast.makeText(getApplicationContext(), R.string.player_list_was_updated,
                             Toast.LENGTH_LONG).show();
