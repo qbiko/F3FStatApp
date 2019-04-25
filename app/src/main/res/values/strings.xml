@@ -5,10 +5,10 @@
     <string name="synchronize_players_text">Pobierz listę zawodników</string>
     <string name="event_id_text">ID zawodów:</string>
     <string name="confirm_button">Zatwierdź</string>
-    <string name="cancel_button">Anuluj</string>
+    <string name="cancel_button">Powrót</string>
     <string name="email_text">E-mail:</string>
     <string name="password_text">Hasło:</string>
-    <string name="settings_information_text">Podaj dane konta z portalu
+    <string name="settings_information_text">Podaj dane konta z portalu\n
         http://www.f3xvault.com.</string>
     <string name="success_authorization_text">Autoryzacja przebiegła pomyślnie</string>
     <string name="failure_authorization_text">Wpisane dane są niepoprawne</string>
@@ -25,7 +25,7 @@
     <string name="open_drawer_desc">Otwórz</string>
     <string name="close_drawer_desc">Zamknij</string>
     <string name="min_group_amount_text">Min. liczba zawodników w grupie:</string>
-    <string name="default_min_group_amount">12</string>
+    <string name="default_min_group_amount">10</string>
     <string name="warning_synchronize_players">Są już zainicjalizowane zawody, jeśli
         pobierzesz listę zawodników, stracisz wszystkie te dane. Czy aby na pewno chcesz to
     zrobić?</string>
@@ -97,6 +97,7 @@
     <string name="update_round_status_failure">Nie udało się zakończyć rundy. Spróbuj
         ponownie</string>
     <string name="dnsButton">DNS</string>
+    <string name="pilotItemTextView">1\n\2\n\3\n\4</string>
     <string name="assignAndSendButton">Przypisz</string>
     <string name="editButton">Edytuj</string>
 
