@@ -131,9 +131,9 @@ public class RoundOrderFragment extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         if(dragEnabled)
-            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + round.getId());
+            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + round.index);
         else
-            menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + round.getId());
+            menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + round.index);
     }
 
 }
