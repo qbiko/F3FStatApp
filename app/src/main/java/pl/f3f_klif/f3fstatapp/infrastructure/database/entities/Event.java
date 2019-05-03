@@ -108,9 +108,9 @@ public class Event {
         return minGroupAmount;
     }
 
-    public Round createRound() {
+    public Round createRound(int roundNumber) {
         Round round = new Round();
-
+        round.index = roundNumber;
         if(pilots.size() < minGroupAmount) {
             round.groups.add(new Group(pilots));
         }

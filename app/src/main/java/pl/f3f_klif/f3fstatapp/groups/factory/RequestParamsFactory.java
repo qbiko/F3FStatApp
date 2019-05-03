@@ -22,7 +22,8 @@ public class RequestParamsFactory {
             Result result,
             long groupId,
             long roundId,
-            int order){
+            int order,
+            int roundIndex){
         RequestParams params = new RequestParams();
         params.put("login", account.getMail());
         params.put("password", account.getPassword());
@@ -30,7 +31,7 @@ public class RequestParamsFactory {
         params.put("event_id", event.getF3fId());
         params.put("pilot_id", pilot.f3fId);
         params.put("seconds", result.getTotalFlightTime());
-        params.put("round", roundId);
+        params.put("round", roundIndex);
         params.put("group", groupId);
         params.put("penalty", result.getPenalty());
         params.put("order", order);

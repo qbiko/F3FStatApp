@@ -62,10 +62,12 @@ public class EditPilotFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.pilot_edit, container,false);
         editSeconds = (EditText) view.findViewById(R.id.edit_seconds_editText);
+        editPenalty = (EditText) view.findViewById(R.id.edit_penalty_editText);
         saveButton = (Button) view.findViewById(R.id.edit_confirm_button);
         Result pilotResult = pilot.getResult(round.getId());
 
         editSeconds.setText(String.valueOf(pilotResult.getTotalFlightTime()));
+        editPenalty.setText(String.valueOf((int)pilotResult.getPenalty()));
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,9 +78,13 @@ public class EditPilotFragment extends Fragment {
                     pilotResult.setDnf(false);
                     pilotResult.setDNS(false);
                 }
+                String penalty = editPenalty.getText().toString();
+                if(penalty != null){
+                    pilotResult.setPenalty(Float.valueOf(penalty));
+                }
 
                 pilot.putResult(pilotResult);
-                new SendPilotStrategy().doStrategy(pilot, pilotResult, new StrategyScope(round.id, context), order);
+                new SendPilotStrategy().doStrategy(pilot, pilotResult, new StrategyScope(round.id, context, round.index), order);
                 showFragment(RoundFragment.newInstance(round));
             }
         });

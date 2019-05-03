@@ -14,6 +14,7 @@ import pl.f3f_klif.f3fstatapp.infrastructure.database.ObjectBox;
 public class Round {
     @Id
     public long id;
+    public int index;
     public ToMany<Group> groups;
     @Convert(converter = RoleConverter.class, dbType = Integer.class)
     public RoundState state;

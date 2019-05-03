@@ -32,9 +32,19 @@
         android:id="@+id/rounds_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></ListView>
+
+    <EditText
+        android:id="@+id/add_round_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:digits="123456789"
+        android:inputType="number" />
+
     <Button
         android:id="@+id/add_round_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_round"/>
+        android:text="@string/add_round" />
+
+
 </LinearLayout>

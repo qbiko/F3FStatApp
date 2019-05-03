@@ -38,7 +38,7 @@ public class SendGroupStrategy implements Strategy {
                 Result result = pilot.getResult(scope.roundId);
                 if(result != null){
                     RequestParams params = RequestParamsFactory
-                            .create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId, order);
+                            .create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId, order, round.index);
 
                     sendSinglePilot(params, scope, pilot, event.getType());
                     order++;

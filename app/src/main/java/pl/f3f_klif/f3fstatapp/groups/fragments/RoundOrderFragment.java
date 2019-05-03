@@ -86,8 +86,8 @@ public class RoundOrderFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         String roundTitle = dragEnabled
-                ? "Runda " + round.getId() + ": ustaw kolejność"
-                : "Runda " + round.getId() +": przypisz wynik do pilota";
+                ? "Runda " + round.index + ": ustaw kolejność"
+                : "Runda " + round.index +": przypisz wynik do pilota";
 
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
@@ -131,9 +131,9 @@ public class RoundOrderFragment extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         if(dragEnabled)
-            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + round.getId());
+            menu.findItem(R.id.action_event_groups).setTitle("Start rundy " + round.index);
         else
-            menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + round.getId());
+            menu.findItem(R.id.action_event_groups).setTitle("Wróć do widoku rundy " + round.index);
     }
 
 }

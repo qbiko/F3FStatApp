@@ -106,8 +106,8 @@ public class RoundFragment extends UsbServiceBaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         String roundTitle = assignMode
-                ? "Runda " + round.getId() + ": przypisz wynik do pilota"
-                : "Runda " + round.getId();
+                ? "Runda " + round.index + ": przypisz wynik do pilota"
+                : "Runda " + round.index;
 
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
