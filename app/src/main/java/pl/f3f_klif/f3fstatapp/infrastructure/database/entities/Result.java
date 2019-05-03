@@ -28,11 +28,12 @@ public class Result {
     private int groupNumber;
     private long roundId;
     private float penalty;
-
+    public boolean sended;
     public Result() { }
     public Result(boolean dns, long roundId) {
         this.dns = dns;
         this.roundId = roundId;
+        this.sended = false;
     }
 
     public Result(int flightNumber, long roundId) {
@@ -43,6 +44,7 @@ public class Result {
         this.dns = false;
         this.penalty = 0f;
         this.lapsTimeJson = new Gson().toJson(new ArrayList<Float>());
+        this.sended = false;
     }
 
     public List<Float> getLapsTime() {
