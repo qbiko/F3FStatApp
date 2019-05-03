@@ -84,7 +84,7 @@ public class EditPilotFragment extends Fragment {
                 }
 
                 pilot.putResult(pilotResult);
-                new SendPilotStrategy().doStrategy(pilot, pilotResult, new StrategyScope(round.id, context), order);
+                new SendPilotStrategy().doStrategy(pilot, pilotResult, new StrategyScope(round.id, context, round.index), order);
                 showFragment(RoundFragment.newInstance(round));
             }
         });

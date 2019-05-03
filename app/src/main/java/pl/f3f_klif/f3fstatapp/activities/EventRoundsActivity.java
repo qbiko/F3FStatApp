@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,6 +36,8 @@ public class EventRoundsActivity extends AppCompatActivity {
     TextView eventTypeTextView;
     @BindView(R.id.rounds_list_view)
     ListView roundsListView;
+    @BindView(R.id.add_round_index)
+    EditText addRoundIndex;
 
     private RoundListAdapter roundListAdapter;
     private List<Round> rounds;
@@ -60,7 +63,8 @@ public class EventRoundsActivity extends AppCompatActivity {
         rounds = event.getRounds();
 
         ListView listViewButton = findViewById(R.id.rounds_list_view);
-
+        addRoundIndex = (EditText)findViewById(R.id.add_round_index);
+        addRoundIndex.setText(GetRoundNumer(), TextView.BufferType.EDITABLE);
         listViewButton.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -79,7 +83,18 @@ public class EventRoundsActivity extends AppCompatActivity {
     @OnClick(R.id.add_round_button)
     void onAddRoundButtonClick() {
         Box<Round> roundBox = ObjectBox.get().boxFor(Round.class);
-        roundBox.put(event.createRound());
+        roundBox.put(event.createRound(Integer.parseInt(addRoundIndex.getText().toString())));
         roundListAdapter.notifyDataSetChanged();
+        rounds = event.getRounds();
+        addRoundIndex.setText(GetRoundNumer(), TextView.BufferType.EDITABLE);
+    }
+
+    private String GetRoundNumer(){
+        rounds = event.getRounds();
+        if(rounds.size() == 0)
+            return "1";
+        else {
+            return String.valueOf(rounds.get(rounds.size()-1).index + 1);
+        }
     }
 }

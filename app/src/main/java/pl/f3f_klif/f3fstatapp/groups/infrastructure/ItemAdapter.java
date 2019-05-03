@@ -164,7 +164,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                                 Toast.LENGTH_SHORT).show();
 
                         new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id,
-                                context), order);
+                                context, round.index), order);
                         showFragment(RoundFragment.newInstance(round));
                     }
                 });
@@ -220,7 +220,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                             db.addWindMeasures(windMeasures, (int)pilot.getF3fId());
 
                             new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id,
-                                    context), order);
+                                    context, round.index), order);
                             showFragment(RoundFragment.newInstance(round));
                         }
                     }

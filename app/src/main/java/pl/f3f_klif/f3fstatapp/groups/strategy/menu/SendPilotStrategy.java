@@ -22,12 +22,12 @@ import static pl.f3f_klif.f3fstatapp.api.F3XVaultApiClient.isSuccess;
 public class SendPilotStrategy{
     public void doStrategy(Pilot pilot, Result result, StrategyScope scope, int order) {
         Event event = DatabaseRepository.getEvent();
-
+        Round round = event.getRound(scope.roundId);
         Box<Account> accountBox = ObjectBox.get().boxFor(Account.class);
         if(!accountBox.isEmpty()) {
             Account account = accountBox.getAll().get(0);
             RequestParams params = RequestParamsFactory
-                    .create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId, order);
+                    .create(event.getType(),account, event,  pilot, result, scope.groupId, scope.roundId, order, round.index);
 
             sendSinglePilot(params, scope, pilot, event.getType(), result);
         }
@@ -57,7 +57,8 @@ public class SendPilotStrategy{
                                     Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    String message = String.format("Nie powiodło się wysyłanie pilota %s %s w grupie: %d", pilot.firstName, pilot.lastName, scope.groupId);
+                    String message = String.format("Nie powiodło się wysyłanie pilota %s %s w grupie: %d. Błąd: %s",
+                            pilot.firstName, pilot.lastName, scope.groupId, responseText);
                     Toast
                             .makeText(
                                     scope.context,

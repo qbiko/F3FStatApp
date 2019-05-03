@@ -86,8 +86,8 @@ public class RoundOrderFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         String roundTitle = dragEnabled
-                ? "Runda " + round.getId() + ": ustaw kolejność"
-                : "Runda " + round.getId() +": przypisz wynik do pilota";
+                ? "Runda " + round.index + ": ustaw kolejność"
+                : "Runda " + round.index +": przypisz wynik do pilota";
 
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()

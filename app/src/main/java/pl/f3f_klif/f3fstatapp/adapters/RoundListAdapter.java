@@ -47,7 +47,7 @@ public class RoundListAdapter extends BaseAdapter {
 
         TextView nameTextView = view.findViewById(R.id.round_name_text_view);
         TextView statusTextView = view.findViewById(R.id.round_status_text_view);
-        nameTextView.setText("Runda " + String.valueOf(event.getRounds().get(i).getId()));
+        nameTextView.setText("Runda " + String.valueOf(event.getRounds().get(i).index));
 
         statusTextView.setText(getStatus(event.getRounds().get(i).state));
         return view;

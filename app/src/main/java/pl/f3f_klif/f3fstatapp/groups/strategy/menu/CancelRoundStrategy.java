@@ -28,7 +28,7 @@ public class CancelRoundStrategy implements Strategy {
         List<Group> groups = round.getGroups();
         for (Group group: groups) {
             new CancelGroupStrategy()
-                    .doStrategy(new StrategyScope(group.id, scope.roundId, scope.context));
+                    .doStrategy(new StrategyScope(group.id, scope.roundId, scope.context, round.index));
         }
 
         Account account = DatabaseRepository.getAccount();

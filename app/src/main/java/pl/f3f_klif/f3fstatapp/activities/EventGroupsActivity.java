@@ -167,12 +167,12 @@ public class EventGroupsActivity extends AppCompatActivity {
             case CANCEL_SUBMENU_ID:
                 if(round.getGroup(itemId) != null)
                     new CancelGroupStrategy()
-                            .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext()));
+                            .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext(), round.index));
                 return true;
             case SEND_SUBMENU_ID:
                 if(round.getGroup(itemId) != null)
                     new SendGroupStrategy()
-                            .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext()));
+                            .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext(), round.index));
                 Toast
                         .makeText(
                                 getApplicationContext(),
@@ -205,11 +205,11 @@ public class EventGroupsActivity extends AppCompatActivity {
                     case R.id.action_cancel_round:
                         if(round.getGroup(itemId) != null)
                             new CancelRoundStrategy()
-                                    .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext()));
+                                    .doStrategy(new StrategyScope(itemId, roundId, getApplicationContext(), round.index));
                         return true;
                     case R.id.end_round:
                         new UpdateEventRoundStrategy().doStrategy(new StrategyScope(roundId,
-                                getApplicationContext()));
+                                getApplicationContext(), round.index));
                         round.setState(RoundState.FINISHED);
                         return true;
                 }

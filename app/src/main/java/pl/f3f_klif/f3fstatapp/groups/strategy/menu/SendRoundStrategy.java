@@ -15,7 +15,7 @@ public class SendRoundStrategy implements Strategy {
         List<Group> groups = round.getGroups();
         for (Group group: groups) {
             new SendGroupStrategy()
-                    .doStrategy(new StrategyScope(group.id, scope.roundId, scope.context));
+                    .doStrategy(new StrategyScope(group.id, scope.roundId, scope.context, round.index));
         }
 
         round.setState(RoundState.FINISHED);
