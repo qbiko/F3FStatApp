@@ -37,7 +37,7 @@ public class CancelRoundStrategy implements Strategy {
         params.put("password", account.getPassword());
         params.put("function", "updateEventRoundStatus");
         params.put("event_id", event.getF3fId());
-        params.put("round_number", round.getId());
+        params.put("round_number", round.index);
         params.put("event_round_score_status", 0);
 
         updateRoundStatus(params, scope);
