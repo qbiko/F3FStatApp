@@ -35,15 +35,13 @@ public class GroupCreator {
             FragmentTransaction transaction)
     {
         final ArrayList<Pair<Long, String>> mItemArray = new ArrayList<>();
-        long index = 0;
         for (pl.f3f_klif.f3fstatapp.infrastructure.database.entities.Pilot pilot: pilots) {
             mItemArray
                     .add(new Pair<>(
-                            index,
+                            pilot.id,
                             String.format("%s %s", pilot.firstName, pilot.lastName)
                             )
                     );
-            index++;
         }
 
         ItemAdapter listAdapter = new ItemAdapter(
@@ -108,7 +106,7 @@ public class GroupCreator {
             }
 
 
-            mItemArray.add(new Pair<>(index, resultMessage));
+            mItemArray.add(new Pair<>(pilot.id, resultMessage));
             index++;
         }
 
