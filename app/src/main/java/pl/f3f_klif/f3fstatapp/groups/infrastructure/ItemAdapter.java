@@ -97,26 +97,31 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         holder.mText.setText(text);
         holder.mText.setTextSize(20);
         holder.itemView.setTag(mItemList.get(position));
-        Pilot pilot = round.getGroup(groupId).getPilots().get(position);
-        Result result = pilot.getResult(round.id);
-        if(holder.dnsButton!=null && editButtonsVisibility == View.VISIBLE ){
-            holder.dnsButton.setEnabled(result == null);
+        try{
+            Pilot pilot = round.getGroup(groupId).getPilots().get(position);
+            Result result = pilot.getResult(round.id);
+            if(holder.dnsButton!=null && editButtonsVisibility == View.VISIBLE ){
+                holder.dnsButton.setEnabled(result == null);
+            }
+
+            if(holder.editButton!=null && editButtonsVisibility == View.VISIBLE){
+                holder.editButton.setEnabled(result != null);
+            }
+
+            if(holder.assignAndSendButton!=null && assignAndSendButtonVisibility == View.VISIBLE ){
+                holder.assignAndSendButton.setEnabled(result == null);
+            }
+
+            if(result != null){
+                if(result.sended)
+                    holder.itemView.setBackgroundColor(Color.rgb(0, 255,0));
+                else
+                    holder.itemView.setBackgroundColor(Color.rgb(255, 0,0));
+            }
+        }catch (Exception e){
+
         }
 
-        if(holder.editButton!=null && editButtonsVisibility == View.VISIBLE){
-            holder.editButton.setEnabled(result != null);
-        }
-
-        if(holder.assignAndSendButton!=null && assignAndSendButtonVisibility == View.VISIBLE ){
-            holder.assignAndSendButton.setEnabled(result == null);
-        }
-
-        if(result != null){
-            if(result.sended)
-                holder.itemView.setBackgroundColor(Color.rgb(0, 255,0));
-            else
-                holder.itemView.setBackgroundColor(Color.rgb(255, 0,0));
-        }
 
     }
 
