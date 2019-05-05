@@ -34,17 +34,20 @@ public class EditPilotFragment extends Fragment {
     Pilot pilot;
     Round round;
     Context context;
+    long groupId;
     int order;
     @SuppressLint("ValidFragment")
     public EditPilotFragment(
             Pilot pilot,
             Round round,
             Context context,
-            int order){
+            int order,
+            long groupId){
         this.pilot = pilot;
         this.round = round;
         this.context = context;
         this.order = order;
+        this.groupId = groupId;
     }
 
     @Override
@@ -84,7 +87,7 @@ public class EditPilotFragment extends Fragment {
                 }
 
                 pilot.putResult(pilotResult);
-                new SendPilotStrategy().doStrategy(pilot, pilotResult, new StrategyScope(round.id, context, round.index), order);
+                new SendPilotStrategy().doStrategy(pilot, pilotResult, new StrategyScope(groupId, round.id, context, round.index), order);
                 showFragment(RoundFragment.newInstance(round));
             }
         });

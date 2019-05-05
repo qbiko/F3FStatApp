@@ -168,7 +168,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                                 "Wynik został zapisany pilotowi: " + pilot.getFirstName() + " " + pilot.getLastName(),
                                 Toast.LENGTH_SHORT).show();
 
-                        new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id,
+                        new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(groupId, round.id,
                                 context, round.index), order);
                         showFragment(RoundFragment.newInstance(round));
                     }
@@ -184,7 +184,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                         int order = (int)mItemId + 1;
                         Pilot pilot = round.getGroup(groupId).getPilots().get((int)mItemId);
                         transaction
-                                .replace(R.id.container, new EditPilotFragment(pilot, round, context, order), "fragment")
+                                .replace(R.id.container, new EditPilotFragment(pilot, round, context, order, groupId), "fragment")
                                 .commit();
                     }
                 });
@@ -205,7 +205,8 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
 
                             int order = (int)mItemId + 1;
 
-                            Pilot pilot = round.getGroup(groupId).getPilots().get((int)mItemId);
+                            Group group = round.getGroup(groupId);
+                            Pilot pilot = group.getPilots().get((int)mItemId);
 
                             if(firstPilotWithoutResult.isPresent() && firstPilotWithoutResult.get().id != pilot.id){
                                 order = firstPilotWithoutResult.get().order + 1;
@@ -224,7 +225,7 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                             pilot.addResult(result);
                             db.addWindMeasures(windMeasures, (int)pilot.getF3fId());
 
-                            new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(round.id,
+                            new SendPilotStrategy().doStrategy(pilot, result, new StrategyScope(groupId, round.id,
                                     context, round.index), order);
                             showFragment(RoundFragment.newInstance(round));
                         }
