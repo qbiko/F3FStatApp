@@ -135,6 +135,16 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
         Button dnsButton;
         Button assignAndSendButton;
         Button editButton;
+        private int GetPosition(){
+            int order = 1;
+            for (Pair<Long, String> element:mItemList) {
+                if(element.first!=mItemId)
+                    order++;
+                else
+                    break;
+            }
+            return order;
+        }
         ViewHolder(final View itemView) {
             super(itemView, mGrabHandleId, mDragOnLongPress);
             mText = (TextView) itemView.findViewById(R.id.text);
@@ -154,8 +164,12 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                                         .filter(i -> i.time.isEmpty())
                                         .findFirst();
 
-                        int order = (int)mItemId + 1;
-                        Pilot pilot = round.getGroup(groupId).getPilots().get((int)mItemId);
+                        int order = GetPosition();
+                        Pilot pilot = com.annimon.stream.Stream.of(round.getGroup(groupId)
+                                .getPilots())
+                                .filter(i->i.id == mItemId)
+                                .findFirst()
+                                .get();
                         if(firstPilotWithoutResult.isPresent() && firstPilotWithoutResult.get().id != pilot.id){
                             order = firstPilotWithoutResult.get().order + 1;
 
@@ -186,8 +200,14 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                 editButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int order = (int)mItemId + 1;
-                        Pilot pilot = round.getGroup(groupId).getPilots().get((int)mItemId);
+                        int order = GetPosition();
+
+                        Group group = round.getGroup(groupId);
+                        Pilot pilot = com.annimon.stream.Stream.of(round.getGroup(groupId)
+                                .getPilots())
+                                .filter(i->i.id == mItemId)
+                                .findFirst()
+                                .get();
                         transaction
                                 .replace(R.id.container, new EditPilotFragment(pilot, round, context, order, groupId), "fragment")
                                 .commit();
@@ -208,10 +228,14 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                                             .filter(i -> i.time.isEmpty())
                                             .findFirst();
 
-                            int order = (int)mItemId + 1;
+                            int order = GetPosition();
 
                             Group group = round.getGroup(groupId);
-                            Pilot pilot = group.getPilots().get((int)mItemId);
+                            Pilot pilot = com.annimon.stream.Stream.of(round.getGroup(groupId)
+                                    .getPilots())
+                                    .filter(i->i.id == mItemId)
+                                    .findFirst()
+                                    .get();
 
                             if(firstPilotWithoutResult.isPresent() && firstPilotWithoutResult.get().id != pilot.id){
                                 order = firstPilotWithoutResult.get().order + 1;
