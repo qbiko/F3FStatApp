@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ObjectBox.init(this);
 
-        try {
+/*        try {
             String filePath = Environment.getExternalStorageDirectory() + "/f3fStatApp_logs.txt";
             Runtime.getRuntime().exec("logcat -f " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         isActiveEvent = DatabaseRepository.restoreAndInit();
 
