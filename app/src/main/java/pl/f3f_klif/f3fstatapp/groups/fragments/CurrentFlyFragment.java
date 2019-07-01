@@ -101,11 +101,13 @@ public class CurrentFlyFragment extends UsbServiceBaseFragment {
 
     @OnClick(R.id.cancel_button)
     void onCancelButtonClick() {
+        stopTimer();
         showFragment(RoundFragment.newInstance(round));
     }
 
     @OnClick(R.id.dnf_button)
     void onDNFButtonClick() {
+        stopTimer();
         updateResultAndGoToAssignPilot(true);
     }
 
