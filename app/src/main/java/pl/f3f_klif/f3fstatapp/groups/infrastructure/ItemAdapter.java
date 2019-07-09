@@ -112,12 +112,12 @@ public class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter
                 holder.assignAndSendButton.setEnabled(result == null);
             }
 
-            if(result != null){
-                if(result.sended)
-                    holder.itemView.setBackgroundColor(Color.rgb(0, 255,0));
-                else
-                    holder.itemView.setBackgroundColor(Color.rgb(255, 0,0));
-            }
+//            if(result != null){
+//                if(result.sended)
+//                    holder.itemView.setBackgroundColor(Color.rgb(0, 255,0));
+//                else
+//                    holder.itemView.setBackgroundColor(Color.rgb(255, 0,0));
+//            }
         }catch (Exception e){
 
         }
